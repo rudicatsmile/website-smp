@@ -1,10 +1,12 @@
 @props(['padded' => true])
-
-<div class="relative bg-slate-50 min-h-[40vh] pb-20"
-     style="background-image: radial-gradient(circle at 1px 1px, rgb(100 116 139 / 0.08) 1px, transparent 0); background-size: 24px 24px;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative">
-        <div {{ $attributes->merge(['class' => 'bg-white rounded-2xl shadow-xl ring-1 ring-slate-200/60 '.($padded ? 'p-6 sm:p-8 lg:p-10' : '')]) }}>
-            {{ $slot }}
-        </div>
-    </div>
-</div>
+@php
+    $skin = app(\App\Settings\GeneralSettings::class)->active_skin ?: 'education';
+    if (!\Illuminate\Support\Facades\View::exists("skins.{$skin}.page-frame")) {
+        $skin = 'education';
+    }
+@endphp
+@include("skins.{$skin}.page-frame", [
+    'padded' => $padded,
+    'frameSlot' => $slot,
+    'frameAttributes' => $attributes,
+])

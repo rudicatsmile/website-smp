@@ -6,6 +6,7 @@ use App\Settings\GeneralSettings;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -55,6 +56,7 @@ class ManageGeneral extends Page implements HasForms
             'og_image' => $s->og_image,
             'footer_text' => $s->footer_text,
             'copyright' => $s->copyright,
+            'active_skin' => $s->active_skin ?: 'education',
         ]);
     }
 
@@ -62,6 +64,20 @@ class ManageGeneral extends Page implements HasForms
     {
         return $schema
             ->components([
+                Section::make('Skin / Tema Frontend')
+                    ->description('Pilih tampilan visual yang digunakan di seluruh halaman frontend. Perubahan langsung berlaku setelah disimpan.')
+                    ->schema([
+                        Select::make('active_skin')
+                            ->label('Skin Aktif')
+                            ->options([
+                                'education' => '🎓 Education Profesional — Elegan, formal, hijau emerald',
+                                'milleneal' => '✨ Milleneal — Modern, vibrant, gradient pink-purple',
+                            ])
+                            ->required()
+                            ->native(false)
+                            ->helperText('Skin baru dapat ditambahkan dengan membuat folder di resources/views/skins/{nama}.'),
+                    ]),
+
                 Section::make('Identitas Sekolah')
                     ->columns(2)
                     ->schema([

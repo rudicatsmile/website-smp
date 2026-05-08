@@ -31,3 +31,16 @@
     to-orange-600 to-orange-700
     to-slate-700 to-slate-800 to-slate-900
 "></div>
+
+{{-- Documentation: dynamic content from PageHero / GeneralSettings is server-rendered. --}}
+
+{{-- Documentation for adding a new skin:
+     1. Create folder resources/views/skins/{nama}/
+     2. Create 4 partials: navbar.blade.php, footer.blade.php, page-hero.blade.php, page-frame.blade.php
+        - navbar receives: $settings, $transparent
+        - footer receives: $settings
+        - page-hero receives: $key, $title, $subtitle, $breadcrumbs, $icon
+        - page-frame receives: $padded, $frameSlot, $frameAttributes
+     3. Add the new skin option in app/Filament/Pages/ManageGeneral.php (Select active_skin options).
+     4. Run `npm run build` if you use Tailwind classes that are not yet referenced elsewhere.
+--}}
