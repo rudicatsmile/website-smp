@@ -13,9 +13,9 @@
     @livewireStyles
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 antialiased">
-    <x-site.navbar :settings="$settings" />
+    <x-site.navbar :settings="$settings" :transparent="request()->routeIs('home')" />
 
-    <main class="min-h-[60vh]">
+    <main class="min-h-[60vh] {{ request()->routeIs('home') ? '' : 'pt-16' }}">
         {{ $slot }}
     </main>
 

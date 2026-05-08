@@ -1,18 +1,19 @@
 <div>
-    {{-- Hero Slider --}}
+    {{-- Hero Slider (full bleed, behind transparent navbar) --}}
     @if($sliders->isNotEmpty())
         <section x-data="{ active: 0, slides: {{ $sliders->count() }} }"
                  x-init="setInterval(() => active = (active + 1) % slides, 5000)"
-                 class="relative h-[420px] sm:h-[520px] overflow-hidden bg-slate-900">
+                 class="relative h-[520px] sm:h-[620px] overflow-hidden bg-slate-900">
             @foreach($sliders as $i => $slide)
                 <div x-show="active === {{ $i }}" x-transition.opacity.duration.700ms class="absolute inset-0">
                     @if($slide->image)
-                        <img src="{{ asset('storage/'.$slide->image) }}" alt="{{ $slide->title }}" class="w-full h-full object-cover opacity-70">
+                        <img src="{{ asset('storage/'.$slide->image) }}" alt="{{ $slide->title }}" class="w-full h-full object-cover">
                     @endif
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="max-w-7xl mx-auto px-6 text-white">
-                            <h1 class="text-3xl sm:text-5xl font-bold drop-shadow">{{ $slide->title }}</h1>
-                            @if($slide->subtitle)<p class="mt-3 text-lg sm:text-xl text-slate-100 max-w-2xl">{{ $slide->subtitle }}</p>@endif
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
+                    <div class="absolute inset-0 flex items-center pt-16">
+                        <div class="max-w-7xl mx-auto px-6 text-white w-full">
+                            <h1 class="text-3xl sm:text-5xl font-bold drop-shadow-lg">{{ $slide->title }}</h1>
+                            @if($slide->subtitle)<p class="mt-3 text-lg sm:text-xl text-slate-100 max-w-2xl drop-shadow">{{ $slide->subtitle }}</p>@endif
                             @if($slide->link_url)
                                 <a href="{{ $slide->link_url }}" class="inline-block mt-6 bg-emerald-600 hover:bg-emerald-700 px-6 py-3 rounded-lg font-semibold">
                                     {{ $slide->link_text ?? 'Selengkapnya' }}
@@ -22,19 +23,17 @@
                     </div>
                 </div>
             @endforeach
-        </section>
-    @endif
 
-    {{-- CTA SPMB --}}
-    @if($spmb)
-        <section class="bg-emerald-600 text-white">
-            <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-2xl font-bold">{{ $spmb->name }} Telah Dibuka!</h2>
-                    <p class="text-emerald-100">Daftar sekarang dan amankan tempat untuk putra/putri Anda di SMP Al Wahoniyah 9.</p>
+            {{-- Slider indicators --}}
+            @if($sliders->count() > 1)
+                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                    @foreach($sliders as $i => $slide)
+                        <button @click="active = {{ $i }}"
+                                :class="active === {{ $i }} ? 'bg-white w-8' : 'bg-white/50 w-2'"
+                                class="h-2 rounded-full transition-all"></button>
+                    @endforeach
                 </div>
-                <a href="{{ route('spmb.index') }}" class="bg-white text-emerald-700 hover:bg-slate-100 px-6 py-3 rounded-lg font-bold">Daftar SPMB</a>
-            </div>
+            @endif
         </section>
     @endif
 
