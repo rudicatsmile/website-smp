@@ -1,25 +1,26 @@
-<div class="bg-slate-50">
-    <div class="max-w-7xl mx-auto px-6 py-12">
-        <div class="text-center max-w-3xl mx-auto">
-            <p class="text-emerald-600 font-semibold italic">Prestasi Murid</p>
-            <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-2">Bintang di Setiap Langkah</h1>
-            <p class="text-slate-600 mt-3">
-                Kami percaya setiap anak adalah bintang. Berikut catatan prestasi terbaik
-                siswa-siswi sebagai wujud potensi yang terus berkembang.
-            </p>
-        </div>
+<div>
+    <x-site.page-hero
+        key="prestasi"
+        title="Prestasi Murid"
+        subtitle="Kami percaya setiap anak adalah bintang. Berikut catatan prestasi terbaik siswa-siswi kami."
+        icon="trophy"
+        :breadcrumbs="[['label' => 'Prestasi']]"
+    />
 
+    <x-site.page-frame>
         @if($achievements->isEmpty())
-            <p class="text-center text-slate-500 mt-12">Belum ada prestasi yang ditampilkan.</p>
+            <p class="text-center text-slate-500 py-10">Belum ada prestasi yang ditampilkan.</p>
         @else
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($achievements as $a)
-                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition flex flex-col overflow-hidden">
+                    <div class="bg-slate-50 rounded-2xl ring-1 ring-slate-200 hover:ring-emerald-400 hover:shadow-lg transition flex flex-col overflow-hidden">
                         <div class="aspect-square bg-slate-100 overflow-hidden">
                             @if($a->image)
                                 <img src="{{ asset('storage/'.$a->image) }}" alt="{{ $a->title }}" class="w-full h-full object-cover">
                             @else
-                                <div class="w-full h-full grid place-items-center text-slate-400 text-sm">Tidak ada gambar</div>
+                                <div class="w-full h-full grid place-items-center text-slate-400">
+                                    <x-heroicon-o-trophy class="w-14 h-14" />
+                                </div>
                             @endif
                         </div>
                         <div class="p-5 flex-1 flex flex-col">
@@ -31,7 +32,7 @@
                                 <p class="text-slate-600 text-sm mt-2 line-clamp-3">{{ $a->excerpt }}</p>
                             @endif
                             <a href="{{ route('prestasi.show', $a->slug) }}"
-                               class="mt-4 inline-flex justify-center items-center border border-slate-300 hover:border-emerald-600 hover:text-emerald-700 text-slate-700 rounded-full px-4 py-2 text-sm font-medium transition">
+                               class="mt-4 inline-flex justify-center items-center border border-slate-300 hover:border-emerald-600 hover:text-emerald-700 text-slate-700 rounded-full px-4 py-2 text-sm font-medium transition self-start">
                                 Lihat Lebih Lengkap
                             </a>
                         </div>
@@ -40,5 +41,5 @@
             </div>
             <div class="mt-10">{{ $achievements->links() }}</div>
         @endif
-    </div>
+    </x-site.page-frame>
 </div>
