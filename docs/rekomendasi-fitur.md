@@ -137,7 +137,7 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
       - Guru: teacher@smpalwahoniyah9.sch.id / password → buat tugas, lihat submission siswa, beri nilai via Relation Manager.
 
       - Siswa demo: siswa@smpalwahoniyah9.sch.id / password → http://127.0.0.1:8000/portal/login → dashboard, kerjakan tugas, upload submission.
-      
+
       - Generate akun siswa lain via tabel Siswa di Filament (tombol Generate Akun) — email format {nis}@siswa.smpalwahoniyah9.sch.id, password default siswa123.
 
 
@@ -146,6 +146,75 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
 
 - **Bank Soal & Latihan**
   Latihan soal interaktif (quiz) per mapel, terutama menjelang UTS/UAS/ujian. Auto-scoring untuk feedback langsung.
+
+
+      Implementasi Bank Soal & Latihan selesai.
+
+      Ringkasan Implementasi
+      Database (8 tabel)
+        - question_banks, bank_questions, bank_question_options
+        - quizzes, quiz_questions, quiz_question_options (snapshot)
+        - quiz_attempts, quiz_answers
+
+      Model
+        QuestionBank, BankQuestion, BankQuestionOption, Quiz, QuizQuestion, QuizQuestionOption, QuizAttempt, QuizAnswer — semua relasi + scopes (published, activeNow, forStudent).
+
+      Filament Admin (group "Akademik")
+        - Bank Soal (@/Users/.../app/Filament/Resources/QuestionBanks/QuestionBankResource.php): CRUD bank soal + relation manager soal dengan repeater opsi (PG / Multi / Essay).
+        - Kuis & Latihan (@/Users/.../app/Filament/Resources/Quizzes/QuizResource.php): CRUD kuis hybrid (assigned/public) dengan setting durasi, max attempts, shuffle, jendela waktu, publish.
+            - Soal: bisa tulis manual atau action "Import dari Bank Soal" (pilih soal tertentu / random N) — auto snapshot ke quiz_questions.
+            - Hasil Pengerjaan: action "Nilai" untuk grading essay per attempt; auto-update total score & status is_graded.
+        - Akses: super_admin, admin, dan teacher (scoped ke staff_member_id sendiri).
+
+      Portal Siswa (/portal/latihan)
+        - Index: filter Semua / Tersedia / Sudah Dikerjakan / Sudah Tutup (filter aktif pakai inline-style agar selalu terbaca).
+        - Detail: ringkasan, riwayat attempt, tombol Mulai (resume in-progress / cek quota & jendela).
+        - Pengerjaan (QuizPlay):
+            - Soal & opsi diacak deterministik per attempt (seed = attempt->id).
+            - Sticky timer Alpine.js (mm:ss), auto-submit saat 0.
+            - Sidebar daftar soal dengan indikator terjawab.
+            - Auto-save jawaban setiap interaksi (PG/Multi click, essay debounce 800ms).
+            - Submit menghitung skor PG/Multi otomatis; essay menunggu manual grading.
+
+      Hasil: skor dengan gradient card, pembahasan per soal (kunci jawaban + opsi yang dipilih + explanation guru), status "Menunggu Penilaian Essay" jika belum digrade.
+
+      Leaderboard: top 20 berdasarkan skor terbaik per siswa, peringkat siswa saat ini di-highlight.
+      
+      
+      Routes & Nav
+      - 5 route baru di group portal (@/Users/.../routes/web.php:86-90).
+      - Menu Latihan ditambahkan di header portal horizontal (@/Users/.../resources/views/layouts/portal.blade.php:44).
+
+
+      Seeder
+       - QuizContentSeeder (@/Users/.../database/seeders/QuizContentSeeder.php):
+
+        - 1 bank soal "Matematika UAS" dengan 10 soal (8 PG/Multi auto-grade + 2 essay).
+        - 2 kuis: "Latihan UAS Matematika 7" (assigned 7A, 30 mnt, 1 attempt) & "Latihan Cepat Bahasa Indonesia" (public, 15 mnt, 3 attempts).
+        - 1 demo attempt sudah submit dengan jawaban benar untuk siswa demo.
+        - Sudah didaftarkan di DatabaseSeeder.
+
+      Hasil Verifikasi
+      ✅ 8 migrasi DONE.
+      ✅ Seeder sukses: 1 bank, 10 bank_qs, 2 quizzes, 15 snapshot, 1 attempt, 10 answers.
+      ✅ 5 route portal terdaftar (portal/latihan*).
+      ✅ Semua view kompilasi tanpa error (view:cache clean).
+
+
+      Cara Test
+        1. Admin/Guru → http://127.0.0.1:8000/admin:
+
+          - Menu Akademik › Bank Soal & Kuis & Latihan.
+          - Buat bank soal baru, tambah soal lewat relation manager.
+          - Buat kuis baru, lalu di tab Soal klik Import dari Bank Soal atau Tulis Soal.
+          - Tab Hasil Pengerjaan → action Nilai untuk grading essay siswa.
+        2. Siswa → http://127.0.0.1:8000/portal/login (siswa@smpalwahoniyah9.sch.id / password):
+
+          - Klik menu Latihan di header.
+          - Pilih kuis → Mulai Kerjakan → kerjakan dengan timer aktif → Submit.
+          - Lihat skor + pembahasan + leaderboard.
+
+        
 
 - **Konseling Online (BK Digital)**
   Form pengaduan/konsultasi anonim ke guru BK terkait masalah belajar atau pribadi. Penting untuk kesehatan mental siswa.

@@ -83,6 +83,11 @@ Route::prefix('portal')->name('portal.')->group(function () {
         Route::get('/pengumuman', \App\Livewire\Portal\AnnouncementIndex::class)->name('announcements.index');
         Route::get('/pengumuman/{slug}', \App\Livewire\Portal\AnnouncementShow::class)->name('announcements.show');
         Route::get('/materi', \App\Livewire\Portal\MaterialIndex::class)->name('materials.index');
+        Route::get('/latihan', \App\Livewire\Portal\QuizIndex::class)->name('quizzes.index');
+        Route::get('/latihan/{slug}', \App\Livewire\Portal\QuizShow::class)->name('quizzes.show');
+        Route::get('/latihan/{slug}/kerjakan/{attempt}', \App\Livewire\Portal\QuizPlay::class)->name('quizzes.play');
+        Route::get('/latihan/{slug}/hasil/{attempt}', \App\Livewire\Portal\QuizResult::class)->name('quizzes.result');
+        Route::get('/latihan/{slug}/leaderboard', \App\Livewire\Portal\QuizLeaderboard::class)->name('quizzes.leaderboard');
         Route::get('/profil', \App\Livewire\Portal\Profile::class)->name('profile');
     });
 });
