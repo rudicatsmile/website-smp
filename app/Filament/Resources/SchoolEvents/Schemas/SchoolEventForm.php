@@ -41,6 +41,7 @@ class SchoolEventForm
                         'umum' => 'Umum',
                         'akademik' => 'Akademik',
                         'ekstrakurikuler' => 'Ekstrakurikuler',
+                        'rapat-guru' => 'Rapat Guru',
                         'libur' => 'Libur',
                     ])
                     ->default('umum')

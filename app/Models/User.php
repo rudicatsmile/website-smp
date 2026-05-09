@@ -6,6 +6,8 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -17,7 +19,17 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasAnyRole(['super_admin', 'admin', 'editor', 'contributor']);
+        return $this->hasAnyRole(['super_admin', 'admin', 'editor', 'contributor', 'teacher']);
+    }
+
+    public function staffMember(): HasOne
+    {
+        return $this->hasOne(StaffMember::class);
+    }
+
+    public function announcementAcknowledgements(): HasMany
+    {
+        return $this->hasMany(InternalAnnouncementAcknowledgement::class);
     }
 
     /**

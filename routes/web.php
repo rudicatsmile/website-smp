@@ -19,6 +19,12 @@ use App\Livewire\Pages\Profile;
 use App\Livewire\Pages\SpmbLanding;
 use App\Livewire\Pages\SpmbRegister;
 use App\Livewire\Pages\SpmbStatus;
+use App\Livewire\Pages\MaterialIndex;
+use App\Livewire\Pages\MaterialShow;
+use App\Livewire\Pages\StaffIndex;
+use App\Livewire\Pages\StaffScheduleIndex;
+use App\Livewire\Pages\StaffShow;
+use App\Http\Controllers\MaterialDownloadController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class)->name('home');
@@ -44,6 +50,15 @@ Route::get('/kalender', CalendarPage::class)->name('kalender');
 
 Route::get('/program', ProgramIndex::class)->name('program.index');
 Route::get('/program/{slug}', ProgramShow::class)->name('program.show');
+
+Route::get('/guru', StaffIndex::class)->name('staff.index');
+Route::get('/guru/{slug}', StaffShow::class)->name('staff.show');
+
+Route::get('/materi', MaterialIndex::class)->name('materials.index');
+Route::get('/materi/{slug}', MaterialShow::class)->name('materials.show');
+Route::get('/materi/{slug}/download', MaterialDownloadController::class)->name('materials.download');
+
+Route::get('/jadwal', StaffScheduleIndex::class)->name('jadwal.index');
 
 Route::get('/kontak', Contact::class)->name('kontak');
 

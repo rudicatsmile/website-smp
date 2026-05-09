@@ -50,6 +50,22 @@
             </div>
         </div>
 
+        {{-- CTA Jadwal Mingguan --}}
+        <a href="{{ route('jadwal.index') }}" class="block mb-6 group">
+            <div class="bg-gradient-to-r from-sky-500 to-cyan-600 rounded-2xl p-5 shadow-lg flex items-center justify-between text-white hover:shadow-xl transition-shadow">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    </div>
+                    <div>
+                        <div class="font-bold text-lg">Jadwal Mengajar & Piket Mingguan</div>
+                        <div class="text-sm text-white/90">Lihat jadwal rutin guru per hari, kelas, dan mata pelajaran.</div>
+                    </div>
+                </div>
+                <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+        </a>
+
         {{-- Filter Bar --}}
         <div class="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 mb-8 flex flex-wrap items-center gap-3">
             <span class="text-sm font-bold text-slate-700 mr-2">Filter:</span>
@@ -57,6 +73,7 @@
             <button wire:click="$set('categoryFilter', 'umum')" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all {{ $categoryFilter === 'umum' ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Umum</button>
             <button wire:click="$set('categoryFilter', 'akademik')" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all {{ $categoryFilter === 'akademik' ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Akademik</button>
             <button wire:click="$set('categoryFilter', 'ekstrakurikuler')" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all {{ $categoryFilter === 'ekstrakurikuler' ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Ekstrakurikuler</button>
+            <button wire:click="$set('categoryFilter', 'rapat-guru')" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all {{ $categoryFilter === 'rapat-guru' ? 'bg-gradient-to-r from-sky-500 to-cyan-600 text-white shadow-lg' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Rapat Guru</button>
             <button wire:click="$set('categoryFilter', 'libur')" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all {{ $categoryFilter === 'libur' ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Libur</button>
             <div class="ml-auto">
                 <button wire:click="goToToday" class="px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg hover:shadow-xl transition-all flex items-center gap-2">

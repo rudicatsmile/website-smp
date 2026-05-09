@@ -5,17 +5,84 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
 
 ## 👨‍🏫 Untuk Guru
 
-- **Direktori Guru & Profil Publik**
+- **Direktori Guru & Profil Publik** OK
   Halaman list guru dengan foto, mata pelajaran, latar belakang pendidikan, dan sertifikasi. Membangun kepercayaan publik dan transparansi tenaga pendidik.
 
-- **Bank Materi & Modul Ajar**
+- **Bank Materi & Modul Ajar** OK
   Repository upload modul ajar/RPP per mata pelajaran & kelas, bisa dibagikan publik atau khusus internal. Mendukung dokumentasi Kurikulum Merdeka.
+
+      Implementasi fitur Bank Materi & Modul Ajar selesai.
+
+      Ringkasan
+        1. DB: 2 tabel — material_categories & materials (FK ke staff_members sebagai penulis).
+        2. Models: MaterialCategory & Material dengan relasi, scopes (active, public, published, featured), accessors (file_url, cover_url, file_size_human, type_label, grade_label, curriculum_label).
+        3. Seeders: 8 mata pelajaran + 6 sample materi (mix tipe/grade/public) + entry PageHero materi.
+        4. Filament Admin: 2 resource lengkap di /admin/material-categories & /admin/materials dengan upload file (PDF/DOC/PPT/ZIP, max 20MB), cover image, RichEditor, TagsInput, dan filter (mapel, tipe, kelas, kurikulum, publik, unggulan).
+        5. Public: Livewire MaterialIndex (/materi) — search + 4 filter + featured strip + card grid + pagination dengan URL queryString. MaterialShow (/materi/{slug}) — hero, badges metadata, deskripsi RichText, sidebar download (counter), author card, materi terkait.
+        6. Download: MaterialDownloadController (/materi/{slug}/download) — auto-increment download_count, hanya melayani materi is_active && is_public && published.
+        7. Akses Internal: materi is_public=false 404 di publik, hanya akses via Filament admin (sesuai MVP).
+        8. Navbar: link Materi ditambahkan di skin education & milleneal (desktop + mobile).
+        9. Verifikasi: 9 route terdaftar, migrasi & seeder berjalan tanpa error.
+        
+        Akses via http://127.0.0.1:8000/materi atau panel admin di /admin.
 
 - **Jadwal Mengajar & Piket**
   Kalender khusus untuk guru menampilkan jadwal mengajar, piket, dan rapat. Integrasi dengan kalender utama yang sudah ada.
 
+        Implementasi fitur Jadwal Mengajar & Piket selesai.
+
+        Ringkasan
+        1. DB: tabel staff_schedules (FK ke staff_members + material_categories), tipe: mengajar/piket/rapat/lainnya, kolom day_of_week, start_time/end_time, kelas, lokasi, periode efektif (effective_from/until, academic_year, semester).
+        2. Model: StaffSchedule dengan konstanta DAYS/TYPES/TYPE_COLORS, scopes (active, forDay, byType, inEffect), accessors (day_label, type_label, time_range, display_title). StaffMember mendapat relasi schedules() ordered by hari & jam.
+        3. Seeder: 16 sample entri (mengajar Senin–Jumat, piket Sabtu, rapat Senin pagi) lintas guru & mapel + entry PageHero jadwal.
+        4. Filament: StaffScheduleResource di /admin/staff-schedules dengan form 4 section (Detail/Waktu/Periode Berlaku/Tampilan), select mata pelajaran reaktif (visible saat type=mengajar), dan filter (tipe/hari/guru/tahun ajaran/aktif). Kategori rapat-guru ditambahkan ke SchoolEventForm untuk event one-off.
+        5. Public /jadwal: Livewire StaffScheduleIndex dengan filter (search/hari/tipe/guru), toggle Grid view (7 kolom hari × stack item dengan time-range, badge tipe, guru, lokasi) dan List view (per hari). URL queryString sinkron.
+        6. Profil Guru /guru/{slug}: section "Jadwal Mingguan" dikelompokkan per hari, dengan link "Lihat Jadwal Lengkap" yang prefilter ke guru bersangkutan.
+        7. /kalender: ditambah CTA banner ke /jadwal di atas filter, plus tombol filter kategori "Rapat Guru" baru.
+        8. Navbar: link Jadwal di kedua skin (education + milleneal, desktop + mobile).
+        9. Verifikasi: migrasi sukses, 16 schedule rows tersimpan, route jadwal.index terdaftar.
+        
+        
+        Akses via http://127.0.0.1:8000/jadwal, profil guru, kalender, atau /admin.
+
 - **Pengumuman Internal Guru**
   Dashboard berita khusus internal (rapat, surat tugas, agenda dinas).
+
+
+      Implementasi fitur Pengumuman Internal Guru selesai.
+
+        Ringkasan
+        1. DB: 4 migrasi baru — notifications (Filament bell), staff_members.user_id (link ke User), internal_announcements, internal_announcement_acknowledgements (pivot, FK names disingkat agar muat batas 64 char MySQL).
+
+        2. Models:
+        InternalAnnouncement dengan konstanta CATEGORIES/PRIORITIES/PRIORITY_COLORS/TARGET_ROLES, scopes (active, published, pinned, forUser), accessors (category_label, priority_label, priority_color), isAcknowledgedBy(User).
+        InternalAnnouncementAcknowledgement (pivot dengan timestamps).
+        User mendapat staffMember(), announcementAcknowledgements(), dan role teacher ditambahkan ke canAccessPanel.
+        StaffMember mendapat relasi user().
+
+        3. Role: teacher ditambahkan ke RoleSeeder (5 role total).
+
+        4. Filament Admin (/admin/internal-announcements):
+          - Form 4 section: Konten (RichEditor body, kategori, prioritas), Target (CheckboxList target_roles, multi-select target_staff_ids), Lampiran (FileUpload multiple, max 10MB, pdf/doc/xls/img), Pengaturan (pinned/active/published_at/expires_at).
+          - Table dengan badge priority (color-coded), pinned icon, ack count, filter category/priority/pinned/active.
+          - Action "Tandai Dibaca" muncul jika user belum acknowledge; otomatis tersembunyi setelah klik.
+          - Custom ViewPage menampilkan badges, body RichText, lampiran (download), info target & ack count untuk admin.
+          - Permission scoping: teacher hanya melihat pengumuman yang ditargetkan + published + active; tidak bisa create/edit/delete.
+          - NavigationBadge menampilkan jumlah pengumuman belum-dibaca untuk role teacher.
+
+        5. Notifikasi Filament Database: Observer InternalAnnouncementObserver mengirim notification ke recipients saat pengumuman dipublish (resolve target by role + specific staff_ids). databaseNotifications() diaktifkan di AdminPanelProvider. Bell icon akan muncul di topbar Filament.
+
+        6. Seeder: 5 sample (rapat pinned/penting, surat tugas urgent + target staff specific, agenda dinas, umum, expired test) + demo user teacher@smpalwahoniyah9.sch.id / password linked ke staff member pertama.
+
+        7. Verifikasi: 4 route Filament terdaftar, 5 announcements + 1 teacher user tersimpan, semua cache clear.
+
+
+        Cara Test
+        1. Login admin (admin@smpalwahoniyah9.sch.id / password) → menu Pengumuman Internal → lihat semua + CRUD penuh.
+
+        2. Login teacher (teacher@smpalwahoniyah9.sch.id / password) → menu sama tapi read-only + tombol "Tandai Dibaca" + bell icon notification.
+        
+        3. Buat pengumuman baru sebagai admin → notifikasi otomatis terkirim ke teacher target.
 
 ## 🎓 Untuk Siswa
 

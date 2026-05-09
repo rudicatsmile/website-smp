@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Filament\Resources\StaffSchedules;
+
+use App\Filament\Resources\StaffSchedules\Pages\CreateStaffSchedule;
+use App\Filament\Resources\StaffSchedules\Pages\EditStaffSchedule;
+use App\Filament\Resources\StaffSchedules\Pages\ListStaffSchedules;
+use App\Filament\Resources\StaffSchedules\Schemas\StaffScheduleForm;
+use App\Filament\Resources\StaffSchedules\Tables\StaffSchedulesTable;
+use App\Models\StaffSchedule;
+use BackedEnum;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Table;
+
+class StaffScheduleResource extends Resource
+{
+    protected static ?string $model = StaffSchedule::class;
+
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clock';
+
+    protected static ?int $navigationSort = 25;
+
+    protected static ?string $navigationLabel = 'Jadwal Guru';
+
+    protected static ?string $modelLabel = 'Jadwal Guru';
+
+    protected static ?string $pluralModelLabel = 'Jadwal Guru';
+
+    public static function form(Schema $schema): Schema
+    {
+        return StaffScheduleForm::configure($schema);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return StaffSchedulesTable::configure($table);
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => ListStaffSchedules::route('/'),
+            'create' => CreateStaffSchedule::route('/create'),
+            'edit' => EditStaffSchedule::route('/{record}/edit'),
+        ];
+    }
+}

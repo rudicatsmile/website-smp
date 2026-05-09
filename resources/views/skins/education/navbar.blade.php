@@ -24,6 +24,9 @@
                 <a href="{{ route('profil') }}" class="hover:text-emerald-400">Profil</a>
                 <a href="{{ route('akademik.index') }}" class="hover:text-emerald-400">Akademik</a>
                 <a href="{{ route('fasilitas.index') }}" class="hover:text-emerald-400">Fasilitas</a>
+                <a href="{{ route('staff.index') }}" class="hover:text-emerald-400">Guru & Staf</a>
+                <a href="{{ route('materials.index') }}" class="hover:text-emerald-400">Materi</a>
+                <a href="{{ route('jadwal.index') }}" class="hover:text-emerald-400">Jadwal</a>
                 <a href="{{ route('prestasi.index') }}" class="hover:text-emerald-400">Prestasi</a>
                 <a href="{{ route('galeri.index') }}" class="hover:text-emerald-400">Galeri</a>
                 <a href="{{ route('berita.index') }}" class="hover:text-emerald-400">Berita</a>
@@ -44,6 +47,9 @@
             <a href="{{ route('profil') }}" class="block py-2">Profil</a>
             <a href="{{ route('akademik.index') }}" class="block py-2">Akademik</a>
             <a href="{{ route('fasilitas.index') }}" class="block py-2">Fasilitas</a>
+            <a href="{{ route('staff.index') }}" class="block py-2">Guru & Staf</a>
+            <a href="{{ route('materials.index') }}" class="block py-2">Materi</a>
+            <a href="{{ route('jadwal.index') }}" class="block py-2">Jadwal</a>
             <a href="{{ route('prestasi.index') }}" class="block py-2">Prestasi</a>
             <a href="{{ route('galeri.index') }}" class="block py-2">Galeri</a>
             <a href="{{ route('berita.index') }}" class="block py-2">Berita</a>

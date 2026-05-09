@@ -27,6 +27,9 @@
                 <a href="{{ route('profil') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Profil</a>
                 <a href="{{ route('akademik.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Akademik</a>
                 <a href="{{ route('fasilitas.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Fasilitas</a>
+                <a href="{{ route('staff.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Guru & Staf</a>
+                <a href="{{ route('materials.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Materi</a>
+                <a href="{{ route('jadwal.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Jadwal</a>
                 <a href="{{ route('prestasi.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Prestasi</a>
                 <a href="{{ route('galeri.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Galeri</a>
                 <a href="{{ route('berita.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Berita</a>
@@ -47,6 +50,9 @@
             <a href="{{ route('profil') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Profil</a>
             <a href="{{ route('akademik.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Akademik</a>
             <a href="{{ route('fasilitas.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Fasilitas</a>
+            <a href="{{ route('staff.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Guru & Staf</a>
+            <a href="{{ route('materials.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Materi</a>
+            <a href="{{ route('jadwal.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Jadwal</a>
             <a href="{{ route('prestasi.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Prestasi</a>
             <a href="{{ route('galeri.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Galeri</a>
             <a href="{{ route('berita.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Berita</a>

@@ -63,6 +63,24 @@ class PageHeroSeeder extends Seeder
                 'icon' => 'calendar-days',
             ],
             [
+                'key' => 'staff',
+                'title' => 'Direktori Guru & Staf',
+                'subtitle' => 'Kenali tim pendidik profesional yang berdedikasi untuk masa depan anak Anda.',
+                'icon' => 'users',
+            ],
+            [
+                'key' => 'materi',
+                'title' => 'Bank Materi & Modul Ajar',
+                'subtitle' => 'Modul ajar, RPP, LKPD, dan bahan ajar Kurikulum Merdeka untuk mendukung pembelajaran.',
+                'icon' => 'book-open',
+            ],
+            [
+                'key' => 'jadwal',
+                'title' => 'Jadwal Mengajar & Piket',
+                'subtitle' => 'Jadwal mingguan mengajar, piket, dan rapat rutin guru untuk transparansi sekolah.',
+                'icon' => 'clock',
+            ],
+            [
                 'key' => 'kontak',
                 'title' => 'Kontak Kami',
                 'subtitle' => 'Hubungi kami untuk pertanyaan, saran, atau informasi lebih lanjut.',
