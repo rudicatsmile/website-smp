@@ -39,7 +39,8 @@ class UserForm
                     ->preload()
                     ->options(fn () => Role::pluck('name', 'name'))
                     ->saveRelationshipsUsing(function ($component, $state, $record) {
-                        $record->syncRoles($state);
+                        $roleNames = Role::whereIn('id', array_filter($state))->pluck('name')->toArray();
+                        $record->syncRoles($roleNames);
                     }),
                 Toggle::make('is_active')
                     ->default(true)

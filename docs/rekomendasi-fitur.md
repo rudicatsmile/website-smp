@@ -219,6 +219,75 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
 - **Konseling Online (BK Digital)**
   Form pengaduan/konsultasi anonim ke guru BK terkait masalah belajar atau pribadi. Penting untuk kesehatan mental siswa.
 
+      Implementasi Konseling BK Digital selesai.
+
+        Ringkasan Implementasi
+        Database
+          - counseling_tickets — kode unik BK-XXXXXX auto-generate via boot(), kategori/prioritas/status, channel (public/portal), is_anonymous, assigned_to staf, lampiran JSON, last_activity_at.
+          - counseling_messages — thread balas (student | counselor | anonymous), is_internal (catatan privat).
+
+        Model
+          - @/Users/.../app/Models/CounselingTicket.php — konstanta CATEGORIES, PRIORITIES, STATUSES, scopes open() & forUser(), accessor label & color.
+          - @/Users/.../app/Models/CounselingMessage.php — scope public().
+
+        Role
+          - Role baru counselor ditambah di RoleSeeder.
+        
+        Filament (group "Komunikasi")
+          - CounselingTicketResource — badge jumlah tiket new di navigation (warna danger).
+              - Form triage (status, priority, category, assignee, channel), body pelapor read-only, display lampiran, info pelapor + kontak.
+              - Table dengan kode, kategori, prioritas, status, kanal, pelapor (user/reporter_name/Anonim), assignee, messages_count, last_activity.
+              - Filter lengkap + bulk action Tandai Selesai.
+              - canCreate=false (tiket hanya dari form publik/portal).
+              - MessagesRelationManager dengan action Balas Pelapor (textarea + lampiran + toggle is_internal). Balasan counselor otomatis update last_activity_at, pindahkan status new → in_progress, auto-assign ke dirinya jika belum ada.
+              - Scope counselor: hanya lihat tiket miliknya atau belum assigned. Admin & super_admin lihat semua.
+        
+        Halaman Publik
+          - /bk (@/Users/.../app/Livewire/Pages/CounselingForm.php) — form lengkap + lampiran (opsional, maks 3 × 5MB, jpg/png/webp/pdf/doc/docx). Setelah submit: card sukses dengan kode tiket besar + tombol cek status. Throttle 10 req/menit.
+          - /bk/status (@/Users/.../app/Livewire/Pages/CounselingStatus.php) — input kode → tampil detail + thread pesan publik (bubble chat). Pelapor anonim bisa lanjut balas selama tiket belum resolved/closed.
+        
+        Halaman Portal Siswa
+          - /portal/bk — list tiket siswa dengan badge status/kategori, jumlah pesan, last activity.
+          - /portal/bk/buat — form pengaduan berlampiran, auto-isi user_id & kontak, pilih kategori + urgensi.
+          - /portal/bk/{ticket} — thread chat dua arah (bubble kanan siswa, kiri BK), tombol Tutup Tiket, kotak balasan dengan lampiran. Pesan is_internal di-filter.
+        
+        Routes & Nav
+          - @/Users/.../routes/web.php:70-71 — bk.form + bk.status (throttle).
+          - @/Users/.../routes/web.php:95-97 — 3 route portal.
+          - Menu BK dengan ikon hati ditambahkan di header portal (@/Users/.../resources/views/layouts/portal.blade.php:45).
+        
+        Seeder
+          - CounselingSeeder:
+
+            -  User counselor demo bk@smpalwahoniyah9.sch.id / password + StaffMember "Ibu Rina" di kategori "Bimbingan Konseling".
+            - 3 tiket demo: (a) publik anonim new (cemas ujian), (b) portal in_progress dengan 3 balasan (siswa demo ↔ BK), (c) resolved.
+            - Role counselor auto via RoleSeeder.
+
+        Hasil Verifikasi
+        ✅ 2 migrasi DONE.
+        ✅ Seeder: 3 tickets, 4 messages, 1 counselor user.
+        ✅ 8 route baru terdaftar (bk.* + portal.counseling.* + 3 admin resource).
+        ✅ Semua view kompilasi tanpa error.
+
+
+        Cara Test
+
+        Publik anonim:
+          1. Buka http://127.0.0.1:8000/bk → isi form tanpa nama → submit.
+          2. Salin kode BK-XXXXXX → buka /bk/status?kode=... → balas thread.
+
+        Siswa (siswa@smpalwahoniyah9.sch.id / password):
+          Buka : http://127.0.0.1:8000/portal
+          1. Menu BK di header portal → Buat Pengaduan Baru.
+          2. Kirim, lalu lanjut chat di halaman detail.
+
+        Guru BK (bk@smpalwahoniyah9.sch.id / password):
+          1. Login Filament → menu Komunikasi › Konseling BK (badge jumlah new).
+          2. Buka tiket → tab Thread Pesan → action Balas Pelapor (toggle Catatan Internal untuk catatan privat tim BK).
+          3. Ubah status/prioritas/assignee di form edit atau pakai bulk action Tandai Selesai.
+
+        Counselor hanya melihat tiket miliknya atau belum di-assign. Admin & super_admin lihat semua.
+
 - **Profil Alumni & Tracer Study**
   Halaman alumni sukses + form tracer study. Memotivasi siswa & data evaluasi sekolah.
 

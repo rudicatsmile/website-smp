@@ -66,6 +66,10 @@ Route::get('/spmb', SpmbLanding::class)->name('spmb.index');
 Route::get('/spmb/daftar', SpmbRegister::class)->middleware('throttle:5,1')->name('spmb.register');
 Route::get('/spmb/status', SpmbStatus::class)->name('spmb.status');
 
+// Konseling BK (publik)
+Route::get('/bk', \App\Livewire\Pages\CounselingForm::class)->middleware('throttle:10,1')->name('bk.form');
+Route::get('/bk/status', \App\Livewire\Pages\CounselingStatus::class)->middleware('throttle:30,1')->name('bk.status');
+
 // Portal Siswa
 Route::prefix('portal')->name('portal.')->group(function () {
     Route::get('/login', \App\Livewire\Portal\Login::class)->name('login');
@@ -88,6 +92,9 @@ Route::prefix('portal')->name('portal.')->group(function () {
         Route::get('/latihan/{slug}/kerjakan/{attempt}', \App\Livewire\Portal\QuizPlay::class)->name('quizzes.play');
         Route::get('/latihan/{slug}/hasil/{attempt}', \App\Livewire\Portal\QuizResult::class)->name('quizzes.result');
         Route::get('/latihan/{slug}/leaderboard', \App\Livewire\Portal\QuizLeaderboard::class)->name('quizzes.leaderboard');
+        Route::get('/bk', \App\Livewire\Portal\CounselingIndex::class)->name('counseling.index');
+        Route::get('/bk/buat', \App\Livewire\Portal\CounselingCreate::class)->name('counseling.create');
+        Route::get('/bk/{ticket}', \App\Livewire\Portal\CounselingShow::class)->name('counseling.show');
         Route::get('/profil', \App\Livewire\Portal\Profile::class)->name('profile');
     });
 });
