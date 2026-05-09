@@ -27,6 +27,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasOne(StaffMember::class);
     }
 
+    public function student(): HasOne
+    {
+        return $this->hasOne(Student::class);
+    }
+
     public function announcementAcknowledgements(): HasMany
     {
         return $this->hasMany(InternalAnnouncementAcknowledgement::class);

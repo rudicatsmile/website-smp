@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             MaterialSeeder::class,
             StaffScheduleSeeder::class,
             InternalAnnouncementSeeder::class,
+            PortalContentSeeder::class,
             DemoContentSeeder::class,
         ]);
     }

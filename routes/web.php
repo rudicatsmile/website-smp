@@ -65,3 +65,24 @@ Route::get('/kontak', Contact::class)->name('kontak');
 Route::get('/spmb', SpmbLanding::class)->name('spmb.index');
 Route::get('/spmb/daftar', SpmbRegister::class)->middleware('throttle:5,1')->name('spmb.register');
 Route::get('/spmb/status', SpmbStatus::class)->name('spmb.status');
+
+// Portal Siswa
+Route::prefix('portal')->name('portal.')->group(function () {
+    Route::get('/login', \App\Livewire\Portal\Login::class)->name('login');
+    Route::post('/logout', function () {
+        \Illuminate\Support\Facades\Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect()->route('portal.login');
+    })->name('logout');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/', \App\Livewire\Portal\Dashboard::class)->name('dashboard');
+        Route::get('/tugas', \App\Livewire\Portal\AssignmentIndex::class)->name('assignments.index');
+        Route::get('/tugas/{slug}', \App\Livewire\Portal\AssignmentShow::class)->name('assignments.show');
+        Route::get('/pengumuman', \App\Livewire\Portal\AnnouncementIndex::class)->name('announcements.index');
+        Route::get('/pengumuman/{slug}', \App\Livewire\Portal\AnnouncementShow::class)->name('announcements.show');
+        Route::get('/materi', \App\Livewire\Portal\MaterialIndex::class)->name('materials.index');
+        Route::get('/profil', \App\Livewire\Portal\Profile::class)->name('profile');
+    });
+});

@@ -81,13 +81,65 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
         1. Login admin (admin@smpalwahoniyah9.sch.id / password) → menu Pengumuman Internal → lihat semua + CRUD penuh.
 
         2. Login teacher (teacher@smpalwahoniyah9.sch.id / password) → menu sama tapi read-only + tombol "Tandai Dibaca" + bell icon notification.
-        
+
         3. Buat pengumuman baru sebagai admin → notifikasi otomatis terkirim ke teacher target.
 
 ## 🎓 Untuk Siswa
 
 - **Portal Tugas & Pengumuman Kelas**
   Login siswa untuk melihat tugas, deadline, dan pengumuman per kelas. Bisa download materi guru.
+
+      Implementasi selesai. Berikut ringkasan:
+
+      Yang Dibuat :
+
+      Database (6 tabel)
+
+        - school_classes, students, class_assignments, class_announcements, 
+          assignment_submissions, class_materials
+
+      Models
+
+        - SchoolClass, Student, ClassAssignment, ClassAnnouncement, 
+          AssignmentSubmission, ClassMaterial
+        - User ditambah relasi student()
+        - Role baru student (RoleSeeder)
+
+      Filament Admin (panel guru/admin) — group Akademik:
+
+        - SchoolClassResource (admin only)
+        - StudentResource (admin only) — dgn aksi Generate Akun
+        - ClassAssignmentResource + SubmissionsRelationManager untuk grading
+        - ClassAnnouncementResource
+        - ClassMaterialResource
+        
+      Portal Siswa Livewire (di /portal):
+
+        - /portal/login — halaman login khusus
+        - /portal — dashboard (stats: tugas aktif/terlambat/dikumpulkan + list)
+        - /portal/tugas & /portal/tugas/{slug} — list + detail + upload submission
+        - /portal/pengumuman & /portal/pengumuman/{slug}
+        - /portal/materi
+        - /portal/profil (ganti password)
+
+      Layout portal.blade.php dgn nav top (Dashboard, Tugas, Pengumuman, Materi)
+      Auth Flow
+
+      - bootstrap/app.php — guest di /portal* redirect ke portal.login, lainnya ke admin login
+      - Login component validasi role student (admin diizinkan preview)
+      
+      Seeded Data (verified): 6 kelas, 21 siswa, 8 tugas, 4 pengumuman, 5 materi.
+
+      Cara Test :
+      
+      - Admin: admin@smpalwahoniyah9.sch.id / password → http://127.0.0.1:8000/admin → menu Akademik (Kelas, Siswa, Tugas Kelas, Pengumuman Kelas, Materi Kelas).
+
+      - Guru: teacher@smpalwahoniyah9.sch.id / password → buat tugas, lihat submission siswa, beri nilai via Relation Manager.
+
+      - Siswa demo: siswa@smpalwahoniyah9.sch.id / password → http://127.0.0.1:8000/portal/login → dashboard, kerjakan tugas, upload submission.
+      
+      - Generate akun siswa lain via tabel Siswa di Filament (tombol Generate Akun) — email format {nis}@siswa.smpalwahoniyah9.sch.id, password default siswa123.
+
 
 - **E-Library / Perpustakaan Digital**
   Koleksi e-book, jurnal, dan referensi yang bisa diunduh atau dibaca online. Bisa dikategorikan per mata pelajaran.
