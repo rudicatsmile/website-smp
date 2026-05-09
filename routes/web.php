@@ -98,3 +98,22 @@ Route::prefix('portal')->name('portal.')->group(function () {
         Route::get('/profil', \App\Livewire\Portal\Profile::class)->name('profile');
     });
 });
+
+// Portal Orang Tua
+Route::prefix('portal/ortu')->name('portal.parent.')->group(function () {
+    Route::get('/login', \App\Livewire\Portal\ParentPortal\Login::class)->name('login');
+    Route::post('/logout', function () {
+        \Illuminate\Support\Facades\Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect()->route('portal.parent.login');
+    })->name('logout');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/', \App\Livewire\Portal\ParentPortal\Dashboard::class)->name('dashboard');
+        Route::get('/nilai/{student}', \App\Livewire\Portal\ParentPortal\Grades::class)->name('grades');
+        Route::get('/absensi/{student}', \App\Livewire\Portal\ParentPortal\Attendance::class)->name('attendance');
+        Route::get('/pelanggaran/{student}', \App\Livewire\Portal\ParentPortal\Violations::class)->name('violations');
+        Route::get('/pembayaran/{student}', \App\Livewire\Portal\ParentPortal\Payments::class)->name('payments');
+    });
+});

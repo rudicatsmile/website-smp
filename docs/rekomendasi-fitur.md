@@ -303,6 +303,47 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
   - Pelanggaran/poin disiplin
   - Pembayaran SPP & tagihan sekolah
 
+      Implementasi Portal Orang Tua selesai.
+
+      Ringkasan Implementasi
+        Database
+          - `parent_student` — pivot (user_id, student_id, relation, is_primary)
+          - `grades` — nilai rapor per mapel/semester (tugas, UTS, UAS, akhir, predikat, catatan)
+          - `student_attendances` — absensi harian (hadir/izin/sakit/alpa/terlambat)
+          - `student_violations` — pelanggaran + poin disiplin
+          - `student_payments` — SPP & tagihan (unpaid/paid/overdue)
+
+        Model
+          - Role baru `parent` (Spatie)
+          - User::children() — BelongsToMany ke Student via parent_student
+          - Student::parents(), grades(), attendances(), violations(), payments()
+
+        Filament (grup Akademik)
+          - **Nilai** (Admin & Guru) — CRUD + auto-predikat A/B/C/D/E berdasarkan nilai_akhir
+          - **Absensi Siswa** (Admin & Guru) — CRUD + filter bulan ini
+          - **Pelanggaran** (Admin, Guru, Counselor) — CRUD + poin disiplin
+          - **Pembayaran** (Admin only) — CRUD + bulk action "Tandai Lunas" + badge tunggakan
+
+        Portal Ortu (layout reuse `portal.blade.php`)
+          - `/portal/ortu/login` — Livewire Parent\Login (guard: hasRole('parent'))
+          - `/portal/ortu` — Dashboard: kartu anak + ringkasan rata-rata nilai, % kehadiran, poin pelanggaran, total tagihan
+          - `/portal/ortu/nilai/{student}` — Tabel nilai per mapel + selector tahun ajaran + toggle semester
+          - `/portal/ortu/absensi/{student}` — Kalender bulanan warna per status + rekap
+          - `/portal/ortu/pelanggaran/{student}` — List pelanggaran + total poin
+          - `/portal/ortu/pembayaran/{student}` — List tagihan (status unpaid/paid/overdue) + total tunggakan (tombol bayar online disabled, placeholder)
+          - Semua halaman guard `parent` + validasi anak ini memang miliknya (abort 403 kalau bukan)
+
+        Seeder (`ParentPortalSeeder`)
+          - Akun ortu: `ortu@smpalwahoniyah9.sch.id` / `password` (Bapak Budi)
+          - 2 anak demo: Aisyah Putri (7A, NIS BP0001) & Fadhil Ramadhan (8B, NIS BP0002)
+          - Data per anak: 16 nilai (8 mapel × 2 semester), ~22 absensi (30 hari minus weekend), 1–3 pelanggaran, 7 tagihan (3 lunas, 2 unpaid, 1 overdue, 1 seragam lunas)
+
+        Cara Test
+          1. `php artisan migrate` + `php artisan db:seed --class=ParentPortalSeeder`
+          2. Buka `http://127.0.0.1:8000/portal/ortu/login` → login `ortu@smpalwahoniyah9.sch.id` / `password`
+          3. Dashboard menampilkan 2 kartu anak; pilih salah satu menu (Nilai/Absensi/Pelanggaran/Pembayaran)
+          4. Login admin → menu **Akademik › Nilai / Absensi / Pelanggaran / Pembayaran** untuk input/ubah data
+
 - **Notifikasi WhatsApp/Email Otomatis**
   Notifikasi otomatis ke orang tua untuk: ketidakhadiran anak, pengumuman penting, jadwal pengambilan rapor, tagihan jatuh tempo.
 

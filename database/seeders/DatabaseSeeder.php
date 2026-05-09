@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             PortalContentSeeder::class,
             QuizContentSeeder::class,
             CounselingSeeder::class,
+            ParentPortalSeeder::class,
             DemoContentSeeder::class,
         ]);
     }
