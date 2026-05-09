@@ -13,6 +13,10 @@
     @livewireStyles
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 antialiased">
+    @if(!request()->routeIs('home'))
+        <x-site.announcement-banner />
+    @endif
+
     <x-site.navbar :settings="$settings" :transparent="request()->routeIs('home')" />
 
     <main class="min-h-[60vh] {{ request()->routeIs('home') ? '' : 'pt-16' }}">
@@ -20,6 +24,8 @@
     </main>
 
     <x-site.footer :settings="$settings" />
+
+    <x-site.whatsapp-float :settings="$settings" />
 
     <x-site.popup />
 

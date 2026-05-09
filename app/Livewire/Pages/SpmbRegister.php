@@ -122,6 +122,14 @@ class SpmbRegister extends Component
         if ($this->step > 1) $this->step--;
     }
 
+    public function removeDoc(string $key): void
+    {
+        $prop = 'doc_' . $key;
+        if (property_exists($this, $prop)) {
+            $this->{$prop} = null;
+        }
+    }
+
     public function submit(): void
     {
         $this->validate(array_merge($this->rulesStep1(), $this->rulesStep2(), $this->rulesStep3()));

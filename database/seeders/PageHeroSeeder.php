@@ -57,6 +57,12 @@ class PageHeroSeeder extends Seeder
                 'icon' => 'arrow-down-tray',
             ],
             [
+                'key' => 'kalender',
+                'title' => 'Kalender Agenda',
+                'subtitle' => 'Jadwal kegiatan, acara, dan libur sekolah untuk orang tua dan siswa.',
+                'icon' => 'calendar-days',
+            ],
+            [
                 'key' => 'kontak',
                 'title' => 'Kontak Kami',
                 'subtitle' => 'Hubungi kami untuk pertanyaan, saran, atau informasi lebih lanjut.',

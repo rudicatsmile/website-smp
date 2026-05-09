@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\CalendarPage;
 use App\Livewire\Pages\AcademicIndex;
 use App\Livewire\Pages\AcademicShow;
 use App\Livewire\Pages\AchievementIndex;
@@ -38,6 +39,8 @@ Route::get('/berita', NewsIndex::class)->name('berita.index');
 Route::get('/berita/{slug}', NewsShow::class)->name('berita.show');
 
 Route::get('/download', DownloadIndex::class)->name('download.index');
+
+Route::get('/kalender', CalendarPage::class)->name('kalender');
 
 Route::get('/program', ProgramIndex::class)->name('program.index');
 Route::get('/program/{slug}', ProgramShow::class)->name('program.show');
