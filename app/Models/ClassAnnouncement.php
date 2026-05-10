@@ -14,6 +14,7 @@ class ClassAnnouncement extends Model
         'school_class_id', 'staff_member_id',
         'title', 'slug', 'body', 'attachments',
         'pinned', 'is_published', 'published_at', 'expires_at',
+        'notify_wa', 'notify_email', 'notification_sent_at',
     ];
 
     protected $casts = [
@@ -22,6 +23,9 @@ class ClassAnnouncement extends Model
         'is_published' => 'boolean',
         'published_at' => 'datetime',
         'expires_at' => 'datetime',
+        'notify_wa' => 'boolean',
+        'notify_email' => 'boolean',
+        'notification_sent_at' => 'datetime',
     ];
 
     public function getRouteKeyName(): string

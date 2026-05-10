@@ -344,8 +344,97 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
           3. Dashboard menampilkan 2 kartu anak; pilih salah satu menu (Nilai/Absensi/Pelanggaran/Pembayaran)
           4. Login admin → menu **Akademik › Nilai / Absensi / Pelanggaran / Pembayaran** untuk input/ubah data
 
-- **Notifikasi WhatsApp/Email Otomatis**
+      **Absensi Siswa (QR Scan + Manual Piket) — selesai.**
+
+      Ringkasan
+        Database
+          - Kolom baru `students.qr_token` (32 char, unique) + `qr_token_generated_at` — backfill otomatis untuk semua siswa.
+          - Reuse `student_attendances` (1 record / siswa / hari, status: hadir/terlambat/izin/sakit/alpa).
+
+        Library
+          - `simplesoftwareio/simple-qrcode` — generate QR (SVG inline + base64 data URI untuk PDF).
+          - `html5-qrcode` (CDN unpkg) — scanner kamera di browser (Alpine.js controller).
+
+        Role baru
+          - `piket` — bisa akses panel admin & halaman absensi, tapi bukan admin penuh.
+
+        Halaman Filament (grup Akademik)
+          - **Absensi Hari Ini** (`/admin/absensi-hari-ini`) — akses: super_admin, admin, teacher, piket
+            - Pilih kelas (default: kelas wali jika user adalah wali kelas) + tanggal (admin only).
+            - Statistik live: hadir / terlambat / izin / sakit / alpa / belum.
+            - **Tab Scan QR**: tombol "Mulai Scan" → akses kamera HP → on-decode panggil `markByToken()`. Beep audio + cooldown 1.5s anti-double-scan. Fallback input manual token (paste).
+            - **Tab Manual**: grid kartu siswa per kelas. Tap kartu → popup pilih status (Hadir/Telat/Izin/Sakit/Alpa) + catatan. Bulk action: "Sisa = Hadir" / "Sisa = Alpa".
+            - Scan token tidak dikenal → notif danger; siswa sudah tercatat → notif warning, tidak override.
+          - **Cetak Kartu Siswa** (`/admin/cetak-kartu-siswa`) — akses: super_admin, admin
+            - Pilih kelas → centang siswa (atau "Pilih Semua") → preview kartu di layar → unduh PDF (DomPDF, A4, kartu CR80).
+
+        Update StudentResource
+          - Kolom **QR Token** (toggleable, copyable, monospace).
+          - Action **Regenerate QR** (warning) — token lama dibatalkan, generate token baru.
+
+        Cara Test
+          1. `php artisan migrate; php artisan db:seed --class=BackfillStudentQrTokensSeeder`
+          2. Login admin/guru → menu **Akademik › Absensi Hari Ini** → pilih kelas → Mulai Scan (izinkan kamera).
+          3. Cetak kartu: menu **Akademik › Cetak Kartu Siswa** → pilih kelas → Pilih Semua → Unduh PDF → cetak/laminating.
+          4. Scan kartu yang sudah dicetak menggunakan HP guru.
+          5. Manual: pindah ke tab Manual → tap siswa, pilih status. Akhir absensi pagi: klik "Sisa = Alpa".
+
+        Catatan
+          - Cutoff terlambat otomatis tidak diaktifkan (status default scan = `hadir`, guru bisa ubah manual lewat tab Manual).
+          - Kamera butuh HTTPS atau localhost (browser security). Untuk testing pakai `php artisan serve` (localhost) atau ngrok.
+
+- **Notifikasi WhatsApp/Email Otomatis** ✅ *(Implemented)*
   Notifikasi otomatis ke orang tua untuk: ketidakhadiran anak, pengumuman penting, jadwal pengambilan rapor, tagihan jatuh tempo.
+
+  Komponen
+    - **Service Layer**: `App\Services\Notifications\NotificationService` + `MessageBuilder`, channel abstraction `WablasChannel` (WhatsApp) & `MailChannel` (Email)
+    - **Queue Job**: `App\Jobs\SendNotificationJob` (retries 3x, async via queue `notifications`)
+    - **Audit Table**: `notification_logs` (polymorphic), diakses via menu **Pengaturan › Log Notifikasi**
+    - **Templates** (Blade text): `resources/views/notifications/templates/{absensi,payment-due,announcement,rapor}.blade.php`
+
+  Otomatisasi
+    1. **Absensi** — `StudentAttendanceObserver` memicu notifikasi saat status `alpa`/`sakit`/`izin`/`terlambat` disimpan
+    2. **Tagihan jatuh tempo** — scheduled command `notifications:payment-reminders` jalan setiap hari jam 08:00; kirim reminder H-3, H-1, H=0, dan overdue (H+3)
+    3. **Pengumuman kelas** — `ClassAnnouncementObserver` broadcast saat publish (toggle `notify_wa`/`notify_email`); anti-duplikat via `notification_sent_at`
+
+  Manual override (Filament)
+    - Aksi baris **Siswa › Kirim Notifikasi** (pilih kanal + isi pesan custom)
+    - Aksi bulk **Pembayaran › Kirim Pengingat** (pilih beberapa tagihan → kirim semua)
+    - Aksi header **Log Notifikasi › Kirim Tes** (tes ke no HP/email tertentu)
+    - Aksi baris **Log Notifikasi › Kirim Ulang** (retry notif yang gagal)
+
+  Konfigurasi `.env`
+    ```
+    # WhatsApp (Wablas)
+    WABLAS_BASE_URL=https://console.wablas.com/api
+    WABLAS_TOKEN=your_wablas_token
+    WABLAS_SECRET=your_wablas_secret   # opsional tergantung paket
+    WABLAS_DRIVER=http                 # 'log' untuk dev (tidak kirim nyata)
+    WABLAS_DELAY_MS=800                # jeda antar pesan
+
+    # Feature toggles (default true)
+    NOTIF_ABSENSI_ENABLED=true
+    NOTIF_PAYMENT_ENABLED=true
+    NOTIF_ANNOUNCEMENT_ENABLED=true
+
+    # Identitas sekolah untuk template
+    NOTIF_SCHOOL_NAME="SMP Al Wahoniyah 9"
+    NOTIF_SCHOOL_PHONE=
+    NOTIF_SCHOOL_WEBSITE=
+
+    # Queue (default pakai queue.default, biasanya database)
+    NOTIF_QUEUE_NAME=notifications
+    ```
+
+  Menjalankan
+    - **Queue worker** wajib jalan: `php artisan queue:work --queue=notifications`
+    - **Scheduler** (cron): tambahkan `* * * * * cd /path && php artisan schedule:run >> /dev/null 2>&1`
+    - Cek status: menu **Log Notifikasi** (ada badge angka merah jika ada yang gagal)
+
+  Catatan
+    - Format nomor HP otomatis dinormalisasi (`08xx` / `8xx` → `628xx`)
+    - Field `parent_email` ditambahkan ke siswa (opsional)
+    - Untuk testing tanpa gateway: set `WABLAS_DRIVER=log` (pesan WA hanya dicatat ke Laravel log)
 
 - **Pembayaran Online (Payment Gateway)**
   Bayar SPP/biaya sekolah via Midtrans/Xendit (VA, QRIS, e-wallet). Riwayat transaksi otomatis.

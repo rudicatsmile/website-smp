@@ -77,6 +77,17 @@ class ClassAnnouncementResource extends Resource
                 DateTimePicker::make('published_at')->label('Tanggal Terbit')->default(now())->native(false),
                 DateTimePicker::make('expires_at')->label('Kedaluwarsa')->native(false),
             ]),
+            Section::make('Notifikasi Orang Tua')
+                ->description('Kirim pengumuman ini ke orang tua via WhatsApp dan/atau Email saat dipublikasikan. Notifikasi dikirim sekali dan tercatat di menu "Log Notifikasi".')
+                ->columns(3)
+                ->schema([
+                    Toggle::make('notify_wa')->label('Kirim via WhatsApp')->default(false),
+                    Toggle::make('notify_email')->label('Kirim via Email')->default(false),
+                    DateTimePicker::make('notification_sent_at')
+                        ->label('Terkirim pada')
+                        ->disabled()
+                        ->helperText('Otomatis terisi setelah notifikasi dikirim.'),
+                ]),
         ]);
     }
 

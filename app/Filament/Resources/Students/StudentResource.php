@@ -31,9 +31,11 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Services\Notifications\NotificationService;
 
 class StudentResource extends Resource
 {
@@ -72,7 +74,10 @@ class StudentResource extends Resource
             ]),
             Section::make('Orang Tua & Alamat')->columns(2)->schema([
                 TextInput::make('parent_name')->label('Nama Orang Tua'),
-                TextInput::make('parent_phone')->label('No. HP Orang Tua')->tel(),
+                TextInput::make('parent_phone')->label('No. HP Orang Tua')->tel()
+                    ->helperText('Format Indonesia (08xx atau 628xx) untuk notifikasi WhatsApp'),
+                TextInput::make('parent_email')->label('Email Orang Tua')->email()
+                    ->helperText('Untuk notifikasi email otomatis'),
                 Textarea::make('address')->label('Alamat')->rows(2)->columnSpanFull(),
             ]),
             Section::make('Akun Login')->columns(2)->schema([
@@ -96,6 +101,8 @@ class StudentResource extends Resource
                 TextColumn::make('gender')->label('JK')
                     ->formatStateUsing(fn ($state) => Student::GENDERS[$state] ?? $state),
                 TextColumn::make('user.email')->label('Email Login')->placeholder('— belum login —')->toggleable(),
+                TextColumn::make('qr_token')->label('QR Token')->copyable()->placeholder('—')
+                    ->fontFamily('mono')->size('xs')->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('is_active')->label('Aktif')->boolean(),
             ])
             ->filters([
@@ -126,6 +133,63 @@ class StudentResource extends Resource
                             ->body("Email: {$email} | Password: siswa123")
                             ->success()
                             ->send();
+                    }),
+                Action::make('send_notification')
+                    ->label('Kirim Notifikasi')
+                    ->icon('heroicon-o-paper-airplane')
+                    ->color('info')
+                    ->visible(fn ($record) => filled($record->parent_phone) || filled($record->parent_email))
+                    ->schema([
+                        CheckboxList::make('channels')
+                            ->label('Kanal')
+                            ->options(['whatsapp' => 'WhatsApp', 'email' => 'Email'])
+                            ->default(['whatsapp'])
+                            ->required()
+                            ->columns(2),
+                        \Filament\Forms\Components\TextInput::make('subject')
+                            ->label('Subjek (untuk email)')
+                            ->default(fn ($record) => 'Pemberitahuan untuk ' . $record->name)
+                            ->maxLength(180),
+                        \Filament\Forms\Components\Textarea::make('message')
+                            ->label('Isi Pesan')
+                            ->required()
+                            ->rows(6)
+                            ->placeholder('Tulis pesan untuk orang tua...'),
+                    ])
+                    ->action(function ($record, array $data) {
+                        /** @var NotificationService $service */
+                        $service = app(NotificationService::class);
+                        $logs = $service->sendCustom(
+                            recipient: [
+                                'name'  => $record->parent_name,
+                                'phone' => $record->parent_phone,
+                                'email' => $record->parent_email,
+                            ],
+                            channels: $data['channels'] ?? [],
+                            subject: $data['subject'] ?? 'Pemberitahuan',
+                            body: $data['message'],
+                            event: 'manual',
+                            notifiable: $record,
+                            triggeredBy: auth()->id(),
+                        );
+                        Notification::make()
+                            ->title('Notifikasi diantrekan')
+                            ->body(count($logs) . ' pesan masuk antrian pengiriman.')
+                            ->success()
+                            ->send();
+                    }),
+                Action::make('regenerate_qr')
+                    ->label('Regenerate QR')
+                    ->icon('heroicon-o-qr-code')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->modalHeading('Regenerate QR Token')
+                    ->modalDescription('Token lama akan tidak berlaku lagi. Lanjutkan?')
+                    ->action(function ($record) {
+                        $record->generateQrToken(force: true);
+                        Notification::make()->title('QR token diperbarui')
+                            ->body('Token baru: ' . $record->fresh()->qr_token)
+                            ->success()->send();
                     }),
                 EditAction::make(),
                 DeleteAction::make(),

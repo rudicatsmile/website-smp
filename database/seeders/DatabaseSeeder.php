@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             StaffScheduleSeeder::class,
             InternalAnnouncementSeeder::class,
             PortalContentSeeder::class,
+            BackfillStudentQrTokensSeeder::class,
             QuizContentSeeder::class,
             CounselingSeeder::class,
             ParentPortalSeeder::class,

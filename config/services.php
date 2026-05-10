@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'wablas' => [
+        'base_url' => env('WABLAS_BASE_URL', 'https://console.wablas.com/api'),
+        'token'    => env('WABLAS_TOKEN'),
+        'secret'   => env('WABLAS_SECRET'),
+        'timeout'  => (int) env('WABLAS_TIMEOUT', 15),
+    ],
+
 ];

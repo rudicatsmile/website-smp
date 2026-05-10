@@ -20,11 +20,13 @@ class Student extends Model
     protected $fillable = [
         'user_id', 'school_class_id', 'nis', 'nisn', 'name', 'slug',
         'gender', 'birth_date', 'birth_place', 'photo',
-        'parent_name', 'parent_phone', 'address', 'is_active',
+        'qr_token', 'qr_token_generated_at',
+        'parent_name', 'parent_phone', 'parent_email', 'address', 'is_active',
     ];
 
     protected $casts = [
         'birth_date' => 'date',
+        'qr_token_generated_at' => 'datetime',
         'is_active' => 'boolean',
     ];
 
@@ -83,5 +85,27 @@ class Student extends Model
     public function getPhotoUrlAttribute(): ?string
     {
         return $this->photo ? asset('storage/' . $this->photo) : null;
+    }
+
+    public function generateQrToken(bool $force = false): string
+    {
+        if (! $force && $this->qr_token) {
+            return $this->qr_token;
+        }
+        do {
+            $token = strtoupper(\Illuminate\Support\Str::random(16));
+        } while (static::where('qr_token', $token)->where('id', '!=', $this->id)->exists());
+
+        $this->forceFill([
+            'qr_token' => $token,
+            'qr_token_generated_at' => now(),
+        ])->save();
+
+        return $token;
+    }
+
+    public static function findByQrToken(string $token): ?self
+    {
+        return static::where('qr_token', trim($token))->first();
     }
 }

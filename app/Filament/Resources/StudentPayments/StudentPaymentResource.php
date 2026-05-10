@@ -27,6 +27,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Collection;
+use App\Services\Notifications\NotificationService;
 
 class StudentPaymentResource extends Resource
 {
@@ -115,6 +116,61 @@ class StudentPaymentResource extends Resource
                                 'paid_amount' => $r->paid_amount ?? $r->amount,
                             ]));
                             Notification::make()->title('Ditandai lunas')->success()->send();
+                        })
+                        ->deselectRecordsAfterCompletion(),
+                    BulkAction::make('sendReminder')
+                        ->label('Kirim Pengingat')
+                        ->icon('heroicon-o-paper-airplane')
+                        ->color('info')
+                        ->requiresConfirmation()
+                        ->modalDescription('Kirim pengingat tagihan via WhatsApp & Email ke orang tua siswa terpilih?')
+                        ->action(function (Collection $records) {
+                            /** @var NotificationService $service */
+                            $service = app(NotificationService::class);
+                            $sent = 0;
+                            $skipped = 0;
+                            foreach ($records as $payment) {
+                                /** @var StudentPayment $payment */
+                                $student = $payment->student;
+                                if (! $student || (! $student->parent_phone && ! $student->parent_email)) {
+                                    $skipped++;
+                                    continue;
+                                }
+                                if ($payment->status === 'paid') {
+                                    $skipped++;
+                                    continue;
+                                }
+                                $isOverdue = $payment->due_date && $payment->due_date->lt(now()->startOfDay());
+                                $daysToDue = $payment->due_date ? now()->startOfDay()->diffInDays($payment->due_date, false) : 0;
+
+                                $service->notifyStudentParent(
+                                    student: $student,
+                                    channels: ['whatsapp', 'email'],
+                                    template: 'payment-due',
+                                    event: 'payment_due',
+                                    data: [
+                                        'parent_name'      => $student->parent_name,
+                                        'student_name'     => $student->name,
+                                        'nis'              => $student->nis,
+                                        'class_name'       => $student->schoolClass?->name,
+                                        'type_label'       => $payment->type_label,
+                                        'period'           => $payment->period,
+                                        'amount_formatted' => $payment->amount_formatted,
+                                        'due_date'         => optional($payment->due_date)->translatedFormat('l, d F Y'),
+                                        'is_overdue'       => $isOverdue,
+                                        'days_overdue'     => $isOverdue ? abs((int) $daysToDue) : 0,
+                                        'days_to_due'      => (int) $daysToDue,
+                                    ],
+                                    notifiable: $payment,
+                                    triggeredBy: auth()->id(),
+                                );
+                                $sent++;
+                            }
+                            Notification::make()
+                                ->title('Pengingat diantrekan')
+                                ->body("{$sent} tagihan masuk antrian. {$skipped} dilewati (lunas atau tanpa kontak).")
+                                ->success()
+                                ->send();
                         })
                         ->deselectRecordsAfterCompletion(),
                     DeleteBulkAction::make(),
