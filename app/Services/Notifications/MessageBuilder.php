@@ -43,6 +43,7 @@ class MessageBuilder
             'payment_due'  => "[{$school}] Pengingat Tagihan {$data['type_label']} - {$data['student_name']}",
             'announcement' => "[{$school}] Pengumuman: {$data['title']}",
             'rapor'        => "[{$school}] Pengambilan Rapor: {$data['student_name']}",
+            'leave_request' => "[{$school}] Pengajuan Izin {$data['student_name']} - {$data['status_label']}",
             default        => "[{$school}] Pemberitahuan",
         };
     }

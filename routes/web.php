@@ -70,6 +70,10 @@ Route::get('/spmb/status', SpmbStatus::class)->name('spmb.status');
 Route::get('/bk', \App\Livewire\Pages\CounselingForm::class)->middleware('throttle:10,1')->name('bk.form');
 Route::get('/bk/status', \App\Livewire\Pages\CounselingStatus::class)->middleware('throttle:30,1')->name('bk.status');
 
+// Surat Izin Online (publik)
+Route::get('/izin', \App\Livewire\Pages\PublicLeaveForm::class)->middleware('throttle:5,1')->name('izin.form');
+Route::get('/izin/status', \App\Livewire\Pages\PublicLeaveStatus::class)->middleware('throttle:30,1')->name('izin.status');
+
 // Portal Siswa
 Route::prefix('portal')->name('portal.')->group(function () {
     Route::get('/login', \App\Livewire\Portal\Login::class)->name('login');
@@ -115,5 +119,7 @@ Route::prefix('portal/ortu')->name('portal.parent.')->group(function () {
         Route::get('/absensi/{student}', \App\Livewire\Portal\ParentPortal\Attendance::class)->name('attendance');
         Route::get('/pelanggaran/{student}', \App\Livewire\Portal\ParentPortal\Violations::class)->name('violations');
         Route::get('/pembayaran/{student}', \App\Livewire\Portal\ParentPortal\Payments::class)->name('payments');
+        Route::get('/izin/{student}', \App\Livewire\Portal\ParentPortal\LeaveRequestIndex::class)->name('leave.index');
+        Route::get('/izin/{student}/buat', \App\Livewire\Portal\ParentPortal\LeaveRequestCreate::class)->name('leave.create');
     });
 });

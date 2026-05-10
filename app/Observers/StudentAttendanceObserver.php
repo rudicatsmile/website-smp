@@ -27,6 +27,12 @@ class StudentAttendanceObserver
 
     protected function maybeNotify(StudentAttendance $attendance): void
     {
+        // Suppression flag set by LeaveRequestService while auto-creating
+        // attendance rows from an approved leave request — avoids dual notifications.
+        if (app()->bound('skip_attendance_notif') && app('skip_attendance_notif') === true) {
+            return;
+        }
+
         $config = config('notifications.events.absensi');
         if (empty($config['enabled'])) {
             return;

@@ -35,6 +35,12 @@ return [
             'enabled' => (bool) env('NOTIF_ANNOUNCEMENT_ENABLED', true),
             'channels' => ['whatsapp', 'email'],
         ],
+        'leave_request' => [
+            'enabled' => (bool) env('NOTIF_LEAVE_REQUEST', true),
+            'channels' => ['whatsapp', 'email'],
+            // Skip weekends when auto-creating attendance rows on approval
+            'skip_weekends' => (bool) env('NOTIF_LEAVE_SKIP_WEEKEND', true),
+        ],
     ],
 
     /*

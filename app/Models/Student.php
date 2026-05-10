@@ -77,6 +77,11 @@ class Student extends Model
         return $this->hasMany(StudentPayment::class);
     }
 
+    public function leaveRequests(): HasMany
+    {
+        return $this->hasMany(LeaveRequest::class);
+    }
+
     public function scopeActive(Builder $q): Builder
     {
         return $q->where('is_active', true);

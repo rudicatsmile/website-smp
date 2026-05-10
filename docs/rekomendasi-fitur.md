@@ -436,11 +436,33 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
     - Field `parent_email` ditambahkan ke siswa (opsional)
     - Untuk testing tanpa gateway: set `WABLAS_DRIVER=log` (pesan WA hanya dicatat ke Laravel log)
 
+- **Surat Izin Online ✅ (sudah diimplementasi)**
+  Form pengajuan izin tidak masuk sekolah dengan upload bukti (surat dokter, dll). Setelah disetujui sekolah, absensi siswa otomatis tercatat untuk tanggal yang diajukan, dan orang tua menerima notifikasi WA/Email.
+
+  Cara pakai
+    1. **Form publik** di `/izin` — diakses tanpa login. Orang tua isi NIS + nama (harus cocok dengan data sekolah) + tanggal + alasan + lampiran (jpg/png/webp/pdf maks 2MB). Cek status di `/izin/status?nis=...`
+    2. **Portal Orang Tua** di `/portal/ortu` — login orang tua, klik card **Surat Izin** pada anak yang dituju, lalu **Ajukan Izin Baru**
+    3. **Admin Filament** di menu **Akademik › Surat Izin** — review tiap pengajuan: tombol **Setujui**/**Tolak** (dengan catatan opsional). Badge angka kuning menampilkan jumlah pending
+
+  Otomatisasi saat disetujui
+    - Sistem `LeaveRequestService::approve()` menulis baris `student_attendances` untuk setiap tanggal dalam range (status `sakit`/`izin` sesuai tipe; tipe `dinas` → `izin`)
+    - Akhir pekan otomatis dilewati (configurable via `NOTIF_LEAVE_SKIP_WEEKEND`)
+    - Notifikasi observer absensi di-suppress agar tidak dobel — ortu hanya menerima 1 pesan "Pengajuan disetujui" via template `leave-request.blade.php`
+    - Saat ditolak setelah sebelumnya disetujui, baris attendance terkait dihapus (matched by note prefix `Izin Online #{id}`)
+
+  Validasi
+    - Maks. range 14 hari per pengajuan
+    - Tidak boleh tumpang tindih dengan pengajuan `pending`/`approved` lain untuk siswa yang sama
+    - Form publik throttled `5 req/menit`, halaman status `30 req/menit`
+
+  Konfigurasi `.env`
+    ```
+    NOTIF_LEAVE_REQUEST=true
+    NOTIF_LEAVE_SKIP_WEEKEND=true
+    ```
+
 - **Pembayaran Online (Payment Gateway)**
   Bayar SPP/biaya sekolah via Midtrans/Xendit (VA, QRIS, e-wallet). Riwayat transaksi otomatis.
-
-- **Surat Izin Online**
-  Form pengajuan izin tidak masuk sekolah dengan upload bukti (surat dokter, dll). Tercatat otomatis di sistem absensi.
 
 - **Buku Penghubung Digital**
   Komunikasi 2 arah orang tua ↔ wali kelas terkait perkembangan anak.

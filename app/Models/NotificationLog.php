@@ -21,6 +21,7 @@ class NotificationLog extends Model
         'payment_due'  => 'Tagihan',
         'announcement' => 'Pengumuman',
         'rapor'        => 'Rapor',
+        'leave_request' => 'Surat Izin',
         'manual'       => 'Manual',
     ];
 
