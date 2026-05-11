@@ -20,7 +20,9 @@ class ContactMessageResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Envelope;
 
-    protected static ?int $navigationSort = 42;
+    protected static string|\UnitEnum|null $navigationGroup = 'Komunikasi';
+
+    protected static ?int $navigationSort = 10;
 
     protected static ?string $navigationLabel = 'Pesan Kontak';
 

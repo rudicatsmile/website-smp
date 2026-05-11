@@ -20,7 +20,9 @@ class SpmbPeriodResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::CalendarDays;
 
-    protected static ?int $navigationSort = 30;
+    protected static string|\UnitEnum|null $navigationGroup = 'PPDB';
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Periode PPDB';
 

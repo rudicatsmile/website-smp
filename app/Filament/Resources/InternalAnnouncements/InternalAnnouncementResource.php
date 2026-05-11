@@ -23,7 +23,9 @@ class InternalAnnouncementResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-megaphone';
 
-    protected static ?int $navigationSort = 30;
+    protected static string|\UnitEnum|null $navigationGroup = 'Event';
+
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $navigationLabel = 'Pengumuman Internal';
 

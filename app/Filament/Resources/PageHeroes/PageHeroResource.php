@@ -20,13 +20,15 @@ class PageHeroResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleGroup;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Pengaturan Umum';
+
+    protected static ?int $navigationSort = 70;
+
     protected static ?string $navigationLabel = 'Page Hero';
 
     protected static ?string $modelLabel = 'Page Hero';
 
     protected static ?string $pluralModelLabel = 'Page Heroes';
-
-    protected static ?int $navigationSort = 20;
 
     public static function form(Schema $schema): Schema
     {

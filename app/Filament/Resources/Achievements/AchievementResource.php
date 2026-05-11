@@ -20,7 +20,9 @@ class AchievementResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Trophy;
 
-    protected static ?int $navigationSort = 14;
+    protected static string|\UnitEnum|null $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 8;
 
     protected static ?string $navigationLabel = 'Prestasi Murid';
 

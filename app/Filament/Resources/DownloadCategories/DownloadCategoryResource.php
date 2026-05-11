@@ -20,7 +20,9 @@ class DownloadCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Folder;
 
-    protected static ?int $navigationSort = 41;
+    protected static string|\UnitEnum|null $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 15;
 
     protected static ?string $navigationLabel = 'Kategori Download';
 

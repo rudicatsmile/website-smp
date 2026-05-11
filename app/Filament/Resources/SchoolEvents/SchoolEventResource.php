@@ -18,7 +18,17 @@ class SchoolEventResource extends Resource
 {
     protected static ?string $model = SchoolEvent::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::CalendarDays;
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Event';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationLabel = 'Event Sekolah';
+
+    protected static ?string $modelLabel = 'Event Sekolah';
+
+    protected static ?string $pluralModelLabel = 'Event Sekolah';
 
     public static function form(Schema $schema): Schema
     {

@@ -25,11 +25,13 @@ class ManageGeneral extends Page implements HasForms
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Pengaturan Umum';
+
     protected static ?string $navigationLabel = 'Pengaturan Umum';
 
     protected static ?string $title = 'Pengaturan Umum';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 40;
 
     public ?array $data = [];
 

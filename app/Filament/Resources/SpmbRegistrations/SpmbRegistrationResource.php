@@ -22,7 +22,9 @@ class SpmbRegistrationResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ClipboardDocumentList;
 
-    protected static ?int $navigationSort = 31;
+    protected static string|\UnitEnum|null $navigationGroup = 'PPDB';
+
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationLabel = 'Pendaftar PPDB';
 

@@ -25,11 +25,13 @@ class ManageProfile extends Page implements HasForms
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Content';
+
     protected static ?string $navigationLabel = 'Profil Sekolah';
 
     protected static ?string $title = 'Profil Sekolah';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 2;
 
     public ?array $data = [];
 

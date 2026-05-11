@@ -20,7 +20,9 @@ class PopupResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Megaphone;
 
-    protected static ?int $navigationSort = 2;
+    protected static string|\UnitEnum|null $navigationGroup = 'Pengaturan Umum';
+
+    protected static ?int $navigationSort = 60;
 
     protected static ?string $navigationLabel = 'Popup Pengumuman';
 

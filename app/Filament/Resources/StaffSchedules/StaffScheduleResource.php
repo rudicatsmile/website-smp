@@ -21,7 +21,9 @@ class StaffScheduleResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clock';
 
-    protected static ?int $navigationSort = 25;
+    protected static string|\UnitEnum|null $navigationGroup = 'Staff';
+
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $navigationLabel = 'Jadwal Guru';
 

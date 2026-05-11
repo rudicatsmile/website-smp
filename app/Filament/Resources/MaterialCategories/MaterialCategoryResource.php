@@ -21,7 +21,9 @@ class MaterialCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 21;
+    protected static string|\UnitEnum|null $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 12;
 
     protected static ?string $navigationLabel = 'Kategori Materi';
 

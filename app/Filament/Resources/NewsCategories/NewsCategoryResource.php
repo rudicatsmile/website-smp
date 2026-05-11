@@ -20,7 +20,9 @@ class NewsCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Folder;
 
-    protected static ?int $navigationSort = 11;
+    protected static string|\UnitEnum|null $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 5;
 
     protected static ?string $navigationLabel = 'Kategori Berita';
 

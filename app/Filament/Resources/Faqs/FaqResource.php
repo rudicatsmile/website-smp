@@ -22,7 +22,9 @@ class FaqResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ChatBubbleLeftRight;
 
-    protected static ?int $navigationSort = 44;
+    protected static string|\UnitEnum|null $navigationGroup = 'Komunikasi';
+
+    protected static ?int $navigationSort = 20;
 
     protected static ?string $navigationLabel = 'FAQ';
 
