@@ -35,7 +35,7 @@ Bangun fitur pengaduan/konsultasi ke Guru BK dengan dua jalur (publik anonim via
 
 - Tambah role `counselor` di `RoleSeeder`.
 - Beri `super_admin` dan `admin` izin default ke resource.
-- Di `CounselingSeeder` (baru): buat 1 user demo counselor (`bk@smpalwahoniyah9.sch.id` / `password`) dengan `StaffMember` terkait, dan 3 tiket demo (1 publik anonim `new`, 1 portal `in_progress` dengan 2 balasan, 1 `resolved`).
+- Di `CounselingSeeder` (baru): buat 1 user demo counselor (`bk@smpalwathoniyah9.sch.id` / `password`) dengan `StaffMember` terkait, dan 3 tiket demo (1 publik anonim `new`, 1 portal `in_progress` dengan 2 balasan, 1 `resolved`).
 
 ## 4. Models
 
@@ -124,7 +124,7 @@ Tambahkan menu **BK / Konseling** di header portal.
 2. `php artisan db:seed --class=CounselingSeeder`.
 3. Publik: buka `http://127.0.0.1:8000/bk` → isi form → dapat kode `BK-XXXXXX` → cek di `/bk/status`.
 4. Siswa login: menu **BK** di header portal → buat tiket baru → balas thread.
-5. Login counselor `bk@smpalwahoniyah9.sch.id` → menu **Konseling BK** di Filament → balas tiket (toggle internal), ubah status, assign diri sendiri.
+5. Login counselor `bk@smpalwathoniyah9.sch.id` → menu **Konseling BK** di Filament → balas tiket (toggle internal), ubah status, assign diri sendiri.
 6. Verifikasi counselor hanya melihat tiket miliknya / inbox.
 
 ## 13. Out of Scope (v1)

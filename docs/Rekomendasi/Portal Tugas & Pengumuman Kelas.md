@@ -30,7 +30,7 @@ Implementasi portal siswa (Livewire publik) dan panel guru (Filament) untuk meng
 ## Filament Resources (Guru/Admin)
 
 - **SchoolClassResource** — CRUD kelas (admin & super_admin).
-- **StudentResource** — CRUD siswa; aksi "Generate Akun Login" (buat `User` dgn role `student`, email = `nis@smpalwahoniyah9.sch.id`, password default).
+- **StudentResource** — CRUD siswa; aksi "Generate Akun Login" (buat `User` dgn role `student`, email = `nis@smpalwathoniyah9.sch.id`, password default).
 - **ClassAssignmentResource** — form (mapel, kelas, deadline, lampiran FileUpload multi, deskripsi RichEditor, publish toggle); guru hanya melihat tugas miliknya; tabel dgn kolom status (open/closed/graded), jumlah submission.
   - Relasi `SubmissionsRelationManager` untuk lihat + grade submission siswa (score, feedback).
 - **ClassAnnouncementResource** — CRUD pengumuman kelas; guru hanya kelas yg diampu atau global (admin).
@@ -62,7 +62,7 @@ UI: Tailwind, responsive, card-based, badge warna untuk status (open=emerald, du
 ## Seeder
 
 - `SchoolClassSeeder` — 6 kelas (7A, 7B, 8A, 8B, 9A, 9B) tahun ajaran aktif.
-- `StudentSeeder` — 20 siswa demo tersebar di kelas, plus 1 demo akun: `siswa@smpalwahoniyah9.sch.id` / `password` (di kelas 7A).
+- `StudentSeeder` — 20 siswa demo tersebar di kelas, plus 1 demo akun: `siswa@smpalwathoniyah9.sch.id` / `password` (di kelas 7A).
 - `ClassAssignmentSeeder` — 8 tugas contoh (2 overdue, 4 open, 2 closed).
 - `ClassAnnouncementSeeder` — 4 pengumuman (2 global, 2 per kelas).
 - `ClassMaterialSeeder` — 5 materi contoh.
@@ -77,8 +77,8 @@ UI: Tailwind, responsive, card-based, badge warna untuk status (open=emerald, du
 ## Testing Manual
 
 1. `php artisan migrate` & `db:seed --class=SchoolClassSeeder` dst.
-2. Login guru `teacher@smpalwahoniyah9.sch.id` → Filament → buat Tugas Kelas → publish.
-3. Login siswa `siswa@smpalwahoniyah9.sch.id` / `password` di `/portal/login` → lihat tugas → upload submission.
+2. Login guru `teacher@smpalwathoniyah9.sch.id` → Filament → buat Tugas Kelas → publish.
+3. Login siswa `siswa@smpalwathoniyah9.sch.id` / `password` di `/portal/login` → lihat tugas → upload submission.
 4. Login guru → Relation Manager → beri nilai & feedback.
 5. Login siswa → lihat nilai di detail tugas.
 6. Admin bisa CRUD semua data & generate akun siswa.

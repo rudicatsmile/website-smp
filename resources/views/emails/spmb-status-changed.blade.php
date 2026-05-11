@@ -13,5 +13,5 @@
 @if($registration->admin_note)
     <p><strong>Catatan Panitia:</strong> {{ $registration->admin_note }}</p>
 @endif
-<p>Salam,<br>Panitia SPMB SMP Al Wahoniyah 9</p>
+<p>Salam,<br>Panitia SPMB SMP Al Wathoniyah 9</p>
 </body></html>

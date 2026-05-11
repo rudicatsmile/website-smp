@@ -1,5 +1,5 @@
 # Development Rules
-## CMS SMP Al Wahoniyah 9 — Laravel 12 + Filament 4 + Livewire 3
+## CMS SMP Al Wathoniyah 9 — Laravel 12 + Filament 4 + Livewire 3
 
 > Dokumen ini berisi aturan, konvensi, dan workflow yang **wajib** diikuti seluruh kontributor proyek. Tujuannya menjaga konsistensi, keamanan, dan maintainability.
 
@@ -147,7 +147,7 @@ Slug: gunakan `Str::slug()` + uniqueness check (`spatie/laravel-sluggable` opsio
 - **Full-page component** untuk halaman publik:
   ```php
   #[Layout('layouts.app')]
-  #[Title('Berita - SMP Al Wahoniyah 9')]
+  #[Title('Berita - SMP Al Wathoniyah 9')]
   class NewsIndex extends Component { ... }
   ```
 - Pagination: gunakan tema Tailwind, `WithPagination`.
@@ -216,7 +216,7 @@ Slug: gunakan `Str::slug()` + uniqueness check (`spatie/laravel-sluggable` opsio
 
 `.env` wajib berisi (sesuai spesifikasi):
 ```
-APP_NAME="CMS SMP Al Wahoniyah 9"
+APP_NAME="CMS SMP Al Wathoniyah 9"
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
@@ -237,7 +237,7 @@ MAIL_HOST=
 MAIL_PORT=587
 MAIL_USERNAME=
 MAIL_PASSWORD=
-MAIL_FROM_ADDRESS="noreply@smpalwahoniyah9.sch.id"
+MAIL_FROM_ADDRESS="noreply@smpalwathoniyah9.sch.id"
 MAIL_FROM_NAME="${APP_NAME}"
 
 FILESYSTEM_DISK=public

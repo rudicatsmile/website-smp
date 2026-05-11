@@ -16,8 +16,8 @@
         :: Dashboard berita khusus internal (rapat, surat tugas, agenda dinas)
 
         Cara Test
-        1. Login admin (admin@smpalwahoniyah9.sch.id / password) → menu Pengumuman Internal → lihat semua + CRUD penuh.
-        2. Login teacher (teacher@smpalwahoniyah9.sch.id / password) → menu sama tapi read-only + tombol "Tandai Dibaca" + bell icon notification.
+        1. Login admin (admin@smpalwathoniyah9.sch.id / password) → menu Pengumuman Internal → lihat semua + CRUD penuh.
+        2. Login teacher (teacher@smpalwathoniyah9.sch.id / password) → menu sama tapi read-only + tombol "Tandai Dibaca" + bell icon notification.
         3. Buat pengumuman baru sebagai admin → notifikasi otomatis terkirim ke teacher target.
 
     E. Portal Tugas & Pengumuman Kelas
@@ -25,10 +25,10 @@
         :: Dashboard berita khusus internal (rapat, surat tugas, agenda dinas)
 
         Cara Test :      
-        1. Admin: admin@smpalwahoniyah9.sch.id / password → http://127.0.0.1:8000/admin → menu Akademik (Kelas, Siswa, Tugas Kelas, Pengumuman Kelas, Materi Kelas).
-        2. Guru: teacher@smpalwahoniyah9.sch.id / password → buat tugas, lihat submission siswa, beri nilai via Relation Manager.
-        3. Siswa demo: siswa@smpalwahoniyah9.sch.id / password → http://127.0.0.1:8000/portal/login → dashboard, kerjakan tugas, upload submission.
-        4 Generate akun siswa lain via tabel Siswa di Filament (tombol Generate Akun) — email format {nis}@siswa.smpalwahoniyah9.sch.id, password default siswa123.
+        1. Admin: admin@smpalwathoniyah9.sch.id / password → http://127.0.0.1:8000/admin → menu Akademik (Kelas, Siswa, Tugas Kelas, Pengumuman Kelas, Materi Kelas).
+        2. Guru: teacher@smpalwathoniyah9.sch.id / password → buat tugas, lihat submission siswa, beri nilai via Relation Manager.
+        3. Siswa demo: siswa@smpalwathoniyah9.sch.id / password → http://127.0.0.1:8000/portal/login → dashboard, kerjakan tugas, upload submission.
+        4 Generate akun siswa lain via tabel Siswa di Filament (tombol Generate Akun) — email format {nis}@siswa.smpalwathoniyah9.sch.id, password default siswa123.
 
     F. Bank Soal & Latihan
         :: Latihan soal interaktif (quiz) per mapel, terutama menjelang UTS/UAS/ujian. Auto-scoring untuk feedback langsung.
@@ -40,7 +40,7 @@
           - Buat kuis baru, lalu di tab Soal klik Import dari Bank Soal atau Tulis Soal.
           - Tab Hasil Pengerjaan → action Nilai untuk grading essay siswa.
 
-        2. Siswa → http://127.0.0.1:8000/portal/login (siswa@smpalwahoniyah9.sch.id / password):
+        2. Siswa → http://127.0.0.1:8000/portal/login (siswa@smpalwathoniyah9.sch.id / password):
           - Klik menu Latihan di header.
           - Pilih kuis → Mulai Kerjakan → kerjakan dengan timer aktif → Submit.
           - Lihat skor + pembahasan + leaderboard.
@@ -54,12 +54,12 @@
           1. Buka http://127.0.0.1:8000/bk → isi form tanpa nama → submit.
           2. Salin kode BK-XXXXXX → buka /bk/status?kode=... → balas thread.
 
-        Siswa (siswa@smpalwahoniyah9.sch.id / password):
+        Siswa (siswa@smpalwathoniyah9.sch.id / password):
           Buka : http://127.0.0.1:8000/portal
           1. Menu BK di header portal → Buat Pengaduan Baru.
           2. Kirim, lalu lanjut chat di halaman detail.
 
-        Guru BK (bk@smpalwahoniyah9.sch.id / password):
+        Guru BK (bk@smpalwathoniyah9.sch.id / password):
           1. Login Filament → menu Komunikasi › Konseling BK (badge jumlah new).
           2. Buka tiket → tab Thread Pesan → action Balas Pelapor (toggle Catatan Internal untuk catatan privat tim BK).
           3. Ubah status/prioritas/assignee di form edit atau pakai bulk action Tandai Selesai.
@@ -84,7 +84,7 @@
         - Pembayaran SPP & tagihan sekolah
 
         Cara Test
-          1. Buka `http://127.0.0.1:8000/portal/ortu/login` → login `ortu@smpalwahoniyah9.sch.id` / `password`
+          1. Buka `http://127.0.0.1:8000/portal/ortu/login` → login `ortu@smpalwathoniyah9.sch.id` / `password`
           2. Dashboard menampilkan 2 kartu anak; pilih salah satu menu (Nilai/Absensi/Pelanggaran/Pembayaran)
           3. Login admin → menu **Akademik › Nilai / Absensi / Pelanggaran / Pembayaran** untuk input/ubah data
 
@@ -104,7 +104,7 @@
             - Untuk testing tanpa gateway: set `WABLAS_DRIVER=log` (pesan WA hanya dicatat ke Laravel log)
 
 
-        Konfigurasi `.env`
+        Konfigurasi .env
 
             # WhatsApp (Wablas)
             WABLAS_BASE_URL=https://console.wablas.com/api
@@ -119,7 +119,7 @@
             NOTIF_ANNOUNCEMENT_ENABLED=true
 
             # Identitas sekolah untuk template
-            NOTIF_SCHOOL_NAME="SMP Al Wahoniyah 9"
+            NOTIF_SCHOOL_NAME="SMP Al Wathoniyah 9"
             NOTIF_SCHOOL_PHONE=
             NOTIF_SCHOOL_WEBSITE=
 
@@ -166,5 +166,48 @@
         Log percakapan
             - Tersimpan di tabel `chat_logs` (session_id, pertanyaan, jawaban, faq_id, helpful)
             - Bisa digunakan untuk analisis FAQ mana yang sering ditanyakan / belum terjawab
+
+    E. Buku Penghubung Digital ✅ (sudah diimplementasi)
+        :: Komunikasi 2 arah berbasis topik antara orang tua ↔ wali kelas terkait perkembangan
+            anak (akademik, perilaku, kehadiran, kesehatan). Setiap topik punya thread chat sendiri
+            dengan lampiran, status (terbuka/dibalas/selesai/ditutup), dan notifikasi WA + Email
+            otomatis setiap ada balasan.
+
+        Cara pakai
+            1. Orang Tua → `/portal/ortu` (ortu@smpalwathoniyah9.sch.id / password)
+                - Login → di kartu anak, klik tombol **Buku Penghubung** (badge merah = pesan
+                  belum dibaca).
+                - Klik **Topik Baru** → isi subjek, kategori, prioritas, pesan + lampiran (opsional).
+                - Topik akan terkirim dengan kode `BP-XXXXXX`; wali kelas otomatis dapat notif
+                  WA + Email.
+                - Lanjutkan chat di halaman detail topik. Klik **Tandai Selesai** jika sudah cukup.
+            2. Wali Kelas / Admin → Filament `/admin` menu **Komunikasi › Buku Penghubung**
+                - Wali kelas hanya melihat topik dari kelas yang dia walikan; admin & super_admin
+                  melihat semua.
+                - Buka topik → tab **Thread Pesan** → action **Balas Orang Tua**
+                  (toggle Catatan Internal untuk catatan privat antar guru, tidak dikirim ke ortu).
+                - Wali kelas juga bisa **inisiasi topik baru** lewat tombol "New" di list (mis.
+                  melaporkan perilaku siswa ke orang tua) — pesan awal di form akan tersimpan
+                  sebagai pesan pertama otomatis.
+                - Status berubah: open → replied saat wali balas → open lagi saat ortu balas →
+                  resolved/closed saat ditandai selesai. Badge angka kuning di sidebar menampilkan
+                  jumlah topik aktif.
+
+        Notifikasi otomatis
+            - Saat orang tua kirim/balas → notif ke wali kelas (WA via `staff_members.whatsapp/phone`
+              + Email via `staff_members.email`).
+            - Saat wali kelas balas → notif ke orang tua (WA & Email via `students.parent_phone` &
+              `students.parent_email`).
+            - **Internal note (`is_internal=true`) tidak memicu notif** dan tidak terlihat oleh
+              orang tua di portal.
+
+        Konfigurasi .env
+            NOTIF_PARENT_NOTE=true
+
+        Tabel database
+            - `parent_notes` (topik): code, student_id, school_class_id, homeroom_teacher_id,
+              initiator_user_id, initiator_type, subject, category, priority, status, timestamps
+            - `parent_note_messages` (thread): parent_note_id, sender_type (parent/teacher/system),
+              user_id, staff_member_id, body, attachments (json), is_internal, read_at, timestamps
 
 

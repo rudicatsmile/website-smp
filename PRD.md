@@ -1,7 +1,7 @@
 # Product Requirements Document (PRD)
-## Content Management System (CMS) SMP Al Wahoniyah 9
+## Content Management System (CMS) SMP Al Wathoniyah 9
 
-> Dokumen ini menjelaskan kebutuhan produk, ruang lingkup, dan kriteria keberhasilan untuk pengembangan CMS sekolah **SMP Al Wahoniyah 9**.
+> Dokumen ini menjelaskan kebutuhan produk, ruang lingkup, dan kriteria keberhasilan untuk pengembangan CMS sekolah **SMP Al Wathoniyah 9**.
 
 ---
 
@@ -9,15 +9,15 @@
 
 | Item | Keterangan |
 |---|---|
-| **Nama Aplikasi** | Content Management System (CMS) SMP Al Wahoniyah 9 |
-| **Pemilik** | SMP Al Wahoniyah 9 |
+| **Nama Aplikasi** | Content Management System (CMS) SMP Al Wathoniyah 9 |
+| **Pemilik** | SMP Al Wathoniyah 9 |
 | **Jenis** | Web Application (Single Laravel App) |
 | **Versi Dokumen** | 1.0 |
 | **Bahasa Default** | Bahasa Indonesia |
 | **Timezone** | Asia/Jakarta |
 
 ### 1.1 Deskripsi Singkat
-CMS berbasis web yang digunakan oleh SMP Al Wahoniyah 9 untuk mengelola seluruh konten website sekolah (profil, berita, galeri, fasilitas, akademik, unduhan, kontak) serta menyediakan layanan **Sistem Penerimaan Murid Baru (SPMB) online** bagi calon siswa.
+CMS berbasis web yang digunakan oleh SMP Al Wathoniyah 9 untuk mengelola seluruh konten website sekolah (profil, berita, galeri, fasilitas, akademik, unduhan, kontak) serta menyediakan layanan **Sistem Penerimaan Murid Baru (SPMB) online** bagi calon siswa.
 
 ### 1.2 Tujuan
 1. Memudahkan publikasi informasi sekolah kepada siswa, orang tua, dan masyarakat umum.

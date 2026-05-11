@@ -9,7 +9,7 @@ return [
     | School Identity (used inside message templates)
     |--------------------------------------------------------------------------
     */
-    'school_name' => env('NOTIF_SCHOOL_NAME', 'SMP Al Wahoniyah 9'),
+    'school_name' => env('NOTIF_SCHOOL_NAME', 'SMP Al Wathoniyah 9'),
     'school_phone' => env('NOTIF_SCHOOL_PHONE', ''),
     'school_website' => env('NOTIF_SCHOOL_WEBSITE', config('app.url')),
 
@@ -40,6 +40,10 @@ return [
             'channels' => ['whatsapp', 'email'],
             // Skip weekends when auto-creating attendance rows on approval
             'skip_weekends' => (bool) env('NOTIF_LEAVE_SKIP_WEEKEND', true),
+        ],
+        'parent_note' => [
+            'enabled' => (bool) env('NOTIF_PARENT_NOTE', true),
+            'channels' => ['whatsapp', 'email'],
         ],
     ],
 

@@ -17,7 +17,7 @@ class InternalAnnouncementSeeder extends Seeder
     {
         // Demo teacher user linked to a staff member
         $teacher = User::updateOrCreate(
-            ['email' => 'teacher@smpalwahoniyah9.sch.id'],
+            ['email' => 'teacher@smpalwathoniyah9.sch.id'],
             [
                 'name' => 'Demo Guru',
                 'password' => Hash::make('password'),

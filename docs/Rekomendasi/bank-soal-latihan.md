@@ -89,7 +89,7 @@ Daftarkan di `DatabaseSeeder` setelah `PortalContentSeeder`.
 2. `php artisan db:seed --class=QuizContentSeeder`.
 3. Login admin → cek menu **Bank Soal** & **Kuis** di group Akademik; buat bank soal & kuis manual; publish.
 4. Login guru → hanya melihat bank/kuis miliknya; grade attempt essay.
-5. Login siswa demo (`siswa@smpalwahoniyah9.sch.id`) → `/portal/latihan`, kerjakan kuis, lihat hasil + leaderboard.
+5. Login siswa demo (`siswa@smpalwathoniyah9.sch.id`) → `/portal/latihan`, kerjakan kuis, lihat hasil + leaderboard.
 6. Verifikasi auto-submit saat timer habis & batasan max_attempts.
 
 ## 11. Out of Scope (v1)

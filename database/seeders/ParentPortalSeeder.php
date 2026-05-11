@@ -25,7 +25,7 @@ class ParentPortalSeeder extends Seeder
 
         // 1) Parent user
         $parent = User::firstOrCreate(
-            ['email' => 'ortu@smpalwahoniyah9.sch.id'],
+            ['email' => 'ortu@smpalwathoniyah9.sch.id'],
             ['name' => 'Bapak Budi', 'password' => Hash::make('password'), 'is_active' => true],
         );
         if (! $parent->hasRole('parent')) {

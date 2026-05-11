@@ -19,7 +19,7 @@ class DemoContentSeeder extends Seeder
     {
         // Slider demo
         Slider::firstOrCreate(
-            ['title' => 'Selamat Datang di SMP Al Wahoniyah 9'],
+            ['title' => 'Selamat Datang di SMP Al Wathoniyah 9'],
             [
                 'subtitle' => 'Mendidik Generasi Berakhlak & Berprestasi',
                 'image' => 'sliders/demo-1.jpg',

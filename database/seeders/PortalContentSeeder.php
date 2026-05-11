@@ -49,7 +49,7 @@ class PortalContentSeeder extends Seeder
         $kelas7A = SchoolClass::where('name', '7A')->where('academic_year', $year)->first();
 
         $demoUser = User::firstOrCreate(
-            ['email' => 'siswa@smpalwahoniyah9.sch.id'],
+            ['email' => 'siswa@smpalwathoniyah9.sch.id'],
             ['name' => 'Demo Siswa', 'password' => Hash::make('password'), 'is_active' => true],
         );
         if (! $demoUser->hasRole('student')) {

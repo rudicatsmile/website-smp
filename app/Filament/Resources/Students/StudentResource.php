@@ -119,7 +119,7 @@ class StudentResource extends Resource
                     ->visible(fn ($record) => $record->user_id === null)
                     ->requiresConfirmation()
                     ->action(function ($record) {
-                        $email = strtolower($record->nis) . '@siswa.smpalwahoniyah9.sch.id';
+                        $email = strtolower($record->nis) . '@siswa.smpalwathoniyah9.sch.id';
                         $user = User::firstOrCreate(
                             ['email' => $email],
                             ['name' => $record->name, 'password' => Hash::make('siswa123'), 'is_active' => true]

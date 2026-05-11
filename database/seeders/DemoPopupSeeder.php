@@ -12,7 +12,7 @@ class DemoPopupSeeder extends Seeder
     public function run(): void
     {
         Popup::updateOrCreate(
-            ['title' => 'Selamat Datang di SMP Al Wahoniyah 9'],
+            ['title' => 'Selamat Datang di SMP Al Wathoniyah 9'],
             [
                 'content' => '<p>Pendaftaran Murid Baru tahun ajaran 2026/2027 telah <strong>dibuka</strong>. Segera daftarkan putra/putri Anda sebelum kuota terpenuhi.</p>',
                 'image' => null,

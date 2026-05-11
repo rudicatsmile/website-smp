@@ -55,7 +55,7 @@
                         </div>
                     @endif
 
-                    <div class="p-3 grid grid-cols-2 sm:grid-cols-5 gap-2">
+                    <div class="p-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
                         <a href="{{ route('portal.parent.grades', $child->slug) }}" class="flex flex-col items-center gap-1 p-3 rounded-xl border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/40 transition text-center">
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
                             <span class="text-xs font-semibold text-slate-700">Nilai</span>
@@ -75,6 +75,13 @@
                         <a href="{{ route('portal.parent.leave.index', $child->slug) }}" class="flex flex-col items-center gap-1 p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition text-center">
                             <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             <span class="text-xs font-semibold text-slate-700">Surat Izin</span>
+                        </a>
+                        <a href="{{ route('portal.parent.notes.index', $child->slug) }}" class="relative flex flex-col items-center gap-1 p-3 rounded-xl border border-slate-200 hover:border-teal-300 hover:bg-teal-50/40 transition text-center">
+                            <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                            <span class="text-xs font-semibold text-slate-700">Buku Penghubung</span>
+                            @if(($s['unread_notes'] ?? 0) > 0)
+                                <span class="absolute -top-1 -right-1 min-w-[20px] h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center px-1.5 shadow">{{ $s['unread_notes'] }}</span>
+                            @endif
                         </a>
                     </div>
                 </div>

@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('CMS SMP Al Wahoniyah 9')
+            ->brandName('CMS SMP Al Wathoniyah 9')
             ->colors([
                 'primary' => Color::Emerald,
             ])

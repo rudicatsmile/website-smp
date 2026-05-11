@@ -31,8 +31,8 @@ class StaffMemberSeeder extends Seeder
                     ['name' => 'Sertifikasi Kepala Sekolah', 'issuer' => 'Kemdikbud', 'year' => '2012'],
                 ],
                 'experiences' => [
-                    ['position' => 'Kepala Sekolah', 'organization' => 'SMP Al Wahoniyah 9', 'start_year' => '2015', 'end_year' => null],
-                    ['position' => 'Wakasek Kurikulum', 'organization' => 'SMP Al Wahoniyah 9', 'start_year' => '2010', 'end_year' => '2015'],
+                    ['position' => 'Kepala Sekolah', 'organization' => 'SMP Al Wathoniyah 9', 'start_year' => '2015', 'end_year' => null],
+                    ['position' => 'Wakasek Kurikulum', 'organization' => 'SMP Al Wathoniyah 9', 'start_year' => '2010', 'end_year' => '2015'],
                 ],
                 'bio' => 'Berdedikasi untuk memajukan pendidikan di lingkungan sekolah dengan pengalaman lebih dari 15 tahun di bidang manajemen pendidikan.',
                 'quote' => 'Pendidikan adalah kunci masa depan bangsa.',
@@ -52,7 +52,7 @@ class StaffMemberSeeder extends Seeder
                     ['name' => 'Sertifikasi Guru', 'issuer' => 'Kemdikbud', 'year' => '2018'],
                 ],
                 'experiences' => [
-                    ['position' => 'Guru Matematika', 'organization' => 'SMP Al Wahoniyah 9', 'start_year' => '2015', 'end_year' => null],
+                    ['position' => 'Guru Matematika', 'organization' => 'SMP Al Wathoniyah 9', 'start_year' => '2015', 'end_year' => null],
                 ],
                 'bio' => 'Guru matematika yang bersemangat membantu siswa menguasai konsep matematika dengan pendekatan yang menyenangkan.',
                 'quote' => 'Matematika adalah bahasa alam semesta.',
@@ -72,7 +72,7 @@ class StaffMemberSeeder extends Seeder
                     ['name' => 'TOEFL 600', 'issuer' => 'ETS', 'year' => '2017'],
                 ],
                 'experiences' => [
-                    ['position' => 'Guru Bahasa Inggris', 'organization' => 'SMP Al Wahoniyah 9', 'start_year' => '2016', 'end_year' => null],
+                    ['position' => 'Guru Bahasa Inggris', 'organization' => 'SMP Al Wathoniyah 9', 'start_year' => '2016', 'end_year' => null],
                 ],
                 'bio' => 'Guru bahasa Inggris dengan pengalaman mengajar menggunakan metode komunikatif untuk meningkatkan kemampuan berbicara siswa.',
                 'quote' => 'Language is the key to understanding the world.',
@@ -92,7 +92,7 @@ class StaffMemberSeeder extends Seeder
                     ['name' => 'Pelatihan Laboratorium IPA', 'issuer' => 'Dinas Pendidikan', 'year' => '2019'],
                 ],
                 'experiences' => [
-                    ['position' => 'Guru IPA', 'organization' => 'SMP Al Wahoniyah 9', 'start_year' => '2014', 'end_year' => null],
+                    ['position' => 'Guru IPA', 'organization' => 'SMP Al Wathoniyah 9', 'start_year' => '2014', 'end_year' => null],
                 ],
                 'bio' => 'Guru IPA yang berfokus pada eksperimen praktis untuk membangun pemahaman konsep sains siswa.',
                 'quote' => 'Science is not just about facts, it is about curiosity.',
@@ -112,7 +112,7 @@ class StaffMemberSeeder extends Seeder
                     ['name' => 'Google Certified Educator', 'issuer' => 'Google', 'year' => '2020'],
                 ],
                 'experiences' => [
-                    ['position' => 'Guru TIK', 'organization' => 'SMP Al Wahoniyah 9', 'start_year' => '2017', 'end_year' => null],
+                    ['position' => 'Guru TIK', 'organization' => 'SMP Al Wathoniyah 9', 'start_year' => '2017', 'end_year' => null],
                 ],
                 'bio' => 'Guru TIK yang membekali siswa dengan keterampilan digital untuk menghadapi tantangan era 4.0.',
                 'quote' => 'Technology is best when it brings people together.',

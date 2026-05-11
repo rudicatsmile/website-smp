@@ -124,5 +124,8 @@ Route::prefix('portal/ortu')->name('portal.parent.')->group(function () {
         Route::get('/pembayaran/{student}', \App\Livewire\Portal\ParentPortal\Payments::class)->name('payments');
         Route::get('/izin/{student}', \App\Livewire\Portal\ParentPortal\LeaveRequestIndex::class)->name('leave.index');
         Route::get('/izin/{student}/buat', \App\Livewire\Portal\ParentPortal\LeaveRequestCreate::class)->name('leave.create');
+        Route::get('/buku-penghubung/{student}', \App\Livewire\Portal\ParentPortal\ParentNotesIndex::class)->name('notes.index');
+        Route::get('/buku-penghubung/{student}/buat', \App\Livewire\Portal\ParentPortal\ParentNotesCreate::class)->name('notes.create');
+        Route::get('/buku-penghubung/topik/{note}', \App\Livewire\Portal\ParentPortal\ParentNotesShow::class)->name('notes.show');
     });
 });

@@ -54,12 +54,20 @@ class Dashboard extends Component
 
         $violationPoints = (int) $child->violations()->sum('points');
 
+        $unreadNotes = \App\Models\ParentNoteMessage::query()
+            ->whereHas('note', fn ($q) => $q->where('student_id', $child->id))
+            ->where('sender_type', 'teacher')
+            ->where('is_internal', false)
+            ->whereNull('read_at')
+            ->count();
+
         return [
             'unpaid_total' => (int) $unpaid,
             'unpaid_count' => (int) $unpaidCount,
             'attendance_pct' => $attendancePct,
             'avg_grade' => $avgNilai ? round((float) $avgNilai, 1) : null,
             'violation_points' => $violationPoints,
+            'unread_notes' => $unreadNotes,
         ];
     }
 }

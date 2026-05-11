@@ -9,5 +9,5 @@
     <li><strong>Status:</strong> {{ ucfirst($registration->status) }}</li>
 </ul>
 <p>Simpan nomor pendaftaran ini untuk pengecekan status melalui website kami.</p>
-<p>Salam,<br>Panitia SPMB SMP Al Wahoniyah 9</p>
+<p>Salam,<br>Panitia SPMB SMP Al Wathoniyah 9</p>
 </body></html>

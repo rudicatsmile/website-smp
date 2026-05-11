@@ -19,7 +19,7 @@ class CounselingSeeder extends Seeder
     {
         // 1) Counselor user + StaffMember
         $counselorUser = User::firstOrCreate(
-            ['email' => 'bk@smpalwahoniyah9.sch.id'],
+            ['email' => 'bk@smpalwathoniyah9.sch.id'],
             ['name' => 'Ibu Rina (Guru BK)', 'password' => Hash::make('password'), 'is_active' => true],
         );
         if (! $counselorUser->hasRole('counselor')) {
@@ -73,7 +73,7 @@ class CounselingSeeder extends Seeder
         }
 
         // (b) Portal, in_progress dengan 2 balasan
-        $demoStudent = User::where('email', 'siswa@smpalwahoniyah9.sch.id')->first();
+        $demoStudent = User::where('email', 'siswa@smpalwathoniyah9.sch.id')->first();
         if ($demoStudent) {
             $t2 = CounselingTicket::firstOrCreate(
                 ['subject' => 'Kesulitan mengikuti pelajaran Matematika'],

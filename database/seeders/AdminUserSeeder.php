@@ -13,7 +13,7 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         $admin = User::updateOrCreate(
-            ['email' => 'admin@smpalwahoniyah9.sch.id'],
+            ['email' => 'admin@smpalwathoniyah9.sch.id'],
             [
                 'name' => 'Super Admin',
                 'password' => Hash::make('password'),
@@ -24,7 +24,7 @@ class AdminUserSeeder extends Seeder
         $admin->syncRoles(['super_admin']);
 
         $editor = User::updateOrCreate(
-            ['email' => 'editor@smpalwahoniyah9.sch.id'],
+            ['email' => 'editor@smpalwathoniyah9.sch.id'],
             [
                 'name' => 'Editor',
                 'password' => Hash::make('password'),

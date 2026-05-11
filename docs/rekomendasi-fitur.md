@@ -72,15 +72,15 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
 
         5. Notifikasi Filament Database: Observer InternalAnnouncementObserver mengirim notification ke recipients saat pengumuman dipublish (resolve target by role + specific staff_ids). databaseNotifications() diaktifkan di AdminPanelProvider. Bell icon akan muncul di topbar Filament.
 
-        6. Seeder: 5 sample (rapat pinned/penting, surat tugas urgent + target staff specific, agenda dinas, umum, expired test) + demo user teacher@smpalwahoniyah9.sch.id / password linked ke staff member pertama.
+        6. Seeder: 5 sample (rapat pinned/penting, surat tugas urgent + target staff specific, agenda dinas, umum, expired test) + demo user teacher@smpalwathoniyah9.sch.id / password linked ke staff member pertama.
 
         7. Verifikasi: 4 route Filament terdaftar, 5 announcements + 1 teacher user tersimpan, semua cache clear.
 
 
         Cara Test
-        1. Login admin (admin@smpalwahoniyah9.sch.id / password) → menu Pengumuman Internal → lihat semua + CRUD penuh.
+        1. Login admin (admin@smpalwathoniyah9.sch.id / password) → menu Pengumuman Internal → lihat semua + CRUD penuh.
 
-        2. Login teacher (teacher@smpalwahoniyah9.sch.id / password) → menu sama tapi read-only + tombol "Tandai Dibaca" + bell icon notification.
+        2. Login teacher (teacher@smpalwathoniyah9.sch.id / password) → menu sama tapi read-only + tombol "Tandai Dibaca" + bell icon notification.
 
         3. Buat pengumuman baru sebagai admin → notifikasi otomatis terkirim ke teacher target.
 
@@ -132,13 +132,13 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
 
       Cara Test :
       
-      - Admin: admin@smpalwahoniyah9.sch.id / password → http://127.0.0.1:8000/admin → menu Akademik (Kelas, Siswa, Tugas Kelas, Pengumuman Kelas, Materi Kelas).
+      - Admin: admin@smpalwathoniyah9.sch.id / password → http://127.0.0.1:8000/admin → menu Akademik (Kelas, Siswa, Tugas Kelas, Pengumuman Kelas, Materi Kelas).
 
-      - Guru: teacher@smpalwahoniyah9.sch.id / password → buat tugas, lihat submission siswa, beri nilai via Relation Manager.
+      - Guru: teacher@smpalwathoniyah9.sch.id / password → buat tugas, lihat submission siswa, beri nilai via Relation Manager.
 
-      - Siswa demo: siswa@smpalwahoniyah9.sch.id / password → http://127.0.0.1:8000/portal/login → dashboard, kerjakan tugas, upload submission.
+      - Siswa demo: siswa@smpalwathoniyah9.sch.id / password → http://127.0.0.1:8000/portal/login → dashboard, kerjakan tugas, upload submission.
 
-      - Generate akun siswa lain via tabel Siswa di Filament (tombol Generate Akun) — email format {nis}@siswa.smpalwahoniyah9.sch.id, password default siswa123.
+      - Generate akun siswa lain via tabel Siswa di Filament (tombol Generate Akun) — email format {nis}@siswa.smpalwathoniyah9.sch.id, password default siswa123.
 
 
 - **E-Library / Perpustakaan Digital**
@@ -208,7 +208,7 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
           - Buat bank soal baru, tambah soal lewat relation manager.
           - Buat kuis baru, lalu di tab Soal klik Import dari Bank Soal atau Tulis Soal.
           - Tab Hasil Pengerjaan → action Nilai untuk grading essay siswa.
-        2. Siswa → http://127.0.0.1:8000/portal/login (siswa@smpalwahoniyah9.sch.id / password):
+        2. Siswa → http://127.0.0.1:8000/portal/login (siswa@smpalwathoniyah9.sch.id / password):
 
           - Klik menu Latihan di header.
           - Pilih kuis → Mulai Kerjakan → kerjakan dengan timer aktif → Submit.
@@ -259,7 +259,7 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
         Seeder
           - CounselingSeeder:
 
-            -  User counselor demo bk@smpalwahoniyah9.sch.id / password + StaffMember "Ibu Rina" di kategori "Bimbingan Konseling".
+            -  User counselor demo bk@smpalwathoniyah9.sch.id / password + StaffMember "Ibu Rina" di kategori "Bimbingan Konseling".
             - 3 tiket demo: (a) publik anonim new (cemas ujian), (b) portal in_progress dengan 3 balasan (siswa demo ↔ BK), (c) resolved.
             - Role counselor auto via RoleSeeder.
 
@@ -276,12 +276,12 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
           1. Buka http://127.0.0.1:8000/bk → isi form tanpa nama → submit.
           2. Salin kode BK-XXXXXX → buka /bk/status?kode=... → balas thread.
 
-        Siswa (siswa@smpalwahoniyah9.sch.id / password):
+        Siswa (siswa@smpalwathoniyah9.sch.id / password):
           Buka : http://127.0.0.1:8000/portal
           1. Menu BK di header portal → Buat Pengaduan Baru.
           2. Kirim, lalu lanjut chat di halaman detail.
 
-        Guru BK (bk@smpalwahoniyah9.sch.id / password):
+        Guru BK (bk@smpalwathoniyah9.sch.id / password):
           1. Login Filament → menu Komunikasi › Konseling BK (badge jumlah new).
           2. Buka tiket → tab Thread Pesan → action Balas Pelapor (toggle Catatan Internal untuk catatan privat tim BK).
           3. Ubah status/prioritas/assignee di form edit atau pakai bulk action Tandai Selesai.
@@ -334,13 +334,13 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
           - Semua halaman guard `parent` + validasi anak ini memang miliknya (abort 403 kalau bukan)
 
         Seeder (`ParentPortalSeeder`)
-          - Akun ortu: `ortu@smpalwahoniyah9.sch.id` / `password` (Bapak Budi)
+          - Akun ortu: `ortu@smpalwathoniyah9.sch.id` / `password` (Bapak Budi)
           - 2 anak demo: Aisyah Putri (7A, NIS BP0001) & Fadhil Ramadhan (8B, NIS BP0002)
           - Data per anak: 16 nilai (8 mapel × 2 semester), ~22 absensi (30 hari minus weekend), 1–3 pelanggaran, 7 tagihan (3 lunas, 2 unpaid, 1 overdue, 1 seragam lunas)
 
         Cara Test
           1. `php artisan migrate` + `php artisan db:seed --class=ParentPortalSeeder`
-          2. Buka `http://127.0.0.1:8000/portal/ortu/login` → login `ortu@smpalwahoniyah9.sch.id` / `password`
+          2. Buka `http://127.0.0.1:8000/portal/ortu/login` → login `ortu@smpalwathoniyah9.sch.id` / `password`
           3. Dashboard menampilkan 2 kartu anak; pilih salah satu menu (Nilai/Absensi/Pelanggaran/Pembayaran)
           4. Login admin → menu **Akademik › Nilai / Absensi / Pelanggaran / Pembayaran** untuk input/ubah data
 
@@ -418,7 +418,7 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
     NOTIF_ANNOUNCEMENT_ENABLED=true
 
     # Identitas sekolah untuk template
-    NOTIF_SCHOOL_NAME="SMP Al Wahoniyah 9"
+    NOTIF_SCHOOL_NAME="SMP Al Wathoniyah 9"
     NOTIF_SCHOOL_PHONE=
     NOTIF_SCHOOL_WEBSITE=
 
@@ -487,8 +487,38 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
 - **Pembayaran Online (Payment Gateway)**
   Bayar SPP/biaya sekolah via Midtrans/Xendit (VA, QRIS, e-wallet). Riwayat transaksi otomatis.
 
-- **Buku Penghubung Digital**
-  Komunikasi 2 arah orang tua ↔ wali kelas terkait perkembangan anak.
+- **Buku Penghubung Digital** ✅ (sudah diimplementasi)
+  Komunikasi 2 arah berbasis topik antara orang tua ↔ wali kelas terkait perkembangan anak,
+  dengan thread chat, lampiran, status tiket, dan notifikasi WA + Email otomatis.
+
+  Cara pakai
+    1. Orang Tua → `/portal/ortu` → kartu anak → tombol **Buku Penghubung** (badge unread)
+       → **Topik Baru** (subjek, kategori, prioritas, pesan, lampiran).
+    2. Wali Kelas / Admin → Filament `/admin` menu **Komunikasi › Buku Penghubung**
+       → buka topik → action **Balas Orang Tua** di tab Thread Pesan (toggle Catatan Internal
+       untuk catatan privat antar guru). Wali kelas juga bisa inisiasi topik baru via tombol New.
+    3. Status berubah otomatis: `open` → `replied` saat wali balas → `open` saat ortu balas →
+       `resolved`/`closed` saat ditandai selesai.
+
+  Notifikasi otomatis
+    - Ortu kirim/balas → WA + Email ke wali kelas (`staff_members.whatsapp/phone/email`)
+    - Wali kelas balas → WA + Email ke orang tua (`students.parent_phone/parent_email`)
+    - Catatan internal (`is_internal=true`) di-skip dari notif & tidak terlihat ortu.
+
+  Konfigurasi `.env`
+    - `NOTIF_PARENT_NOTE=true`
+
+  Akses & permission
+    - **Parent**: hanya topik anaknya (filter via relasi `parent_student`).
+    - **Teacher** (wali kelas): hanya topik kelas yang dia walikan
+      (`homeroom_teacher_id = staffMember.id`).
+    - **Admin / super_admin**: semua topik.
+
+  Tabel database
+    - `parent_notes` (topik): kode `BP-XXXXXX`, student_id, school_class_id,
+      homeroom_teacher_id, initiator (parent/teacher), subject, category, priority, status.
+    - `parent_note_messages` (thread): sender_type, user_id, staff_member_id, body,
+      attachments (json), is_internal, read_at.
 
 ## 🌐 Fitur Umum (Semua User)
 

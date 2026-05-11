@@ -15,7 +15,7 @@ class DemoAchievementSeeder extends Seeder
         $items = [
             [
                 'title' => 'Tim Debat Bahasa Inggris',
-                'institution' => 'SMP Al Wahoniyah 9',
+                'institution' => 'SMP Al Wathoniyah 9',
                 'level' => 'Kota',
                 'rank' => '10 Besar',
                 'excerpt' => '10 Besar Debat Bahasa Inggris pada ajang Festival dan Lomba Kreasi tahun 2026.',
@@ -23,7 +23,7 @@ class DemoAchievementSeeder extends Seeder
             ],
             [
                 'title' => 'Tim Riset Olimpiade',
-                'institution' => 'SMP Al Wahoniyah 9',
+                'institution' => 'SMP Al Wathoniyah 9',
                 'level' => 'Nasional',
                 'rank' => 'Lolos Seleksi Proposal',
                 'excerpt' => 'Lolos Seleksi Proposal pada ajang Olimpiade Penelitian Siswa Indonesia (OPSI) 2026.',
@@ -31,7 +31,7 @@ class DemoAchievementSeeder extends Seeder
             ],
             [
                 'title' => 'Khalif — Story Telling',
-                'institution' => 'SMP Al Wahoniyah 9',
+                'institution' => 'SMP Al Wathoniyah 9',
                 'level' => 'Kota',
                 'rank' => 'Juara Harapan 2',
                 'excerpt' => 'Juara Harapan 2 Lomba Storytelling pada Festival dan Lomba Kreasi se-Indonesia.',
@@ -39,7 +39,7 @@ class DemoAchievementSeeder extends Seeder
             ],
             [
                 'title' => 'Tim Tari Kreasi Tradisional',
-                'institution' => 'SMP Al Wahoniyah 9',
+                'institution' => 'SMP Al Wathoniyah 9',
                 'level' => 'Provinsi',
                 'rank' => '10 Besar',
                 'excerpt' => '10 Besar Lomba Tari Kreasi Tradisional tingkat SMP pada Festival dan Lomba Kreasi se-Indonesia 2026.',

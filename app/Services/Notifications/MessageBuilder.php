@@ -44,6 +44,7 @@ class MessageBuilder
             'announcement' => "[{$school}] Pengumuman: {$data['title']}",
             'rapor'        => "[{$school}] Pengambilan Rapor: {$data['student_name']}",
             'leave_request' => "[{$school}] Pengajuan Izin {$data['student_name']} - {$data['status_label']}",
+            'parent_note'   => "[{$school}] Buku Penghubung: {$data['student_name']} - {$data['subject']}",
             default        => "[{$school}] Pemberitahuan",
         };
     }

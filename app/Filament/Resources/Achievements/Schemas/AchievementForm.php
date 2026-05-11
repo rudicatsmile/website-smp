@@ -33,7 +33,7 @@ class AchievementForm
                             ->columnSpanFull(),
                         TextInput::make('institution')
                             ->label('Lembaga / Sekolah')
-                            ->placeholder('Contoh: SMP Al Wahoniyah 9'),
+                            ->placeholder('Contoh: SMP Al Wathoniyah 9'),
                         TextInput::make('level')
                             ->label('Tingkat')
                             ->placeholder('Kecamatan / Kota / Provinsi / Nasional'),
