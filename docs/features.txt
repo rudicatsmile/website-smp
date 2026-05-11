@@ -1,0 +1,8 @@
+1. Halaman Untuk Admin dan Guru
+--------------------------------
+
+    A. Direktori Guru & Profil Publik
+    B. Bank Materi & Modul Ajar
+
+    Akses via http://127.0.0.1:8000/materi atau panel admin di /admin
+    Menu ini diluar Akademik. 

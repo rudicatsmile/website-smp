@@ -461,6 +461,29 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
     NOTIF_LEAVE_SKIP_WEEKEND=true
     ```
 
+- **Chatbot / FAQ Interaktif ✅ (sudah diimplementasi)**
+  Bot FAQ berbasis keyword matching untuk menjawab pertanyaan umum (PPDB, biaya, fasilitas) 24/7. Tersedia sebagai floating widget di semua halaman publik dan halaman dedicated `/faq`.
+
+  Cara pakai
+    1. **Floating widget** — tombol hijau di pojok kanan bawah semua halaman publik. Klik untuk membuka panel chat, ketik pertanyaan, bot akan mencari FAQ yang cocok.
+    2. **Halaman FAQ** di `/faq` — menampilkan semua FAQ yang dikelompokkan per kategori (PPDB, Biaya, Fasilitas, Akademik, Umum). Bisa difilter per kategori. Panel chat juga tersedia di sidebar kiri.
+    3. **Admin Filament** di menu **FAQ** — CRUD FAQ: tambah/edit/hapus pertanyaan dan jawaban, atur kategori, kata kunci, urutan tampilan, dan status aktif/nonaktif.
+
+  Cara kerja bot
+    - Mencocokkan pertanyaan user dengan kata kunci (`keywords`) setiap FAQ
+    - Jika cocok 1 FAQ: langsung tampilkan jawaban
+    - Jika cocok beberapa: tampilkan daftar pertanyaan terkait
+    - Jika tidak cocok: tampilkan pesan fallback + tawarkan kontak WhatsApp
+    - Feedback thumbs up/down dicatat untuk analytics
+
+  Log percakapan
+    - Tersimpan di tabel `chat_logs` (session_id, pertanyaan, jawaban, faq_id, helpful)
+    - Bisa digunakan untuk analisis FAQ mana yang sering ditanyakan / belum terjawab
+
+  Seeder
+    - `FaqSeeder` menyediakan 13 FAQ awal (PPDB, biaya, fasilitas, akademik, umum)
+    - Jalankan: `php artisan db:seed --class=FaqSeeder`
+
 - **Pembayaran Online (Payment Gateway)**
   Bayar SPP/biaya sekolah via Midtrans/Xendit (VA, QRIS, e-wallet). Riwayat transaksi otomatis.
 
@@ -468,9 +491,6 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
   Komunikasi 2 arah orang tua ↔ wali kelas terkait perkembangan anak.
 
 ## 🌐 Fitur Umum (Semua User)
-
-- **Chatbot / FAQ Interaktif**
-  Bot AI untuk menjawab pertanyaan umum (PPDB, biaya, fasilitas) 24/7.
 
 - **Virtual Tour 360°**
   Tur sekolah virtual dengan foto 360° untuk calon siswa & orang tua yang tidak bisa datang langsung.

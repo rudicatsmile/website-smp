@@ -5,6 +5,7 @@ use App\Livewire\Pages\AcademicIndex;
 use App\Livewire\Pages\AcademicShow;
 use App\Livewire\Pages\AchievementIndex;
 use App\Livewire\Pages\AchievementShow;
+use App\Livewire\Pages\ChatbotPage;
 use App\Livewire\Pages\Contact;
 use App\Livewire\Pages\DownloadIndex;
 use App\Livewire\Pages\FacilityIndex;
@@ -61,6 +62,8 @@ Route::get('/materi/{slug}/download', MaterialDownloadController::class)->name('
 Route::get('/jadwal', StaffScheduleIndex::class)->name('jadwal.index');
 
 Route::get('/kontak', Contact::class)->name('kontak');
+
+Route::get('/faq', ChatbotPage::class)->name('faq');
 
 Route::get('/spmb', SpmbLanding::class)->name('spmb.index');
 Route::get('/spmb/daftar', SpmbRegister::class)->middleware('throttle:5,1')->name('spmb.register');
