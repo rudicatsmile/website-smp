@@ -34,9 +34,10 @@ class CounselingCreate extends Component
 
     public function submit()
     {
+        $this->validate();
         $this->validate([
             'files.*' => 'nullable|file|max:5120|mimes:jpg,jpeg,png,webp,pdf,doc,docx',
-        ] + $this->rules());
+        ]);
 
         $user = auth()->user();
         abort_unless($user, 403);

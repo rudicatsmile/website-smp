@@ -25,21 +25,20 @@ class CounselingShow extends Component
 
     public array $files = [];
 
-    public function mount(int $ticket): void
+    public function mount(CounselingTicket $ticket): void
     {
         $user = auth()->user();
-        abort_unless($user, 403);
+        abort_unless($user && $ticket->user_id === $user->id, 403);
 
-        $this->ticket = CounselingTicket::where('id', $ticket)
-            ->where('user_id', $user->id)
-            ->firstOrFail();
+        $this->ticket = $ticket;
     }
 
     public function postReply(): void
     {
+        $this->validate();
         $this->validate([
             'files.*' => 'nullable|file|max:5120|mimes:jpg,jpeg,png,webp,pdf,doc,docx',
-        ] + $this->rules());
+        ]);
 
         if (in_array($this->ticket->status, ['resolved', 'closed'])) {
             session()->flash('error', 'Tiket sudah ditutup.');

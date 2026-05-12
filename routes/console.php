@@ -13,3 +13,9 @@ Schedule::command('notifications:payment-reminders')
     ->dailyAt('08:00')
     ->onOneServer()
     ->withoutOverlapping();
+
+// Lesson reminders every 5 minutes during school hours
+Schedule::command('lessons:dispatch-reminders')
+    ->everyFiveMinutes()
+    ->onOneServer()
+    ->withoutOverlapping();

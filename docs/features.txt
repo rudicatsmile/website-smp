@@ -210,4 +210,47 @@
             - `parent_note_messages` (thread): parent_note_id, sender_type (parent/teacher/system),
               user_id, staff_member_id, body, attachments (json), is_internal, read_at, timestamps
 
+    F. Manajemen Materi Pelajaran Harian ✅ (sudah diimplementasi)
+        :: Perencanaan kurikulum per kelas + pelaksanaan harian oleh guru. Kepala Kurikulum
+            menyusun template kurikulum (daftar topik per pekan), lalu bulk-apply ke rentang
+            tanggal jadi sesi mengajar konkret. Guru mengeksekusi lewat halaman "Mengajar
+            Hari Ini" dan mencatat realisasi (pencapaian, catatan, PR, kendala).
+
+        Cara pakai
+            1. Kepala Kurikulum / Admin → Filament `/admin` menu **Akademik › Kurikulum**
+                - Buat rencana kurikulum: pilih kelas + mapel + tahun ajaran + semester + guru
+                - Tambah daftar topik per pekan di tab **Daftar Topik** (bab, tujuan, metode, media)
+                - Klik action **🗓 Apply ke Tanggal** → isi rentang tanggal + hari aktif + jam →
+                  sistem generate sesi otomatis dengan topik terdistribusi sequence
+            2. Guru → Filament `/admin` menu **Akademik › Mengajar Hari Ini**
+                - Lihat kartu sesi hari ini (urut by jam), klik **Mulai Mengajar** →
+                  status jadi "Sedang Berlangsung"
+                - Klik **Selesai & Catat** → isi pencapaian (%), catatan kegiatan, PR, kendala →
+                  status jadi "Selesai"
+                - Klik **Tampilkan Materi** untuk buka file materi di tab baru
+            3. Admin → **Akademik › Sesi Mengajar** untuk manage semua sesi (filter, bulk publish/cancel)
+
+        Notifikasi otomatis
+            - Reminder WA + Email ke guru 30 menit sebelum jam mulai (via scheduler tiap 5 menit)
+            - Template: "Reminder Mengajar: {mapel} - {kelas} ({jam}) — Topik: {topik}"
+
+        Konfigurasi .env
+            NOTIF_LESSON_REMINDER=true
+            NOTIF_LESSON_MINUTES_BEFORE=30
+
+        Tabel database
+            - `curriculum_plans` (template): school_class_id, material_category_id, staff_member_id,
+              academic_year, semester, title, default_methods, default_media
+            - `curriculum_plan_topics` (topik per pekan): week_number, topic, learning_objectives,
+              methods, media, assessment_plan, default_duration_minutes
+            - `lesson_sessions` (instance per tanggal): session_date, start_time, end_time, topic,
+              status (draft/published/ongoing/completed/cancelled), realisasi (achievement_percent,
+              execution_notes, homework_notes, issues_notes)
+            - `lesson_session_materials` (pivot ke ClassMaterial)
+            - `lesson_session_assignments` (pivot ke ClassAssignment)
+
+        Seeder demo
+            - `CurriculumDemoSeeder` — 1 plan, 5 topik, 3 sesi hari ini
+            - Jalankan: `php artisan db:seed --class=CurriculumDemoSeeder`
+
 

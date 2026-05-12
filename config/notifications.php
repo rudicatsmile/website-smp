@@ -45,6 +45,11 @@ return [
             'enabled' => (bool) env('NOTIF_PARENT_NOTE', true),
             'channels' => ['whatsapp', 'email'],
         ],
+        'lesson_reminder' => [
+            'enabled' => (bool) env('NOTIF_LESSON_REMINDER', true),
+            'channels' => ['whatsapp', 'email'],
+            'minutes_before' => (int) env('NOTIF_LESSON_MINUTES_BEFORE', 30),
+        ],
     ],
 
     /*

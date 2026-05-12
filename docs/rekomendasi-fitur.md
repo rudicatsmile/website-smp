@@ -488,37 +488,64 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
   Bayar SPP/biaya sekolah via Midtrans/Xendit (VA, QRIS, e-wallet). Riwayat transaksi otomatis.
 
 - **Buku Penghubung Digital** ✅ (sudah diimplementasi)
-  Komunikasi 2 arah berbasis topik antara orang tua ↔ wali kelas terkait perkembangan anak,
-  dengan thread chat, lampiran, status tiket, dan notifikasi WA + Email otomatis.
+    Komunikasi 2 arah berbasis topik antara orang tua ↔ wali kelas terkait perkembangan anak,
+    dengan thread chat, lampiran, status tiket, dan notifikasi WA + Email otomatis.
 
-  Cara pakai
-    1. Orang Tua → `/portal/ortu` → kartu anak → tombol **Buku Penghubung** (badge unread)
-       → **Topik Baru** (subjek, kategori, prioritas, pesan, lampiran).
-    2. Wali Kelas / Admin → Filament `/admin` menu **Komunikasi › Buku Penghubung**
-       → buka topik → action **Balas Orang Tua** di tab Thread Pesan (toggle Catatan Internal
-       untuk catatan privat antar guru). Wali kelas juga bisa inisiasi topik baru via tombol New.
-    3. Status berubah otomatis: `open` → `replied` saat wali balas → `open` saat ortu balas →
-       `resolved`/`closed` saat ditandai selesai.
+    Cara pakai
+      1. Orang Tua → `/portal/ortu` → kartu anak → tombol **Buku Penghubung** (badge unread)
+        → **Topik Baru** (subjek, kategori, prioritas, pesan, lampiran).
+      2. Wali Kelas / Admin → Filament `/admin` menu **Komunikasi › Buku Penghubung**
+        → buka topik → action **Balas Orang Tua** di tab Thread Pesan (toggle Catatan Internal
+        untuk catatan privat antar guru). Wali kelas juga bisa inisiasi topik baru via tombol New.
+      3. Status berubah otomatis: `open` → `replied` saat wali balas → `open` saat ortu balas →
+        `resolved`/`closed` saat ditandai selesai.
 
-  Notifikasi otomatis
-    - Ortu kirim/balas → WA + Email ke wali kelas (`staff_members.whatsapp/phone/email`)
-    - Wali kelas balas → WA + Email ke orang tua (`students.parent_phone/parent_email`)
-    - Catatan internal (`is_internal=true`) di-skip dari notif & tidak terlihat ortu.
+    Notifikasi otomatis
+      - Ortu kirim/balas → WA + Email ke wali kelas (`staff_members.whatsapp/phone/email`)
+      - Wali kelas balas → WA + Email ke orang tua (`students.parent_phone/parent_email`)
+      - Catatan internal (`is_internal=true`) di-skip dari notif & tidak terlihat ortu.
 
-  Konfigurasi `.env`
-    - `NOTIF_PARENT_NOTE=true`
+    Konfigurasi `.env`
+      - `NOTIF_PARENT_NOTE=true`
 
-  Akses & permission
-    - **Parent**: hanya topik anaknya (filter via relasi `parent_student`).
-    - **Teacher** (wali kelas): hanya topik kelas yang dia walikan
-      (`homeroom_teacher_id = staffMember.id`).
-    - **Admin / super_admin**: semua topik.
+    Akses & permission
+      - **Parent**: hanya topik anaknya (filter via relasi `parent_student`).
+      - **Teacher** (wali kelas): hanya topik kelas yang dia walikan
+        (`homeroom_teacher_id = staffMember.id`).
+      - **Admin / super_admin**: semua topik.
 
-  Tabel database
-    - `parent_notes` (topik): kode `BP-XXXXXX`, student_id, school_class_id,
-      homeroom_teacher_id, initiator (parent/teacher), subject, category, priority, status.
-    - `parent_note_messages` (thread): sender_type, user_id, staff_member_id, body,
-      attachments (json), is_internal, read_at.
+    Tabel database
+      - `parent_notes` (topik): kode `BP-XXXXXX`, student_id, school_class_id,
+        homeroom_teacher_id, initiator (parent/teacher), subject, category, priority, status.
+      - `parent_note_messages` (thread): sender_type, user_id, staff_member_id, body,
+        attachments (json), is_internal, read_at.
+
+- **Manajemen Materi Pelajaran Harian** ✅ (sudah diimplementasi)
+    Perencanaan kurikulum per kelas + pelaksanaan harian oleh guru. Kepala Kurikulum
+    menyusun template kurikulum (daftar topik per pekan), lalu bulk-apply ke rentang
+    tanggal jadi sesi mengajar konkret.
+
+    Cara pakai
+      1. Kepala Kurikulum / Admin → Filament menu **Akademik › Kurikulum**
+        → buat rencana + tambah topik per pekan → action **🗓 Apply ke Tanggal**
+        (isi rentang + hari + jam) → sesi di-generate otomatis.
+      2. Guru → **Akademik › Mengajar Hari Ini** → kartu sesi hari ini →
+        **Mulai Mengajar** → **Selesai & Catat** (isi pencapaian %, catatan, PR, kendala).
+      3. Admin → **Akademik › Sesi Mengajar** untuk manage semua sesi (filter, bulk publish/cancel).
+
+    Notifikasi otomatis
+      - Reminder WA + Email ke guru 30 menit sebelum jam mulai (scheduler tiap 5 menit).
+
+    Konfigurasi `.env`
+      - `NOTIF_LESSON_REMINDER=true`
+      - `NOTIF_LESSON_MINUTES_BEFORE=30`
+
+    Tabel database
+      - `curriculum_plans`, `curriculum_plan_topics`, `lesson_sessions`,
+        `lesson_session_materials`, `lesson_session_assignments`.
+
+    Seeder demo
+      - `CurriculumDemoSeeder` — 1 plan, 5 topik, 3 sesi hari ini.
 
 ## 🌐 Fitur Umum (Semua User)
 

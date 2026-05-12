@@ -23,6 +23,7 @@ class StaffMembersTable
             ->columns([
                 ImageColumn::make('photo')
                     ->label('Foto')
+                    ->disk('public')
                     ->circular()
                     ->defaultImageUrl(url('/images/placeholder-avatar.png')),
                 TextColumn::make('name')

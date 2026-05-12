@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\StaffMembers\Schemas;
 
+use App\Models\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
@@ -201,6 +202,16 @@ class StaffMemberForm
                         TextInput::make('quote')
                             ->label('Kutipan')
                             ->maxLength(500),
+                    ]),
+
+                Section::make('Akun')
+                    ->schema([
+                        Select::make('user_id')
+                            ->label('Akun User')
+                            ->options(fn () => User::orderBy('email')->pluck('email', 'id'))
+                            ->searchable()
+                            ->nullable()
+                            ->placeholder('Pilih akun login guru...'),
                     ]),
 
                 Section::make('Pengaturan')

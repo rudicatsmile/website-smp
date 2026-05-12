@@ -34,13 +34,15 @@ class UserForm
                     ->helperText('Kosongkan untuk tidak mengubah password (saat edit).'),
                 Select::make('roles')
                     ->label('Role')
-                    ->relationship('roles', 'name')
                     ->multiple()
-                    ->preload()
                     ->options(fn () => Role::pluck('name', 'name'))
-                    ->saveRelationshipsUsing(function ($component, $state, $record) {
-                        $roleNames = Role::whereIn('id', array_filter($state))->pluck('name')->toArray();
-                        $record->syncRoles($roleNames);
+                    ->afterStateHydrated(function ($component, $record) {
+                        if ($record) {
+                            $component->state($record->roles->pluck('name')->toArray());
+                        }
+                    })
+                    ->saveRelationshipsUsing(function ($state, $record) {
+                        $record->syncRoles($state ?? []);
                     }),
                 Toggle::make('is_active')
                     ->default(true)

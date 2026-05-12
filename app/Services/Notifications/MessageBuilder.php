@@ -45,6 +45,7 @@ class MessageBuilder
             'rapor'        => "[{$school}] Pengambilan Rapor: {$data['student_name']}",
             'leave_request' => "[{$school}] Pengajuan Izin {$data['student_name']} - {$data['status_label']}",
             'parent_note'   => "[{$school}] Buku Penghubung: {$data['student_name']} - {$data['subject']}",
+            'lesson_reminder' => "[{$school}] Reminder Mengajar: {$data['subject_name']} - {$data['class_name']} ({$data['time_range']})",
             default        => "[{$school}] Pemberitahuan",
         };
     }

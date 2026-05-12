@@ -1,4 +1,7 @@
 <x-filament-panels::page>
+    @once
+        <script src="{{ asset('js/html5-qrcode.min.js') }}"></script>
+    @endonce
     @php
         $stats = $this->stats;
         $students = $this->students;
@@ -301,7 +304,6 @@
             }
         </style>
 
-        <script src="https://unpkg.com/html5-qrcode@2.3.10/html5-qrcode.min.js"></script>
         <script>
             window.qrScanner = function () {
                 return {
@@ -312,7 +314,14 @@
                     init() { this.$nextTick(() => {}); },
                     async start() {
                         if (typeof Html5Qrcode === 'undefined') {
-                            this.status = 'Library QR belum termuat.'; return;
+                            this.status = 'Memuat library QR...';
+                            await new Promise((resolve, reject) => {
+                                let tries = 0;
+                                const check = setInterval(() => {
+                                    if (typeof Html5Qrcode !== 'undefined') { clearInterval(check); resolve(); }
+                                    else if (++tries > 20) { clearInterval(check); reject(new Error('Library QR gagal dimuat.')); }
+                                }, 200);
+                            }).catch(e => { this.status = e.message; return Promise.reject(e); });
                         }
                         try {
                             this.instance = new Html5Qrcode('qr-reader');
