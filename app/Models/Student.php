@@ -84,6 +84,16 @@ class Student extends Model
         return $this->hasMany(LeaveRequest::class);
     }
 
+    public function tahfidzParticipant(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(TahfidzParticipant::class);
+    }
+
+    public function tahfidzGrades(): HasMany
+    {
+        return $this->hasMany(TahfidzGrade::class);
+    }
+
     public function scopeActive(Builder $q): Builder
     {
         return $q->where('is_active', true);

@@ -103,6 +103,7 @@ Route::prefix('portal')->name('portal.')->group(function () {
         Route::get('/bk/buat', \App\Livewire\Portal\CounselingCreate::class)->name('counseling.create');
         Route::get('/bk/{ticket}', \App\Livewire\Portal\CounselingShow::class)->name('counseling.show');
         Route::get('/profil', \App\Livewire\Portal\Profile::class)->name('profile');
+        Route::get('/tahfidz/{student}', \App\Livewire\Portal\TahfidzRaport::class)->name('tahfidz.raport');
     });
 });
 

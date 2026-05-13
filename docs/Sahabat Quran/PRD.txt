@@ -1,0 +1,28 @@
+Product Requirements Document (PRD): Sahabat Qur'an Module
+
+1. Deskripsi Produk
+    Modul ini berfungsi untuk mencatat, mengelola, dan melaporkan perkembangan hafalan Al-Qur'an santri yang terdaftar dalam program Sahabat Qur'an. Aplikasi ini tidak berdiri sendiri melainkan mengambil data referensi siswa dari database LMS yang sudah ada.  
+
+2. Target Pengguna
+
+    - Guru Pengampuh: Bertanggung jawab menginput nilai harian dan melihat rekapitulasi kelas.  
+    - Admin LMS: Mengelola daftar siswa yang berhak mengikuti program (Enrollment).
+
+3. Alur Fitur (Feature Flow)
+    - Penyaringan Peserta (Enrollment): Mekanisme untuk menandai siswa dari tabel students yang sudah ada untuk masuk ke modul Sahabat Qur'an.
+
+    - Input Nilai (Page 3):
+        - Memilih Kelas dan Guru Pengampuh. 
+        - Input tabel untuk Nama, Surah, Nilai, dan Deskripsi secara kolektif.  
+
+    - Rekap Nilai Surah (Page 5):
+        - Dashboard ringkasan: Total Siswa, Rombel, dan Total Surah.  
+        - Tabel progres otomatis: Menampilkan Surah Selesai (e.g., 20/20), Progres (%), dan Nilai Rata-Rata.  
+
+    - Manajemen Individu (Page 4):
+        - Fitur + Rekap Surah dan Raport Tahfiz untuk akses detail per santri.  
+
+4. Skema Integrasi Database
+    - Existing Table: students (id, name, nis, school_class_id).
+    - New Table (tahfidz_participants): Menghubungkan student_id dengan status keaktifan di program Sahabat Qur'an.
+    - New Table (tahfidz_logs): Mencatat student_id, surah_name, score, description, dan teacher_id.

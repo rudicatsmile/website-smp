@@ -56,12 +56,23 @@
                                     ['route' => 'portal.quizzes.index', 'label' => 'Latihan', 'icon' => 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z'],
                                     ['route' => 'portal.counseling.index', 'label' => 'BK', 'icon' => 'M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z'],
                                 ];
+                                if ($student && $student->tahfidzParticipant?->is_active) {
+                                    $nav[] = [
+                                        'route'  => 'portal.tahfidz.raport',
+                                        'params' => ['student' => $student->slug],
+                                        'label'  => 'Tahfidz',
+                                        'icon'   => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+                                    ];
+                                }
                             }
                         @endphp
                         <div class="flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-2 py-1.5 shadow-sm">
                             @foreach($nav as $item)
-                                @php $active = request()->routeIs($item['route'].'*'); @endphp
-                                <a href="{{ route($item['route']) }}" class="group relative inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 {{ $active ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20' : 'text-slate-600 hover:bg-slate-50 hover:text-emerald-700' }}">
+                                @php
+                                    $active    = request()->routeIs($item['route'].'*');
+                                    $navUrl    = route($item['route'], $item['params'] ?? []);
+                                @endphp
+                                <a href="{{ $navUrl }}" wire:navigate class="group relative inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 {{ $active ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20' : 'text-slate-600 hover:bg-slate-50 hover:text-emerald-700' }}">
                                     <svg style="width:17px;height:17px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="{{ $active ? 'text-white' : 'text-slate-400 group-hover:text-emerald-600' }}">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}" />
                                     </svg>
@@ -95,8 +106,11 @@
             <div class="lg:hidden border-t border-slate-100 bg-white/95 backdrop-blur-xl">
                 <div class="flex items-center gap-2 overflow-x-auto px-4 py-2">
                     @foreach($nav as $item)
-                        @php $active = request()->routeIs($item['route'].'*'); @endphp
-                        <a href="{{ route($item['route']) }}" class="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition {{ $active ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-50 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700' }}">
+                        @php
+                            $active    = request()->routeIs($item['route'].'*');
+                            $navUrl    = route($item['route'], $item['params'] ?? []);
+                        @endphp
+                        <a href="{{ $navUrl }}" wire:navigate class="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition {{ $active ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-50 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700' }}">
                             <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}" />
                             </svg>

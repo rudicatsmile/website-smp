@@ -1,0 +1,17 @@
+Tech Stack: Laravel 12, Filament v4, Livewire SPA, Tailwind CSS, Spatie Role/Permission.
+
+1. Data Integrity: Jangan menduplikasi data siswa; gunakan relasi ke tabel students yang sudah ada di LMS.
+
+2. Filament v4 Standards:
+    - Gunakan Panel khusus untuk memisahkan fitur Tahfidz dari administrasi umum LMS.
+    - Gunakan Tables\Columns\Summarizers untuk menghitung total statistik pada dashboard rekap.  
+
+3. Frontend SPA:
+
+    - Wajib menggunakan wire:navigate pada semua tautan navigasi (seperti tombol "Lihat Detail") untuk pengalaman Single Page Application.  
+    - Gunakan format tanggal Indonesia: Kamis, 8 Desember 2025.  
+
+4. Performance: Implementasikan Lazy Loading dan Eager Loading pada tabel rekap untuk menangani data 50+ siswa tanpa lag.  
+
+
+5. Security: Implementasikan Spatie Middleware agar Guru Pengampuh hanya bisa melihat Rombel yang ditugaskan kepadanya
