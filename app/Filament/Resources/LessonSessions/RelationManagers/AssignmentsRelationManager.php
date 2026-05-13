@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LessonSessions\RelationManagers;
 
-use App\Models\ClassAssignment;
-use Filament\Forms\Components\Select;
+use Filament\Actions\AttachAction;
+use Filament\Actions\DetachAction;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -17,24 +16,20 @@ class AssignmentsRelationManager extends RelationManager
 
     protected static ?string $title = 'Tugas';
 
-    public function form(Schema $schema): Schema
-    {
-        return $schema->components([
-            Select::make('class_assignment_id')->label('Tugas')
-                ->options(fn () => ClassAssignment::published()->orderBy('title')->pluck('title', 'id'))
-                ->searchable()->preload()->required(),
-        ]);
-    }
-
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('assignment.title')
+            ->recordTitleAttribute('title')
             ->columns([
-                TextColumn::make('assignment.title')->label('Judul Tugas')->searchable()->limit(50),
-                TextColumn::make('assignment.subject.name')->label('Mapel')->badge(),
-                TextColumn::make('assignment.due_at')->label('Deadline')->dateTime('d M Y H:i'),
-                TextColumn::make('given_at')->label('Diberikan')->dateTime('d M Y H:i')->placeholder('—'),
+                TextColumn::make('title')->label('Judul Tugas')->searchable()->limit(50),
+                TextColumn::make('subject.name')->label('Mapel')->badge(),
+                TextColumn::make('due_at')->label('Deadline')->dateTime('d M Y H:i')->placeholder('—'),
+            ])
+            ->headerActions([
+                AttachAction::make()->label('Tambah Tugas')->preloadRecordSelect(),
+            ])
+            ->recordActions([
+                DetachAction::make()->label('Lepas'),
             ])
             ->defaultSort('created_at', 'desc');
     }

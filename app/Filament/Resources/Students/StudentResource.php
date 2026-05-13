@@ -73,8 +73,11 @@ class StudentResource extends Resource
                     ->maxSize(2048)->columnSpanFull(),
             ]),
             Section::make('Orang Tua & Alamat')->columns(2)->schema([
-                TextInput::make('parent_name')->label('Nama Orang Tua'),
-                TextInput::make('parent_phone')->label('No. HP Orang Tua')->tel()
+                TextInput::make('parent_name')->label('Nama Ayah / Wali'),
+                TextInput::make('parent_phone')->label('No. HP Ayah / Wali')->tel()
+                    ->helperText('Format Indonesia (08xx atau 628xx) untuk notifikasi WhatsApp'),
+                TextInput::make('mother_name')->label('Nama Ibu'),
+                TextInput::make('mother_phone')->label('No. HP Ibu')->tel()
                     ->helperText('Format Indonesia (08xx atau 628xx) untuk notifikasi WhatsApp'),
                 TextInput::make('parent_email')->label('Email Orang Tua')->email()
                     ->helperText('Untuk notifikasi email otomatis'),

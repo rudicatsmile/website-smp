@@ -21,7 +21,9 @@ class Student extends Model
         'user_id', 'school_class_id', 'nis', 'nisn', 'name', 'slug',
         'gender', 'birth_date', 'birth_place', 'photo',
         'qr_token', 'qr_token_generated_at',
-        'parent_name', 'parent_phone', 'parent_email', 'address', 'is_active',
+        'parent_name', 'parent_phone', 'parent_email',
+        'mother_name', 'mother_phone',
+        'address', 'is_active',
     ];
 
     protected $casts = [

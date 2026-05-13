@@ -196,28 +196,35 @@
                                         </div>
                                     </div>
 
-                                    <div style="display:flex; align-items:center; gap:12px; flex:1;">
+                                    <div style="display:flex; gap:10px; flex:1; min-height:0;">
+                                        {{-- FOTO --}}
                                         @if($s->photo_url)
-                                            <img src="{{ $s->photo_url }}" style="width:58px;height:72px;border-radius:8px;object-fit:cover;border:2px solid rgba(255,255,255,0.4);box-shadow:0 4px 10px rgba(0,0,0,0.2);flex-shrink:0;">
+                                            <img src="{{ $s->photo_url }}" style="width:70px;height:86px;border-radius:8px;object-fit:cover;border:2px solid rgba(255,255,255,0.5);box-shadow:0 4px 12px rgba(0,0,0,0.25);flex-shrink:0;align-self:center;">
                                         @else
-                                            <div style="width:58px;height:72px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;flex-shrink:0;">{{ mb_substr($s->name, 0, 1) }}</div>
+                                            <div style="width:70px;height:86px;border-radius:8px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;flex-shrink:0;align-self:center;">{{ mb_substr($s->name, 0, 1) }}</div>
                                         @endif
-                                        <div style="flex:1;min-width:0;">
-                                            <div style="font-size:15px;font-weight:800;letter-spacing:-0.01em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $s->name }}</div>
-                                            <div style="display:grid;grid-template-columns:52px 1fr;gap:1px 8px;font-size:9.5px;margin-top:6px;line-height:1.5;">
-                                                <span style="opacity:0.65;">NIS</span><span style="font-weight:700;font-family:ui-monospace,monospace;">{{ $s->nis }}</span>
-                                                @if($s->nisn)<span style="opacity:0.65;">NISN</span><span style="font-family:ui-monospace,monospace;">{{ $s->nisn }}</span>@endif
-                                                <span style="opacity:0.65;">Kelas</span><span style="font-weight:700;">{{ $s->schoolClass?->name ?? '—' }}</span>
-                                                @if($s->birth_date)
-                                                    <span style="opacity:0.65;">Lahir</span><span style="font-size:8.5px;">{{ $s->birth_place ? $s->birth_place.', ' : '' }}{{ $s->birth_date->translatedFormat('d M Y') }}</span>
-                                                @endif
+
+                                        {{-- INFO --}}
+                                        <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;">
+                                            <div style="font-size:13px;font-weight:800;letter-spacing:-0.01em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;">{{ $s->name }}</div>
+                                            <div style="display:grid;grid-template-columns:48px 1fr;gap:0 6px;font-size:8.5px;line-height:1.55;">
+                                                <span style="opacity:0.65;font-weight:600;">NIS</span>
+                                                <span style="font-weight:700;font-family:ui-monospace,monospace;">{{ $s->nis ?? '—' }}</span>
+                                                <span style="opacity:0.65;font-weight:600;">NISN</span>
+                                                <span style="font-family:ui-monospace,monospace;">{{ $s->nisn ?? '—' }}</span>
+                                                <span style="opacity:0.65;font-weight:600;">TTL</span>
+                                                <span style="font-size:8px;">{{ $s->birth_place ? $s->birth_place.', ' : '' }}{{ $s->birth_date ? $s->birth_date->translatedFormat('d M Y') : '—' }}</span>
+                                                <span style="opacity:0.65;font-weight:600;">Alamat</span>
+                                                <span style="font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $s->address ?? '—' }}</span>
                                             </div>
                                         </div>
-                                        <div style="text-align:center;flex-shrink:0;">
-                                            <div style="background:white;padding:5px;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.15);">
-                                                <img src="{{ $qr }}" style="width:64px;height:64px;display:block;">
+
+                                        {{-- QR --}}
+                                        <div style="text-align:center;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                                            <div style="background:white;padding:4px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.18);">
+                                                <img src="{{ $qr }}" style="width:60px;height:60px;display:block;">
                                             </div>
-                                            <div style="font-size:6.5px;margin-top:3px;opacity:0.7;font-family:ui-monospace,monospace;letter-spacing:0.05em;">{{ $s->qr_token }}</div>
+                                            <div style="font-size:6px;margin-top:3px;opacity:0.65;font-family:ui-monospace,monospace;letter-spacing:0.04em;">{{ $s->qr_token }}</div>
                                         </div>
                                     </div>
                                 </div>
