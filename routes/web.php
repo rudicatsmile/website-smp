@@ -25,8 +25,11 @@ use App\Livewire\Pages\MaterialShow;
 use App\Livewire\Pages\StaffIndex;
 use App\Livewire\Pages\StaffScheduleIndex;
 use App\Livewire\Pages\StaffShow;
+use App\Livewire\Pages\AlumniIndex;
+use App\Livewire\Pages\AlumniShow;
 use App\Livewire\Pages\EkskulIndex;
 use App\Livewire\Pages\EkskulShow;
+use App\Livewire\Pages\TracerStudyForm;
 use App\Http\Controllers\MaterialDownloadController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +59,10 @@ Route::get('/program/{slug}', ProgramShow::class)->name('program.show');
 
 Route::get('/ekskul', EkskulIndex::class)->name('ekskul.index');
 Route::get('/ekskul/{ekskul}', EkskulShow::class)->name('ekskul.show');
+
+Route::get('/alumni', AlumniIndex::class)->name('alumni.index');
+Route::get('/alumni/tracer-study', TracerStudyForm::class)->middleware('throttle:3,1')->name('tracer.form');
+Route::get('/alumni/{alumni}', AlumniShow::class)->name('alumni.show');
 
 Route::get('/guru', StaffIndex::class)->name('staff.index');
 Route::get('/guru/{slug}', StaffShow::class)->name('staff.show');

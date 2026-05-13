@@ -291,6 +291,21 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
 - **Profil Alumni & Tracer Study**
   Halaman alumni sukses + form tracer study. Memotivasi siswa & data evaluasi sekolah.
 
+      Database: 2 tabel baru (alumni, tracer_studies) + seeder 4 alumni demo
+
+      Admin Panel (group Alumni):
+
+        - admin/alumni/profil — CRUD alumni (foto, cerita, status, featured, publish)
+        - admin/alumni/tracer-study — Read-only respons form, dengan tabs Belum Diproses / Sudah Diproses / Semua, action "Tandai Selesai", dan modal detail lengkap
+        
+      Website Publik:
+        - /alumni — Grid alumni dengan filter status & tahun lulus, CTA tracer study di bawah
+        - /alumni/{slug} — Halaman detail alumni (foto, cerita sukses, kutipan)
+        - /alumni/tracer-study — Form publik lengkap: data diri, status aktivitas, penghasilan, rating bintang 1–5 relevansi + kualitas sekolah, saran, izin publikasi
+
+        
+      Navbar: Link "Alumni" ditambahkan ke skin education dan milleneal (desktop + mobile)
+
 - **Ekstrakurikuler Online**
   Pendaftaran ekskul digital, jadwal latihan, prestasi tim, galeri kegiatan per ekskul.
 
