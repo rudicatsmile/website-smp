@@ -28,6 +28,7 @@
                 <a href="{{ route('materials.index') }}" class="hover:text-emerald-400">Materi</a>
                 <a href="{{ route('jadwal.index') }}" class="hover:text-emerald-400">Jadwal</a>
                 <a href="{{ route('prestasi.index') }}" class="hover:text-emerald-400">Prestasi</a>
+                <a href="{{ route('ekskul.index') }}" class="hover:text-emerald-400">Ekskul</a>
                 <a href="{{ route('galeri.index') }}" class="hover:text-emerald-400">Galeri</a>
                 <a href="{{ route('berita.index') }}" class="hover:text-emerald-400">Berita</a>
                 <a href="{{ route('download.index') }}" class="hover:text-emerald-400">Download</a>
@@ -51,6 +52,7 @@
             <a href="{{ route('materials.index') }}" class="block py-2">Materi</a>
             <a href="{{ route('jadwal.index') }}" class="block py-2">Jadwal</a>
             <a href="{{ route('prestasi.index') }}" class="block py-2">Prestasi</a>
+            <a href="{{ route('ekskul.index') }}" class="block py-2">Ekskul</a>
             <a href="{{ route('galeri.index') }}" class="block py-2">Galeri</a>
             <a href="{{ route('berita.index') }}" class="block py-2">Berita</a>
             <a href="{{ route('download.index') }}" class="block py-2">Download</a>

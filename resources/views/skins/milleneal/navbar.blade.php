@@ -31,6 +31,7 @@
                 <a href="{{ route('materials.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Materi</a>
                 <a href="{{ route('jadwal.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Jadwal</a>
                 <a href="{{ route('prestasi.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Prestasi</a>
+                <a href="{{ route('ekskul.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Ekskul</a>
                 <a href="{{ route('galeri.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Galeri</a>
                 <a href="{{ route('berita.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Berita</a>
                 <a href="{{ route('download.index') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Download</a>
@@ -54,6 +55,7 @@
             <a href="{{ route('materials.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Materi</a>
             <a href="{{ route('jadwal.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Jadwal</a>
             <a href="{{ route('prestasi.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Prestasi</a>
+            <a href="{{ route('ekskul.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Ekskul</a>
             <a href="{{ route('galeri.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Galeri</a>
             <a href="{{ route('berita.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Berita</a>
             <a href="{{ route('download.index') }}" class="block py-2 px-3 rounded-xl hover:bg-purple-50">Download</a>

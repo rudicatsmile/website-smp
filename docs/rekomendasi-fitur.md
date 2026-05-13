@@ -294,6 +294,29 @@ Berdasarkan fitur yang sudah ada (Berita, Galeri, Prestasi, Akademik, SPMB, Kale
 - **Ekstrakurikuler Online**
   Pendaftaran ekskul digital, jadwal latihan, prestasi tim, galeri kegiatan per ekskul.
 
+
+      Admin Panel (/admin/extracurriculars):
+
+        - CRUD ekskul + auto-slug, category, pembina, kuota, cover, deskripsi
+        - 4 Relation Managers: Jadwal Latihan, Anggota (+ Approve/Reject/Bulk), Prestasi, Galeri Foto
+        - Widget: Ekskul Aktif, Anggota Diterima, Pendaftaran Pending (auto-discovered)
+        - /admin/ekskul-anggota => untuk approve dan tolak
+
+
+      Website Publik:
+
+        - GET /ekskul — grid + filter kategori
+        - GET /ekskul/{slug} — profil lengkap: deskripsi, jadwal, galeri, prestasi, anggota, tombol daftar
+
+
+      Portal Siswa:
+
+        - GET /portal/ekskul — daftar ekskul saya + status + ekskul tersedia
+        - GET /portal/ekskul/daftar/{slug} — form pendaftaran dengan validasi kuota + redirect setelah submit
+        - Menu "Ekskul" ditambahkan ke navbar portal (semua siswa)
+
+      Approval flow: Siswa daftar → status pending → admin/pembina approve/reject di Filament → cek kuota otomatis
+
 ## 👨‍👩‍👧 Untuk Orang Tua
 
 - **Portal Orang Tua (Login)**

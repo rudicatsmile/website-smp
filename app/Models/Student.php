@@ -94,6 +94,11 @@ class Student extends Model
         return $this->hasMany(TahfidzGrade::class);
     }
 
+    public function extracurricularMemberships(): HasMany
+    {
+        return $this->hasMany(ExtracurricularMember::class);
+    }
+
     public function scopeActive(Builder $q): Builder
     {
         return $q->where('is_active', true);

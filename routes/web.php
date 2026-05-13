@@ -25,6 +25,8 @@ use App\Livewire\Pages\MaterialShow;
 use App\Livewire\Pages\StaffIndex;
 use App\Livewire\Pages\StaffScheduleIndex;
 use App\Livewire\Pages\StaffShow;
+use App\Livewire\Pages\EkskulIndex;
+use App\Livewire\Pages\EkskulShow;
 use App\Http\Controllers\MaterialDownloadController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +53,9 @@ Route::get('/kalender', CalendarPage::class)->name('kalender');
 
 Route::get('/program', ProgramIndex::class)->name('program.index');
 Route::get('/program/{slug}', ProgramShow::class)->name('program.show');
+
+Route::get('/ekskul', EkskulIndex::class)->name('ekskul.index');
+Route::get('/ekskul/{ekskul}', EkskulShow::class)->name('ekskul.show');
 
 Route::get('/guru', StaffIndex::class)->name('staff.index');
 Route::get('/guru/{slug}', StaffShow::class)->name('staff.show');
@@ -104,6 +109,8 @@ Route::prefix('portal')->name('portal.')->group(function () {
         Route::get('/bk/{ticket}', \App\Livewire\Portal\CounselingShow::class)->name('counseling.show');
         Route::get('/profil', \App\Livewire\Portal\Profile::class)->name('profile');
         Route::get('/tahfidz/{student}', \App\Livewire\Portal\TahfidzRaport::class)->name('tahfidz.raport');
+        Route::get('/ekskul', \App\Livewire\Portal\EkskulIndex::class)->name('ekskul.index');
+        Route::get('/ekskul/daftar/{ekskul}', \App\Livewire\Portal\EkskulRegister::class)->name('ekskul.register');
     });
 });
 
