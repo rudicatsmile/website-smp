@@ -26,13 +26,13 @@
                 <a href="{{ route('home') }}" class="px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">Beranda</a>
 
                 {{-- Tentang Kami --}}
-                <div x-data="{ dd: false }" class="relative" @mouseenter="dd=true" @mouseleave="dd=false">
+                <div x-data="{ dd: false }" class="relative pb-2" @mouseenter="dd=true" @mouseleave="dd=false">
                     <button class="flex items-center gap-1 px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">
                         Tentang Kami
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="dd ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="dd" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
-                         class="absolute top-full left-0 mt-2 w-48 bg-white rounded-2xl shadow-xl shadow-purple-500/10 border border-purple-100 py-1.5 z-50">
+                         class="absolute top-full left-0 w-48 bg-white rounded-2xl shadow-xl shadow-purple-500/10 border border-purple-100 py-1.5 z-50">
                         <a href="{{ route('profil') }}" class="flex items-center gap-2 px-4 py-2 text-slate-700 hover:bg-purple-50 hover:text-purple-700 text-sm rounded-xl mx-1">
                             <span class="text-base">🏫</span> Profil Sekolah
                         </a>
@@ -46,13 +46,13 @@
                 </div>
 
                 {{-- Akademik --}}
-                <div x-data="{ dd: false }" class="relative" @mouseenter="dd=true" @mouseleave="dd=false">
+                <div x-data="{ dd: false }" class="relative pb-2" @mouseenter="dd=true" @mouseleave="dd=false">
                     <button class="flex items-center gap-1 px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">
                         Akademik
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="dd ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="dd" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
-                         class="absolute top-full left-0 mt-2 w-48 bg-white rounded-2xl shadow-xl shadow-purple-500/10 border border-purple-100 py-1.5 z-50">
+                         class="absolute top-full left-0 w-48 bg-white rounded-2xl shadow-xl shadow-purple-500/10 border border-purple-100 py-1.5 z-50">
                         <a href="{{ route('akademik.index') }}" class="flex items-center gap-2 px-4 py-2 text-slate-700 hover:bg-purple-50 hover:text-purple-700 text-sm rounded-xl mx-1">
                             <span class="text-base">📚</span> Program Akademik
                         </a>
@@ -66,13 +66,13 @@
                 </div>
 
                 {{-- Kegiatan --}}
-                <div x-data="{ dd: false }" class="relative" @mouseenter="dd=true" @mouseleave="dd=false">
+                <div x-data="{ dd: false }" class="relative pb-2" @mouseenter="dd=true" @mouseleave="dd=false">
                     <button class="flex items-center gap-1 px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">
                         Kegiatan
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="dd ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="dd" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
-                         class="absolute top-full left-0 mt-2 w-48 bg-white rounded-2xl shadow-xl shadow-purple-500/10 border border-purple-100 py-1.5 z-50">
+                         class="absolute top-full left-0 w-48 bg-white rounded-2xl shadow-xl shadow-purple-500/10 border border-purple-100 py-1.5 z-50">
                         <a href="{{ route('prestasi.index') }}" class="flex items-center gap-2 px-4 py-2 text-slate-700 hover:bg-purple-50 hover:text-purple-700 text-sm rounded-xl mx-1">
                             <span class="text-base">🏆</span> Prestasi
                         </a>
@@ -89,13 +89,13 @@
                 </div>
 
                 {{-- Informasi --}}
-                <div x-data="{ dd: false }" class="relative" @mouseenter="dd=true" @mouseleave="dd=false">
+                <div x-data="{ dd: false }" class="relative pb-2" @mouseenter="dd=true" @mouseleave="dd=false">
                     <button class="flex items-center gap-1 px-3 py-2 rounded-full hover:bg-purple-100 hover:text-purple-700 transition">
                         Informasi
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="dd ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="dd" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
-                         class="absolute top-full left-0 mt-2 w-44 bg-white rounded-2xl shadow-xl shadow-purple-500/10 border border-purple-100 py-1.5 z-50">
+                         class="absolute top-full left-0 w-44 bg-white rounded-2xl shadow-xl shadow-purple-500/10 border border-purple-100 py-1.5 z-50">
                         <a href="{{ route('berita.index') }}" class="flex items-center gap-2 px-4 py-2 text-slate-700 hover:bg-purple-50 hover:text-purple-700 text-sm rounded-xl mx-1">
                             <span class="text-base">📰</span> Berita
                         </a>
