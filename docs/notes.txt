@@ -5,6 +5,35 @@ URL admin: http://127.0.0.1:8000/admin/login
 
 Access list :
     1. http://127.0.0.1:8000/admin
+        - admin@smpalwathoniyah9.sch.id / password
     2. http://127.0.0.1:8000/portal => Portal Siswa
+        - siswa@smpalwathoniyah9.sch.id / password
     3. http://127.0.0.1:8000/portal/ortu/login => Portal Orang Tua
-    4. http://127.0.0.1:8000/tahfidz/participants
+        - ortu@smpalwathoniyah9.sch.id / password
+    4. http://127.0.0.1:8000/tahfidz =>  Portal guru Sahabat Qur'an 
+        - guru_tahfidz@smpalwathoniyah9.sch.id / password
+
+
+
+        
+| Role                              | `/admin` | `/tahfidz` |
+|-----------------------------------|----------|------------|
+| `super_admin`                     | ✅       | ✅        |
+| `guru_pengampuh`                  | ❌       | ✅        |
+| `admin`, `editor`, `teacher`, dll | ✅       | ❌        |
+
+Role yang ada saat ini:
+
+    Role	        Keterangan
+    --------------------------
+    super_admin	    Admin penuh
+    admin	        Admin
+    editor	        Edit konten
+    contributor	    Kontributor
+    teacher	        Guru
+    student	        Siswa (Portal Siswa)
+    counselor	    Konselor BK
+    parent	        Orang tua (Portal Ortu)
+    piket	        Guru piket
+    guru_pengampuh	Guru Sahabat Qur'an
+
