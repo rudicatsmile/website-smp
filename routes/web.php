@@ -33,6 +33,11 @@ use App\Livewire\Pages\TracerStudyForm;
 use App\Http\Controllers\MaterialDownloadController;
 use Illuminate\Support\Facades\Route;
 
+// Laporan Absensi PDF (auth protected)
+Route::get('/laporan-absensi/pdf', \App\Http\Controllers\AttendanceReportPdfController::class)
+    ->middleware(['auth'])
+    ->name('laporan-absensi.pdf');
+
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profile::class)->name('profil');
 

@@ -26,6 +26,7 @@ class StaffIndex extends Component
         $categories = StaffCategory::active()->ordered()->get();
 
         $query = StaffMember::active()
+            ->where('is_principal', false)
             ->with('category')
             ->when($this->search, function ($q) {
                 $q->where('name', 'like', '%' . $this->search . '%')

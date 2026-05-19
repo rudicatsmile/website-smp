@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ClassAssignment extends Model
@@ -43,6 +44,13 @@ class ClassAssignment extends Model
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(StaffMember::class, 'staff_member_id');
+    }
+
+    public function lessonSessions(): BelongsToMany
+    {
+        return $this->belongsToMany(LessonSession::class, 'lesson_session_assignments')
+            ->withPivot('given_at')
+            ->withTimestamps();
     }
 
     public function submissions(): HasMany

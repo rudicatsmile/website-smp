@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ClassMaterial extends Model
 {
@@ -38,6 +39,13 @@ class ClassMaterial extends Model
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(StaffMember::class, 'staff_member_id');
+    }
+
+    public function lessonSessions(): BelongsToMany
+    {
+        return $this->belongsToMany(LessonSession::class, 'lesson_session_materials')
+            ->withPivot('order')
+            ->withTimestamps();
     }
 
     public function scopePublished(Builder $q): Builder
