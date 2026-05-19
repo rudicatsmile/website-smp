@@ -17,6 +17,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Grid;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -56,8 +57,10 @@ class StudentResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Identitas')->columns(2)->schema([
-                TextInput::make('nis')->label('NIS')->required()->unique(ignoreRecord: true)->maxLength(32),
+
+            // ── Identitas Pokok ─────────────────────────────────────────
+            Section::make('Identitas Pokok')->columns(2)->schema([
+                TextInput::make('nis')->label('NIS / NIPD')->required()->unique(ignoreRecord: true)->maxLength(32),
                 TextInput::make('nisn')->label('NISN')->maxLength(32),
                 TextInput::make('name')->label('Nama Lengkap')->required()->maxLength(255)
                     ->live(onBlur: true)
@@ -72,17 +75,133 @@ class StudentResource extends Resource
                 FileUpload::make('photo')->label('Foto')->image()->disk('public')->directory('students')
                     ->maxSize(2048)->columnSpanFull(),
             ]),
-            Section::make('Orang Tua & Alamat')->columns(2)->schema([
-                TextInput::make('parent_name')->label('Nama Ayah / Wali'),
-                TextInput::make('parent_phone')->label('No. HP Ayah / Wali')->tel()
-                    ->helperText('Format Indonesia (08xx atau 628xx) untuk notifikasi WhatsApp'),
+
+            // ── Data Kependudukan ────────────────────────────────────────
+            Section::make('Data Kependudukan')->columns(2)->schema([
+                TextInput::make('nik')->label('NIK')->maxLength(20),
+                TextInput::make('religion')->label('Agama')->maxLength(32),
+                TextInput::make('kk_number')->label('No. KK')->maxLength(20),
+                TextInput::make('birth_certificate_number')->label('No. Registrasi Akta Lahir'),
+                TextInput::make('skhun')->label('SKHUN'),
+            ])->collapsed(),
+
+            // ── Alamat & Kontak ──────────────────────────────────────────
+            Section::make('Alamat & Kontak')->columns(2)->schema([
+                Textarea::make('address')->label('Alamat Jalan')->rows(2)->columnSpanFull(),
+                TextInput::make('rt')->label('RT')->maxLength(8),
+                TextInput::make('rw')->label('RW')->maxLength(8),
+                TextInput::make('dusun')->label('Dusun / Lingkungan'),
+                TextInput::make('kelurahan')->label('Kelurahan / Desa'),
+                TextInput::make('kecamatan')->label('Kecamatan'),
+                TextInput::make('postal_code')->label('Kode Pos')->maxLength(10),
+                Select::make('living_with')->label('Jenis Tinggal')
+                    ->options([
+                        'Bersama orang tua' => 'Bersama Orang Tua',
+                        'Wali'              => 'Wali',
+                        'Kos'               => 'Kos / Kontrak',
+                        'Asrama'            => 'Asrama',
+                        'Panti'             => 'Panti Asuhan',
+                        'Lainnya'           => 'Lainnya',
+                    ])->searchable(),
+                Select::make('transportation')->label('Alat Transportasi')
+                    ->options([
+                        'Jalan kaki'                    => 'Jalan Kaki',
+                        'Sepeda'                        => 'Sepeda',
+                        'Sepeda motor'                  => 'Sepeda Motor',
+                        'Angkutan umum/bus/pete-pete'   => 'Angkutan Umum / Bus',
+                        'Ojek'                          => 'Ojek',
+                        'Andong/Bendi/Sado/Dokar/Delman/Becak' => 'Andong / Becak',
+                        'Mobil/Bus Sekolah'             => 'Mobil / Bus Sekolah',
+                        'Perahu/Sampan'                 => 'Perahu / Sampan',
+                        'Lainnya'                       => 'Lainnya',
+                    ])->searchable(),
+                TextInput::make('phone')->label('No. Telepon Rumah')->tel()->maxLength(32),
+            ])->collapsed(),
+
+            // ── Data Ayah ────────────────────────────────────────────────
+            Section::make('Data Ayah')->columns(2)->schema([
+                TextInput::make('parent_name')->label('Nama Ayah'),
+                TextInput::make('father_birth_year')->label('Tahun Lahir Ayah')->numeric()->minValue(1900)->maxValue(2010),
+                TextInput::make('father_education')->label('Jenjang Pendidikan'),
+                TextInput::make('father_occupation')->label('Pekerjaan'),
+                TextInput::make('father_income')->label('Penghasilan'),
+                TextInput::make('father_nik')->label('NIK Ayah')->maxLength(20),
+            ])->collapsed(),
+
+            // ── Data Ibu ─────────────────────────────────────────────────
+            Section::make('Data Ibu')->columns(2)->schema([
                 TextInput::make('mother_name')->label('Nama Ibu'),
+                TextInput::make('mother_birth_year')->label('Tahun Lahir Ibu')->numeric()->minValue(1900)->maxValue(2010),
+                TextInput::make('mother_education')->label('Jenjang Pendidikan'),
+                TextInput::make('mother_occupation')->label('Pekerjaan'),
+                TextInput::make('mother_income')->label('Penghasilan'),
+                TextInput::make('mother_nik')->label('NIK Ibu')->maxLength(20),
                 TextInput::make('mother_phone')->label('No. HP Ibu')->tel()
+                    ->helperText('Format Indonesia (08xx atau 628xx) untuk notifikasi WhatsApp'),
+            ])->collapsed(),
+
+            // ── Data Wali ────────────────────────────────────────────────
+            Section::make('Data Wali')->columns(2)->schema([
+                TextInput::make('guardian_name')->label('Nama Wali'),
+                TextInput::make('guardian_birth_year')->label('Tahun Lahir Wali')->numeric()->minValue(1900)->maxValue(2010),
+                TextInput::make('guardian_education')->label('Jenjang Pendidikan'),
+                TextInput::make('guardian_occupation')->label('Pekerjaan'),
+                TextInput::make('guardian_income')->label('Penghasilan'),
+                TextInput::make('guardian_nik')->label('NIK Wali')->maxLength(20),
+            ])->collapsed(),
+
+            // ── Kontak Orang Tua ─────────────────────────────────────────
+            Section::make('Kontak & Email Orang Tua')->columns(2)->schema([
+                TextInput::make('parent_phone')->label('No. HP Ayah / Wali')->tel()
                     ->helperText('Format Indonesia (08xx atau 628xx) untuk notifikasi WhatsApp'),
                 TextInput::make('parent_email')->label('Email Orang Tua')->email()
                     ->helperText('Untuk notifikasi email otomatis'),
-                Textarea::make('address')->label('Alamat')->rows(2)->columnSpanFull(),
-            ]),
+            ])->collapsed(),
+
+            // ── Data Sekolah & Dokumen ───────────────────────────────────
+            Section::make('Data Sekolah & Dokumen')->columns(2)->schema([
+                TextInput::make('previous_school')->label('Sekolah Asal')->columnSpanFull(),
+                TextInput::make('child_order')->label('Anak Ke-')->numeric()->minValue(1)->maxValue(20),
+                TextInput::make('un_number')->label('No. Peserta Ujian Nasional'),
+                TextInput::make('certificate_number')->label('No. Seri Ijazah'),
+            ])->collapsed(),
+
+            // ── Bantuan Sosial ───────────────────────────────────────────
+            Section::make('Bantuan Sosial')->columns(2)->schema([
+                Toggle::make('kps_recipient')->label('Penerima KPS')->inline(false),
+                TextInput::make('kps_number')->label('No. KPS'),
+                Toggle::make('kip_recipient')->label('Penerima KIP')->inline(false),
+                TextInput::make('kip_number')->label('Nomor KIP'),
+                TextInput::make('kip_name')->label('Nama di KIP'),
+                TextInput::make('kks_number')->label('Nomor KKS'),
+                Toggle::make('pip_eligible')->label('Layak PIP (usulan sekolah)')->inline(false),
+                TextInput::make('pip_reason')->label('Alasan Layak PIP'),
+            ])->collapsed(),
+
+            // ── Rekening Bank ────────────────────────────────────────────
+            Section::make('Rekening Bank')->columns(2)->schema([
+                TextInput::make('bank_name')->label('Nama Bank'),
+                TextInput::make('bank_account_number')->label('No. Rekening'),
+                TextInput::make('bank_account_name')->label('Rekening Atas Nama'),
+            ])->collapsed(),
+
+            // ── Data Fisik ───────────────────────────────────────────────
+            Section::make('Data Fisik & Lainnya')->columns(3)->schema([
+                TextInput::make('weight')->label('Berat Badan (kg)')->numeric()->suffix('kg'),
+                TextInput::make('height')->label('Tinggi Badan (cm)')->numeric()->suffix('cm'),
+                TextInput::make('head_circumference')->label('Lingkar Kepala (cm)')->numeric()->suffix('cm'),
+                TextInput::make('siblings_count')->label('Jml. Saudara Kandung')->numeric(),
+                TextInput::make('home_distance')->label('Jarak Rumah ke Sekolah (km)')->numeric()->suffix('km'),
+                TextInput::make('special_needs')->label('Kebutuhan Khusus'),
+            ])->collapsed(),
+
+            // ── Koordinat GPS ────────────────────────────────────────────
+            Section::make('Koordinat GPS')->columns(2)->schema([
+                TextInput::make('latitude')->label('Lintang')->numeric(),
+                TextInput::make('longitude')->label('Bujur')->numeric(),
+            ])->collapsed(),
+
+            // ── Akun Login ───────────────────────────────────────────────
             Section::make('Akun Login')->columns(2)->schema([
                 Select::make('user_id')->label('Akun User')
                     ->options(fn () => User::query()->orderBy('name')->pluck('name', 'id'))

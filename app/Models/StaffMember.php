@@ -19,6 +19,21 @@ class StaffMember extends Model
         'email', 'phone', 'whatsapp', 'social',
         'photo', 'bio', 'quote',
         'order', 'is_active',
+        // Kepegawaian
+        'employment_status', 'ptk_type', 'sk_cpns', 'sk_cpns_date', 'sk_appointment',
+        'appointing_agency', 'rank_grade', 'salary_source', 'civil_servant_start_date', 'nuks',
+        // Alamat
+        'address', 'rt', 'rw', 'dusun', 'kelurahan', 'kecamatan', 'postal_code', 'phone_home',
+        // Data Pribadi
+        'religion', 'nik', 'kk_number', 'mother_name', 'marital_status',
+        'spouse_name', 'spouse_nip', 'spouse_occupation', 'nationality', 'npwp', 'taxpayer_name',
+        // Dokumen
+        'karpeg', 'karis_karsu',
+        // Kompetensi
+        'has_principal_license', 'has_supervision_training', 'braille_skill', 'sign_language_skill',
+        // Bank & GPS
+        'bank_name', 'bank_account_number', 'bank_account_name',
+        'latitude', 'longitude',
     ];
 
     protected $casts = [
@@ -33,6 +48,14 @@ class StaffMember extends Model
         'experiences' => 'array',
         'social' => 'array',
         'is_active' => 'boolean',
+        'sk_cpns_date' => 'date',
+        'civil_servant_start_date' => 'date',
+        'has_principal_license' => 'boolean',
+        'has_supervision_training' => 'boolean',
+        'braille_skill' => 'boolean',
+        'sign_language_skill' => 'boolean',
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 
     public function getRouteKeyName(): string

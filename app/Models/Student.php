@@ -21,15 +21,48 @@ class Student extends Model
         'user_id', 'school_class_id', 'nis', 'nisn', 'name', 'slug',
         'gender', 'birth_date', 'birth_place', 'photo',
         'qr_token', 'qr_token_generated_at',
+        // Kependudukan
+        'nik', 'religion', 'kk_number', 'birth_certificate_number', 'skhun',
+        // Alamat
+        'address', 'rt', 'rw', 'dusun', 'kelurahan', 'kecamatan', 'postal_code',
+        'living_with', 'transportation', 'phone',
+        // Orang Tua Ayah
         'parent_name', 'parent_phone', 'parent_email',
+        'father_birth_year', 'father_education', 'father_occupation', 'father_income', 'father_nik',
+        // Orang Tua Ibu
         'mother_name', 'mother_phone',
-        'address', 'is_active',
+        'mother_birth_year', 'mother_education', 'mother_occupation', 'mother_income', 'mother_nik',
+        // Wali
+        'guardian_name', 'guardian_birth_year', 'guardian_education', 'guardian_occupation', 'guardian_income', 'guardian_nik',
+        // Sekolah & Dokumen
+        'previous_school', 'child_order', 'un_number', 'certificate_number',
+        // Bantuan Sosial
+        'kps_recipient', 'kps_number', 'kip_recipient', 'kip_number', 'kip_name', 'kks_number', 'pip_eligible', 'pip_reason',
+        // Fisik & Lokasi
+        'weight', 'height', 'head_circumference', 'siblings_count', 'home_distance', 'special_needs', 'latitude', 'longitude',
+        // Bank
+        'bank_name', 'bank_account_number', 'bank_account_name',
+        'is_active',
     ];
 
     protected $casts = [
         'birth_date' => 'date',
         'qr_token_generated_at' => 'datetime',
         'is_active' => 'boolean',
+        'kps_recipient' => 'boolean',
+        'kip_recipient' => 'boolean',
+        'pip_eligible' => 'boolean',
+        'father_birth_year' => 'integer',
+        'mother_birth_year' => 'integer',
+        'guardian_birth_year' => 'integer',
+        'child_order' => 'integer',
+        'weight' => 'integer',
+        'height' => 'integer',
+        'head_circumference' => 'integer',
+        'siblings_count' => 'integer',
+        'home_distance' => 'float',
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 
     public function getRouteKeyName(): string
