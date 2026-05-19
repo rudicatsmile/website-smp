@@ -38,6 +38,11 @@ Route::get('/laporan-absensi/pdf', \App\Http\Controllers\AttendanceReportPdfCont
     ->middleware(['auth'])
     ->name('laporan-absensi.pdf');
 
+// Jurnal Mengajar PDF (auth protected)
+Route::get('/jurnal-mengajar/pdf', \App\Http\Controllers\JurnalMengajarPdfController::class)
+    ->middleware(['auth'])
+    ->name('jurnal-mengajar.pdf');
+
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profile::class)->name('profil');
 
