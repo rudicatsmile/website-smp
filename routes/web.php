@@ -48,6 +48,11 @@ Route::get('/laporan-penilaian/pdf', \App\Http\Controllers\LaporanPenilaianPdfCo
     ->middleware(['auth'])
     ->name('laporan-penilaian.pdf');
 
+// Laporan Kasus Siswa PDF (auth protected)
+Route::get('/laporan-kasus-siswa/pdf', \App\Http\Controllers\LaporanKasusSiswaPdfController::class)
+    ->middleware(['auth'])
+    ->name('laporan-kasus-siswa.pdf');
+
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profile::class)->name('profil');
 
