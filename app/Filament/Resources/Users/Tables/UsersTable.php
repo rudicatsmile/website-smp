@@ -20,6 +20,26 @@ class UsersTable
                 TextColumn::make('email')
                     ->label('Email address')
                     ->searchable(),
+                TextColumn::make('roles.name')
+                    ->label('Role')
+                    ->badge()
+                    ->formatStateUsing(function (string $state): string {
+                        $aliases = [
+                            'super_admin'   => 'Super Admin',
+                            'admin'         => 'Admin',
+                            'editor'        => 'Editor',
+                            'contributor'   => 'Kontributor',
+                            'teacher'       => 'Guru',
+                            'wali_kelas'    => 'Wali Kelas',
+                            'counselor'     => 'Guru BK',
+                            'guru_pengampuh'=> 'Guru Tahfidz',
+                            'piket'         => 'Piket',
+                            'student'       => 'Siswa',
+                            'parent'        => 'Orang Tua Murid',
+                        ];
+                        return $aliases[$state] ?? $state;
+                    })
+                    ->separator(','),
                 TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),

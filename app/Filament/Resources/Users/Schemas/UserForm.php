@@ -35,7 +35,24 @@ class UserForm
                 Select::make('roles')
                     ->label('Role')
                     ->multiple()
-                    ->options(fn () => Role::pluck('name', 'name'))
+                    ->options(function () {
+                        $aliases = [
+                            'super_admin'   => 'Super Admin',
+                            'admin'         => 'Admin',
+                            'editor'        => 'Editor',
+                            'contributor'   => 'Kontributor',
+                            'teacher'       => 'Guru',
+                            'wali_kelas'    => 'Wali Kelas',
+                            'counselor'     => 'Guru BK',
+                            'guru_pengampuh'=> 'Guru Tahfidz',
+                            'piket'         => 'Piket',
+                            'student'       => 'Siswa',
+                            'parent'        => 'Orang Tua Murid',
+                        ];
+                        return Role::orderBy('name')
+                            ->pluck('name', 'name')
+                            ->mapWithKeys(fn ($name, $key) => [$key => $aliases[$name] ?? $name]);
+                    })
                     ->afterStateHydrated(function ($component, $record) {
                         if ($record) {
                             $component->state($record->roles->pluck('name')->toArray());
