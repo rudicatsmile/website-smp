@@ -107,6 +107,11 @@ class LessonSession extends Model
         return $this->hasMany(SessionAssessment::class);
     }
 
+    public function cases(): HasMany
+    {
+        return $this->hasMany(LessonSessionCase::class);
+    }
+
     public function scopeForTeacher(Builder $q, StaffMember $staff): Builder
     {
         return $q->where('staff_member_id', $staff->id);

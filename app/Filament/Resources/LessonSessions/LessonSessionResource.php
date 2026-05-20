@@ -9,6 +9,7 @@ use App\Filament\Resources\LessonSessions\Pages\EditLessonSession;
 use App\Filament\Resources\LessonSessions\Pages\ListLessonSessions;
 use App\Filament\Resources\LessonSessions\RelationManagers\AssessmentsRelationManager;
 use App\Filament\Resources\LessonSessions\RelationManagers\AssignmentsRelationManager;
+use App\Filament\Resources\LessonSessions\RelationManagers\CasesRelationManager;
 use App\Filament\Resources\LessonSessions\RelationManagers\MaterialsRelationManager;
 use App\Models\LessonSession;
 use App\Models\MaterialCategory;
@@ -142,6 +143,7 @@ class LessonSessionResource extends Resource
             MaterialsRelationManager::class,
             AssignmentsRelationManager::class,
             AssessmentsRelationManager::class,
+            CasesRelationManager::class,
         ];
     }
 
