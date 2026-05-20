@@ -99,7 +99,7 @@
         </div>
 
         {{-- Export --}}
-        @if($this->show_report && count($rows) > 0)
+        @if($this->show_report)
             <div style="margin-top:16px; padding-top:14px; border-top:1px solid #f1f5f9; display:flex; gap:8px; flex-wrap:wrap;">
                 <span style="font-size:11px; font-weight:700; color:#94a3b8; align-self:center; margin-right:4px;">Export:</span>
                 <button wire:click="exportExcel"

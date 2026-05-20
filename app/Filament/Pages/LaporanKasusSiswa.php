@@ -10,6 +10,7 @@ use App\Models\MaterialCategory;
 use App\Models\SchoolClass;
 use BackedEnum;
 use Filament\Pages\Page;
+use Maatwebsite\Excel\Excel as ExcelFormat;
 use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanKasusSiswa extends Page
@@ -114,17 +115,22 @@ class LaporanKasusSiswa extends Page
         if (! $this->show_report) return;
         $data     = $this->reportData;
         $filename = 'laporan-kasus-siswa-' . $this->date_from . '_' . $this->date_to . '.xlsx';
-        return Excel::download(new LaporanKasusSiswaExport($data), $filename);
+        return response()->streamDownload(function () use ($data) {
+            echo Excel::raw(new LaporanKasusSiswaExport($data), ExcelFormat::XLSX);
+        }, $filename, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
     }
 
     public function exportPdf()
     {
         if (! $this->show_report) return;
-        return redirect()->route('laporan-kasus-siswa.pdf', [
-            'class_id'    => $this->school_class_id,
-            'subject_id'  => $this->material_category_id,
-            'date_from'   => $this->date_from,
-            'date_to'     => $this->date_to,
+        $url = route('laporan-kasus-siswa.pdf', [
+            'class_id'   => $this->school_class_id,
+            'subject_id' => $this->material_category_id,
+            'date_from'  => $this->date_from,
+            'date_to'    => $this->date_to,
         ]);
+        $this->js("window.open('{$url}', '_blank')");
     }
 }
