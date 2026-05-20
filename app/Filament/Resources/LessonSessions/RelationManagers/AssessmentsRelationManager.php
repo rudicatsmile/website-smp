@@ -42,6 +42,10 @@ class AssessmentsRelationManager extends RelationManager
                     ->options(SessionAssessment::TYPES)
                     ->default('kuis')
                     ->required(),
+                Select::make('domain')
+                    ->label('Domain Penilaian')
+                    ->options(SessionAssessment::DOMAINS)
+                    ->placeholder('— Pilih Domain —'),
                 TextInput::make('max_score')
                     ->label('Nilai Maksimal')
                     ->numeric()
@@ -82,6 +86,11 @@ class AssessmentsRelationManager extends RelationManager
                     ->label('Jenis')
                     ->badge()
                     ->color(fn ($record) => $record->type_color),
+                TextColumn::make('domain_label')
+                    ->label('Domain')
+                    ->badge()
+                    ->color(fn ($record) => $record->domain_color)
+                    ->placeholder('—'),
                 TextColumn::make('max_score')
                     ->label('Maks')
                     ->numeric(0),

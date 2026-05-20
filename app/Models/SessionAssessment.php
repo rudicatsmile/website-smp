@@ -16,6 +16,18 @@ class SessionAssessment extends Model
         'tugas_kelas'   => 'Tugas Kelas',
     ];
 
+    public const DOMAINS = [
+        'kognitif'     => 'Kognitif',
+        'psikomotorik' => 'Psikomotorik',
+        'afektif'      => 'Afektif (Sikap)',
+    ];
+
+    public const DOMAIN_COLORS = [
+        'kognitif'     => 'info',
+        'psikomotorik' => 'success',
+        'afektif'      => 'warning',
+    ];
+
     public const TYPE_COLORS = [
         'kuis'          => 'info',
         'ulangan_harian'=> 'warning',
@@ -23,7 +35,7 @@ class SessionAssessment extends Model
     ];
 
     protected $fillable = [
-        'lesson_session_id', 'title', 'type', 'max_score', 'notes',
+        'lesson_session_id', 'title', 'type', 'domain', 'max_score', 'notes',
     ];
 
     protected $casts = [
@@ -48,6 +60,16 @@ class SessionAssessment extends Model
     public function getTypeColorAttribute(): string
     {
         return self::TYPE_COLORS[$this->type] ?? 'gray';
+    }
+
+    public function getDomainLabelAttribute(): string
+    {
+        return self::DOMAINS[$this->domain] ?? '—';
+    }
+
+    public function getDomainColorAttribute(): string
+    {
+        return self::DOMAIN_COLORS[$this->domain] ?? 'gray';
     }
 
     public function getScoresCountAttribute(): int

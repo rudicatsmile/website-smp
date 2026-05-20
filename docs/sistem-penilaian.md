@@ -36,3 +36,15 @@ Cara pakai:
 2. Submit → record kosong dibuat untuk semua siswa aktif di kelas itu
 3. Record yang sudah ada tidak ditimpa (dilewati + dihitung di notifikasi)
 4. Setelah ledger terisi, gunakan "Hitung Otomatis" (bulk action) untuk mengisi nilai dari data kuis/ulangan/ujian
+
+
+Laporan Penilaian :
+------------------
+Akses : /admin/laporan-penilaian — di nav group Akademik, terlihat untuk role super_admin, admin, teacher.
+
+Cara Pakai
+    1. Pilih Kelas + Mata Pelajaran + Tahun Ajaran → klik Tampilkan
+    2. Kolom TP-1, TP-2… muncul otomatis dari sesi yang punya penilaian
+    3. Kolom UTS/UAS/dll muncul jika ada exam session tipe tersebut
+    4. Sem 1 / Sem 2 dihitung otomatis dari rata-rata semua nilai di semester tersebut
+    5. Tombol Excel & PDF tersedia setelah tabel muncul
