@@ -7,22 +7,27 @@ namespace App\Filament\Resources\Grades;
 use App\Filament\Resources\Grades\Pages\CreateGrade;
 use App\Filament\Resources\Grades\Pages\EditGrade;
 use App\Filament\Resources\Grades\Pages\ListGrades;
+use App\Models\ExamScore;
 use App\Models\Grade;
+use App\Models\SessionAssessmentScore;
 use App\Models\StaffMember;
 use App\Models\Student;
 use BackedEnum;
+use Filament\Actions\BulkAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
+use Illuminate\Database\Eloquent\Collection;
 
 class GradeResource extends Resource
 {
@@ -97,7 +102,77 @@ class GradeResource extends Resource
             ])
             ->recordActions([EditAction::make()])
             ->toolbarActions([
-                BulkActionGroup::make([DeleteBulkAction::make()]),
+                BulkActionGroup::make([
+                    BulkAction::make('hitungOtomatis')
+                        ->label('Hitung Otomatis')
+                        ->icon('heroicon-o-calculator')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->modalHeading('Hitung Nilai Otomatis')
+                        ->modalDescription('Sistem menghitung nilai_tugas (rata-rata kuis/ulangan), nilai_uts, dan nilai_uas dari data penilaian, lalu nilai_akhir = 40% tugas + 30% UTS + 30% UAS.')
+                        ->action(function (Collection $records) {
+                            $updated = 0;
+                            foreach ($records as $grade) {
+                                $student = $grade->student;
+                                if (! $student) continue;
+
+                                // nilai_tugas: avg harian scores for this student+subject+semester
+                                $avgTugas = SessionAssessmentScore::query()
+                                    ->where('student_id', $student->id)
+                                    ->whereHas('assessment.lessonSession.subject', fn ($q) => $q->where('name', $grade->subject))
+                                    ->whereNotNull('score')
+                                    ->avg('score');
+
+                                // nilai_uts: latest UTS/PTS score
+                                $utsScore = ExamScore::query()
+                                    ->where('student_id', $student->id)
+                                    ->where('is_remedial', false)
+                                    ->whereHas('examSession', fn ($q) => $q
+                                        ->whereIn('exam_type', ['uts', 'pts'])
+                                        ->where('academic_year', $grade->academic_year)
+                                        ->where('semester', $grade->semester)
+                                        ->whereHas('subject', fn ($sq) => $sq->where('name', $grade->subject)))
+                                    ->orderByDesc('created_at')
+                                    ->value('score');
+
+                                // nilai_uas: latest UAS/PAS score
+                                $uasScore = ExamScore::query()
+                                    ->where('student_id', $student->id)
+                                    ->where('is_remedial', false)
+                                    ->whereHas('examSession', fn ($q) => $q
+                                        ->whereIn('exam_type', ['uas', 'pas'])
+                                        ->where('academic_year', $grade->academic_year)
+                                        ->where('semester', $grade->semester)
+                                        ->whereHas('subject', fn ($sq) => $sq->where('name', $grade->subject)))
+                                    ->orderByDesc('created_at')
+                                    ->value('score');
+
+                                $nilaiTugas = $avgTugas !== null ? round((float) $avgTugas, 2) : $grade->nilai_tugas;
+                                $nilaiUts   = $utsScore  !== null ? round((float) $utsScore, 2) : $grade->nilai_uts;
+                                $nilaiUas   = $uasScore  !== null ? round((float) $uasScore, 2) : $grade->nilai_uas;
+
+                                $nilaiAkhir = null;
+                                if ($nilaiTugas !== null && $nilaiUts !== null && $nilaiUas !== null) {
+                                    $nilaiAkhir = round((float) $nilaiTugas * 0.4 + (float) $nilaiUts * 0.3 + (float) $nilaiUas * 0.3, 2);
+                                }
+
+                                $grade->update([
+                                    'nilai_tugas' => $nilaiTugas,
+                                    'nilai_uts'   => $nilaiUts,
+                                    'nilai_uas'   => $nilaiUas,
+                                    'nilai_akhir' => $nilaiAkhir,
+                                    'predikat'    => $nilaiAkhir !== null ? Grade::calcPredikat($nilaiAkhir) : $grade->predikat,
+                                ]);
+                                $updated++;
+                            }
+                            Notification::make()
+                                ->title("{$updated} nilai berhasil dihitung")
+                                ->success()
+                                ->send();
+                        })
+                        ->deselectRecordsAfterCompletion(),
+                    DeleteBulkAction::make(),
+                ]),
             ]);
     }
 

@@ -43,6 +43,11 @@ Route::get('/jurnal-mengajar/pdf', \App\Http\Controllers\JurnalMengajarPdfContro
     ->middleware(['auth'])
     ->name('jurnal-mengajar.pdf');
 
+// Laporan Penilaian PDF (auth protected)
+Route::get('/laporan-penilaian/pdf', \App\Http\Controllers\LaporanPenilaianPdfController::class)
+    ->middleware(['auth'])
+    ->name('laporan-penilaian.pdf');
+
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profile::class)->name('profil');
 

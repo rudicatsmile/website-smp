@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -99,6 +100,11 @@ class LessonSession extends Model
         return $this->belongsToMany(ClassAssignment::class, 'lesson_session_assignments')
             ->withPivot('given_at')
             ->withTimestamps();
+    }
+
+    public function assessments(): HasMany
+    {
+        return $this->hasMany(SessionAssessment::class);
     }
 
     public function scopeForTeacher(Builder $q, StaffMember $staff): Builder

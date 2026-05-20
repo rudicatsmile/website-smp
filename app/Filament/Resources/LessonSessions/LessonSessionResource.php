@@ -7,6 +7,7 @@ namespace App\Filament\Resources\LessonSessions;
 use App\Filament\Resources\LessonSessions\Pages\CreateLessonSession;
 use App\Filament\Resources\LessonSessions\Pages\EditLessonSession;
 use App\Filament\Resources\LessonSessions\Pages\ListLessonSessions;
+use App\Filament\Resources\LessonSessions\RelationManagers\AssessmentsRelationManager;
 use App\Filament\Resources\LessonSessions\RelationManagers\AssignmentsRelationManager;
 use App\Filament\Resources\LessonSessions\RelationManagers\MaterialsRelationManager;
 use App\Models\LessonSession;
@@ -137,7 +138,11 @@ class LessonSessionResource extends Resource
 
     public static function getRelations(): array
     {
-        return [MaterialsRelationManager::class, AssignmentsRelationManager::class];
+        return [
+            MaterialsRelationManager::class,
+            AssignmentsRelationManager::class,
+            AssessmentsRelationManager::class,
+        ];
     }
 
     public static function getEloquentQuery(): Builder

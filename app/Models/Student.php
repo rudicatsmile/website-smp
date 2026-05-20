@@ -102,6 +102,16 @@ class Student extends Model
         return $this->hasMany(StudentAttendance::class);
     }
 
+    public function assessmentScores(): HasMany
+    {
+        return $this->hasMany(SessionAssessmentScore::class);
+    }
+
+    public function examScores(): HasMany
+    {
+        return $this->hasMany(ExamScore::class);
+    }
+
     public function violations(): HasMany
     {
         return $this->hasMany(StudentViolation::class);
