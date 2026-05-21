@@ -35,20 +35,20 @@ class CurriculumPlanResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Materi Pelajaran';
+    protected static string|\UnitEnum|null $navigationGroup = 'Kurikulum';
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationLabel = 'Kurikulum';
+    protected static ?string $navigationLabel = 'Rencana Pembelajaran';
 
-    protected static ?string $modelLabel = 'Rencana Kurikulum';
+    protected static ?string $modelLabel = 'Rencana Pembelajaran';
 
-    protected static ?string $pluralModelLabel = 'Kurikulum';
+    protected static ?string $pluralModelLabel = 'Rencana Pembelajaran';
 
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Informasi Kurikulum')->columns(3)->schema([
+            Section::make('Informasi Rencana Pembelajaran')->columns(3)->schema([
                 Select::make('school_class_id')->label('Kelas')
                     ->options(fn () => SchoolClass::active()->ordered()->pluck('name', 'id'))
                     ->searchable()->preload()->required(),
@@ -63,7 +63,7 @@ class CurriculumPlanResource extends Resource
                 Select::make('semester')->label('Semester')->required()
                     ->options(['ganjil' => 'Ganjil', 'genap' => 'Genap']),
                 Toggle::make('is_active')->label('Aktif')->default(true),
-                TextInput::make('title')->label('Judul')->required()->maxLength(200)->columnSpanFull(),
+                TextInput::make('title')->label('Topik')->required()->maxLength(200)->columnSpanFull(),
                 Textarea::make('description')->label('Deskripsi')->rows(3)->columnSpanFull(),
                 TextInput::make('default_methods')->label('Metode Default')->maxLength(255)
                     ->placeholder('Ceramah, Diskusi, Praktik'),

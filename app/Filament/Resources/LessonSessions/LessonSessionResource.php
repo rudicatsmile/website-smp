@@ -42,7 +42,7 @@ class LessonSessionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clock';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Materi Pelajaran';
+    protected static string|\UnitEnum|null $navigationGroup = 'Kurikulum';
 
     protected static ?int $navigationSort = 2;
 
