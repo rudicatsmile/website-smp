@@ -51,6 +51,9 @@ class LessonSession extends Model
         'actual_end_at' => 'datetime',
         'completed_at' => 'datetime',
         'student_work_links' => 'array',
+        'learning_objectives' => 'array',
+        'methods' => 'array',
+        'media' => 'array',
     ];
 
     public function getActivitylogOptions(): LogOptions

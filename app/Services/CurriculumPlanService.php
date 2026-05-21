@@ -83,9 +83,9 @@ class CurriculumPlanService
                     'end_time' => $endTime,
                     'period' => $period,
                     'topic' => $topic->topic,
-                    'learning_objectives' => $topic->learning_objectives,
-                    'methods' => $topic->methods ?? $plan->default_methods,
-                    'media' => $topic->media ?? $plan->default_media,
+                    'learning_objectives' => json_encode($topic->learning_objectives ?? []),
+                    'methods' => json_encode($topic->methods ?? $plan->default_methods ?? []),
+                    'media' => json_encode($topic->media ?? $plan->default_media ?? []),
                     'assessment_plan' => $topic->assessment_plan,
                     'status' => $publishImmediately ? 'published' : 'draft',
                     'created_at' => now(),
@@ -132,9 +132,9 @@ class CurriculumPlanService
             $session->update([
                 'curriculum_plan_topic_id' => $topic->id,
                 'topic' => $topic->topic,
-                'learning_objectives' => $topic->learning_objectives,
-                'methods' => $topic->methods ?? $plan->default_methods,
-                'media' => $topic->media ?? $plan->default_media,
+                'learning_objectives' => $topic->learning_objectives ?? [],
+                'methods' => $topic->methods ?? $plan->default_methods ?? [],
+                'media' => $topic->media ?? $plan->default_media ?? [],
                 'assessment_plan' => $topic->assessment_plan,
             ]);
             $topicIndex++;

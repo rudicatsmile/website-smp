@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Resources\CurriculumPlans\RelationManagers;
 
 use App\Models\CurriculumPlanTopic;
+use App\Models\LearningMedia;
+use App\Models\LearningMethod;
+use App\Models\LearningObjective;
 use App\Services\CurriculumPlanService;
 use Carbon\Carbon;
 use Filament\Actions\Action;
@@ -13,6 +16,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -31,12 +35,55 @@ class TopicsRelationManager extends RelationManager
     public function form(Schema $schema): Schema
     {
         return $schema->components([
-            TextInput::make('week_number')->label('Pekan ke-')->numeric()->required()->minValue(1),
-            TextInput::make('order')->label('Urutan')->numeric()->default(0),
+            TextInput::make('week_number')->label('Minggu ke-')->numeric()->required()->minValue(1),
+            TextInput::make('order')->label('Pertemuan ke-')->numeric()->default(0),
             TextInput::make('topic')->label('Topik / Bab')->required()->maxLength(255)->columnSpanFull(),
-            Textarea::make('learning_objectives')->label('Tujuan Pembelajaran')->rows(3)->columnSpanFull(),
-            TextInput::make('methods')->label('Metode')->maxLength(255),
-            TextInput::make('media')->label('Media')->maxLength(255),
+            Select::make('learning_objectives')
+                ->label('Tujuan Pembelajaran')
+                ->multiple()
+                ->options(function (Get $get) {
+                    $owner = $this->getOwnerRecord();
+                    if (! $owner || ! $owner->learning_objective_ids) {
+                        return [];
+                    }
+                    return LearningObjective::whereIn('id', $owner->learning_objective_ids)
+                        ->active()
+                        ->ordered()
+                        ->pluck('name', 'id');
+                })
+                ->searchable()
+                ->preload()
+                ->columnSpanFull(),
+            Select::make('methods')
+                ->label('Metode')
+                ->multiple()
+                ->options(function (Get $get) {
+                    $owner = $this->getOwnerRecord();
+                    if (! $owner || ! $owner->default_methods) {
+                        return [];
+                    }
+                    return LearningMethod::whereIn('id', $owner->default_methods)
+                        ->active()
+                        ->ordered()
+                        ->pluck('name', 'id');
+                })
+                ->searchable()
+                ->preload(),
+            Select::make('media')
+                ->label('Media')
+                ->multiple()
+                ->options(function (Get $get) {
+                    $owner = $this->getOwnerRecord();
+                    if (! $owner || ! $owner->default_media) {
+                        return [];
+                    }
+                    return LearningMedia::whereIn('id', $owner->default_media)
+                        ->active()
+                        ->ordered()
+                        ->pluck('name', 'id');
+                })
+                ->searchable()
+                ->preload(),
             Textarea::make('assessment_plan')->label('Rencana Penilaian')->rows(2)->columnSpanFull(),
             TextInput::make('default_duration_minutes')->label('Durasi (menit)')->numeric()->default(90),
             Textarea::make('notes')->label('Catatan')->rows(2)->columnSpanFull(),
@@ -60,7 +107,9 @@ class TopicsRelationManager extends RelationManager
                 DeleteAction::make(),
             ])
             ->headerActions([
-                CreateAction::make(),
+                CreateAction::make()
+                    ->label('Rencana Pembelajaran Per Pertemuan')
+                    ->modalHeading('Rencana Pembelajaran Per Pertemuan'),
                 Action::make('applyToDates')
                     ->label('🗓 Apply ke Tanggal')
                     ->icon('heroicon-o-calendar-days')

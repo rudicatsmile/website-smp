@@ -25,6 +25,9 @@ class CurriculumPlanTopic extends Model
         'week_number' => 'integer',
         'order' => 'integer',
         'default_duration_minutes' => 'integer',
+        'learning_objectives' => 'array',
+        'methods' => 'array',
+        'media' => 'array',
     ];
 
     public function getActivitylogOptions(): LogOptions

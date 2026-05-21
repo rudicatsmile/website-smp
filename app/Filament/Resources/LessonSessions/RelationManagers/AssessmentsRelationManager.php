@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LessonSessions\RelationManagers;
 
+use App\Models\AssessmentType;
 use App\Models\SessionAssessment;
 use App\Models\StudentAttendance;
 use Filament\Actions\Action;
@@ -25,7 +26,7 @@ class AssessmentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'assessments';
 
-    protected static ?string $title = 'Penilaian';
+    protected static ?string $title = 'Assessment';
 
     public function form(Schema $schema): Schema
     {
@@ -39,13 +40,10 @@ class AssessmentsRelationManager extends RelationManager
                     ->columnSpanFull(),
                 Select::make('type')
                     ->label('Jenis')
-                    ->options(SessionAssessment::TYPES)
-                    ->default('kuis')
+                    ->options(fn () => AssessmentType::active()->ordered()->pluck('name', 'id'))
+                    ->searchable()
+                    ->preload()
                     ->required(),
-                Select::make('domain')
-                    ->label('Domain Penilaian')
-                    ->options(SessionAssessment::DOMAINS)
-                    ->placeholder('— Pilih Domain —'),
                 TextInput::make('max_score')
                     ->label('Nilai Maksimal')
                     ->numeric()

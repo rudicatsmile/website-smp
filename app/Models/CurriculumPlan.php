@@ -17,19 +17,24 @@ class CurriculumPlan extends Model
     protected $fillable = [
         'school_class_id', 'material_category_id', 'staff_member_id',
         'academic_year', 'semester',
-        'title', 'description',
-        'default_methods', 'default_media',
+        'title', 'time_allocation',
+        'learning_objective_ids', 'learning_model_ids',
+        'default_methods', 'default_media', 'default_media_other',
         'is_active', 'created_by',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'is_active'              => 'boolean',
+        'learning_objective_ids' => 'array',
+        'learning_model_ids'     => 'array',
+        'default_methods'        => 'array',
+        'default_media'          => 'array',
     ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['title', 'description', 'is_active', 'staff_member_id', 'default_methods', 'default_media'])
+            ->logOnly(['title', 'time_allocation', 'is_active', 'staff_member_id', 'learning_objective_ids', 'learning_model_ids', 'default_methods', 'default_media'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

@@ -9,6 +9,10 @@ use App\Filament\Resources\CurriculumPlans\Pages\EditCurriculumPlan;
 use App\Filament\Resources\CurriculumPlans\Pages\ListCurriculumPlans;
 use App\Filament\Resources\CurriculumPlans\RelationManagers\TopicsRelationManager;
 use App\Models\CurriculumPlan;
+use App\Models\LearningMedia;
+use App\Models\LearningMethod;
+use App\Models\LearningModel;
+use App\Models\LearningObjective;
 use App\Models\MaterialCategory;
 use App\Models\SchoolClass;
 use App\Models\StaffMember;
@@ -17,7 +21,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
@@ -48,7 +52,7 @@ class CurriculumPlanResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Informasi Rencana Pembelajaran')->columns(3)->schema([
+            Section::make('Informasi Rencana Pembelajaran')->schema([
                 Select::make('school_class_id')->label('Kelas')
                     ->options(fn () => SchoolClass::active()->ordered()->pluck('name', 'id'))
                     ->searchable()->preload()->required(),
@@ -64,11 +68,43 @@ class CurriculumPlanResource extends Resource
                     ->options(['ganjil' => 'Ganjil', 'genap' => 'Genap']),
                 Toggle::make('is_active')->label('Aktif')->default(true),
                 TextInput::make('title')->label('Topik')->required()->maxLength(200)->columnSpanFull(),
-                Textarea::make('description')->label('Deskripsi')->rows(3)->columnSpanFull(),
-                TextInput::make('default_methods')->label('Metode Default')->maxLength(255)
-                    ->placeholder('Ceramah, Diskusi, Praktik'),
-                TextInput::make('default_media')->label('Media Default')->maxLength(255)
-                    ->placeholder('LCD, Papan Tulis, Lab'),
+                TextInput::make('time_allocation')->label('Alokasi Waktu')->maxLength(50)
+                    ->placeholder('Contoh: 2 x 40 menit'),
+                Select::make('learning_objective_ids')
+                    ->label('Tujuan Pembelajaran')
+                    ->multiple()
+                    ->options(fn () => LearningObjective::active()->ordered()->pluck('name', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->columnSpanFull(),
+                Select::make('learning_model_ids')
+                    ->label('Model Pembelajaran')
+                    ->multiple()
+                    ->options(fn () => LearningModel::active()->ordered()->pluck('name', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->columnSpanFull(),
+                Select::make('default_methods')
+                    ->label('Metode Pembelajaran')
+                    ->multiple()
+                    ->options(fn () => LearningMethod::active()->ordered()->pluck('name', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->columnSpanFull(),
+                Select::make('default_media')
+                    ->label('Media Pembelajaran')
+                    ->multiple()
+                    ->options(fn () => LearningMedia::active()->ordered()->pluck('name', 'id')->put('lainnya', '— Lainnya'))
+                    ->searchable()
+                    ->preload()
+                    ->live()
+                    ->columnSpanFull(),
+                TextInput::make('default_media_other')
+                    ->label('Media Lainnya (isian bebas)')
+                    ->maxLength(255)
+                    ->placeholder('Tulis media pembelajaran lainnya...')
+                    ->columnSpanFull()
+                    ->hidden(fn (Get $get): bool => ! in_array('lainnya', (array) ($get('default_media') ?? []))),
             ]),
         ]);
     }

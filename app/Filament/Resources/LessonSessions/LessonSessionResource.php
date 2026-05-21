@@ -11,6 +11,9 @@ use App\Filament\Resources\LessonSessions\RelationManagers\AssessmentsRelationMa
 use App\Filament\Resources\LessonSessions\RelationManagers\AssignmentsRelationManager;
 use App\Filament\Resources\LessonSessions\RelationManagers\CasesRelationManager;
 use App\Filament\Resources\LessonSessions\RelationManagers\MaterialsRelationManager;
+use App\Models\LearningMedia;
+use App\Models\LearningMethod;
+use App\Models\LearningObjective;
 use App\Models\LessonSession;
 use App\Models\MaterialCategory;
 use App\Models\SchoolClass;
@@ -74,9 +77,76 @@ class LessonSessionResource extends Resource
             ]),
             Section::make('Konten Pembelajaran')->schema([
                 TextInput::make('topic')->label('Topik / Bab')->required()->maxLength(255)->columnSpanFull(),
-                Textarea::make('learning_objectives')->label('Tujuan Pembelajaran')->rows(3)->columnSpanFull(),
-                TextInput::make('methods')->label('Metode')->maxLength(255),
-                TextInput::make('media')->label('Media')->maxLength(255),
+                TextInput::make('learning_objectives_display')
+                    ->label('Tujuan Pembelajaran')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->afterStateHydrated(function ($component, $record) {
+                        if (! $record) {
+                            return;
+                        }
+                        $ids = ! empty($record->learning_objectives)
+                            ? $record->learning_objectives
+                            : ($record->plan?->learning_objective_ids ?? []);
+                        if (empty($ids)) {
+                            $component->state('');
+                            return;
+                        }
+                        $names = LearningObjective::whereIn('id', $ids)
+                            ->active()
+                            ->ordered()
+                            ->pluck('name')
+                            ->toArray();
+                        $component->state(implode(' • ', $names));
+                    })
+                    ->columnSpanFull()
+                    ->hint('Data diambil dari Rencana Pembelajaran'),
+                TextInput::make('methods_display')
+                    ->label('Metode Pembelajaran')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->afterStateHydrated(function ($component, $record) {
+                        if (! $record) {
+                            return;
+                        }
+                        $ids = ! empty($record->methods)
+                            ? $record->methods
+                            : ($record->plan?->default_methods ?? []);
+                        if (empty($ids)) {
+                            $component->state('');
+                            return;
+                        }
+                        $names = LearningMethod::whereIn('id', $ids)
+                            ->active()
+                            ->ordered()
+                            ->pluck('name')
+                            ->toArray();
+                        $component->state(implode(' • ', $names));
+                    })
+                    ->hint('Data diambil dari Rencana Pembelajaran'),
+                TextInput::make('media_display')
+                    ->label('Media Pembelajaran')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->afterStateHydrated(function ($component, $record) {
+                        if (! $record) {
+                            return;
+                        }
+                        $ids = ! empty($record->media)
+                            ? $record->media
+                            : ($record->plan?->default_media ?? []);
+                        if (empty($ids)) {
+                            $component->state('');
+                            return;
+                        }
+                        $names = LearningMedia::whereIn('id', $ids)
+                            ->active()
+                            ->ordered()
+                            ->pluck('name')
+                            ->toArray();
+                        $component->state(implode(' • ', $names));
+                    })
+                    ->hint('Data diambil dari Rencana Pembelajaran'),
                 Textarea::make('assessment_plan')->label('Rencana Penilaian')->rows(2)->columnSpanFull(),
                 Textarea::make('notes')->label('Catatan Rencana')->rows(2)->columnSpanFull(),
             ]),
