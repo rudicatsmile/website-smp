@@ -9,6 +9,7 @@ use App\Filament\Resources\Downloads\Schemas\DownloadForm;
 use App\Filament\Resources\Downloads\Tables\DownloadsTable;
 use App\Models\Download;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class DownloadResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = Download::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ArrowDownTray;

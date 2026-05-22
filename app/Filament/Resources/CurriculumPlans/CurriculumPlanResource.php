@@ -24,6 +24,7 @@ use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -35,6 +36,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class CurriculumPlanResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = CurriculumPlan::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-academic-cap';

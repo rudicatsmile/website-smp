@@ -9,6 +9,7 @@ use App\Filament\Resources\Sliders\Schemas\SliderForm;
 use App\Filament\Resources\Sliders\Tables\SlidersTable;
 use App\Models\Slider;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class SliderResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = Slider::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Photo;

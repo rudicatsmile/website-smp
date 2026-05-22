@@ -11,6 +11,7 @@ use App\Filament\Resources\Faqs\Schemas\FaqForm;
 use App\Filament\Resources\Faqs\Tables\FaqsTable;
 use App\Models\Faq;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -18,6 +19,8 @@ use Filament\Tables\Table;
 
 class FaqResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = Faq::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ChatBubbleLeftRight;

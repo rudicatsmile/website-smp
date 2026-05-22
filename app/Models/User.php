@@ -24,7 +24,7 @@ class User extends Authenticatable implements FilamentUser
             return $this->hasAnyRole(['super_admin', 'guru_pengampuh']);
         }
 
-        return $this->hasAnyRole(['super_admin', 'admin', 'editor', 'contributor', 'teacher', 'counselor', 'piket']);
+        return $this->hasAnyRole(['super_admin', 'admin', 'editor', 'contributor', 'teacher', 'counselor', 'piket', 'guru_ekstrakurikuler']);
     }
 
     public function staffMember(): HasOne

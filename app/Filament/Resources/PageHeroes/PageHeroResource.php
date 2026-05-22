@@ -9,6 +9,7 @@ use App\Filament\Resources\PageHeroes\Schemas\PageHeroForm;
 use App\Filament\Resources\PageHeroes\Tables\PageHeroesTable;
 use App\Models\PageHero;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class PageHeroResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = PageHero::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleGroup;

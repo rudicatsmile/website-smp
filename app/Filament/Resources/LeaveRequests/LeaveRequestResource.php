@@ -24,6 +24,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -36,6 +37,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 class LeaveRequestResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = LeaveRequest::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';

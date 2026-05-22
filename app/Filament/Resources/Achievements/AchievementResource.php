@@ -9,6 +9,7 @@ use App\Filament\Resources\Achievements\Schemas\AchievementForm;
 use App\Filament\Resources\Achievements\Tables\AchievementsTable;
 use App\Models\Achievement;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class AchievementResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = Achievement::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Trophy;

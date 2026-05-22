@@ -9,6 +9,7 @@ use App\Filament\Resources\SpmbRegistrations\Schemas\SpmbRegistrationForm;
 use App\Filament\Resources\SpmbRegistrations\Tables\SpmbRegistrationsTable;
 use App\Models\SpmbRegistration;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -18,6 +19,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SpmbRegistrationResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = SpmbRegistration::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ClipboardDocumentList;

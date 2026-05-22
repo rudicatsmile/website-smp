@@ -15,6 +15,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -31,6 +32,8 @@ use App\Services\Notifications\NotificationService;
 
 class StudentPaymentResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = StudentPayment::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-banknotes';

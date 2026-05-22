@@ -11,12 +11,15 @@ use App\Filament\Resources\StaffMembers\Schemas\StaffMemberForm;
 use App\Filament\Resources\StaffMembers\Tables\StaffMembersTable;
 use App\Models\StaffMember;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 
 class StaffMemberResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = StaffMember::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-users';

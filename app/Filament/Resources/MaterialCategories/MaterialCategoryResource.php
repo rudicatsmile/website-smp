@@ -11,12 +11,15 @@ use App\Filament\Resources\MaterialCategories\Schemas\MaterialCategoryForm;
 use App\Filament\Resources\MaterialCategories\Tables\MaterialCategoriesTable;
 use App\Models\MaterialCategory;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 
 class MaterialCategoryResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = MaterialCategory::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';

@@ -9,6 +9,7 @@ use App\Filament\Resources\DownloadCategories\Schemas\DownloadCategoryForm;
 use App\Filament\Resources\DownloadCategories\Tables\DownloadCategoriesTable;
 use App\Models\DownloadCategory;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class DownloadCategoryResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = DownloadCategory::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Folder;

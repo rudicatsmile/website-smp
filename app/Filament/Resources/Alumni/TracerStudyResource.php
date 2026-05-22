@@ -14,6 +14,7 @@ use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Notifications\Notification;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -26,6 +27,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 class TracerStudyResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = TracerStudy::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ClipboardDocumentList;

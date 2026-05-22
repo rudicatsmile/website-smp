@@ -9,6 +9,7 @@ use App\Filament\Resources\SpmbPeriods\Schemas\SpmbPeriodForm;
 use App\Filament\Resources\SpmbPeriods\Tables\SpmbPeriodsTable;
 use App\Models\SpmbPeriod;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class SpmbPeriodResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = SpmbPeriod::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::CalendarDays;

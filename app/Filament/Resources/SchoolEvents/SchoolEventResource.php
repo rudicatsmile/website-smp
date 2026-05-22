@@ -9,6 +9,7 @@ use App\Filament\Resources\SchoolEvents\Schemas\SchoolEventForm;
 use App\Filament\Resources\SchoolEvents\Tables\SchoolEventsTable;
 use App\Models\SchoolEvent;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class SchoolEventResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = SchoolEvent::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::CalendarDays;

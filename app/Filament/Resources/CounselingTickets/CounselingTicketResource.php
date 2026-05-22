@@ -15,6 +15,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -31,6 +32,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CounselingTicketResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = CounselingTicket::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-heart';

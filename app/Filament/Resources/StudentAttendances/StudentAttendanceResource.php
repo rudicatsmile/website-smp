@@ -14,6 +14,7 @@ use BackedEnum;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -28,6 +29,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class StudentAttendanceResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = StudentAttendance::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-check';

@@ -9,6 +9,7 @@ use App\Filament\Resources\NewsCategories\Schemas\NewsCategoryForm;
 use App\Filament\Resources\NewsCategories\Tables\NewsCategoriesTable;
 use App\Models\NewsCategory;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class NewsCategoryResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = NewsCategory::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Folder;

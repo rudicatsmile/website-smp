@@ -13,6 +13,7 @@ use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Notifications\Notification;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -26,6 +27,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 class NotificationLogResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = NotificationLog::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bell-alert';

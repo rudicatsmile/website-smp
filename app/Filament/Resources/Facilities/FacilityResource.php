@@ -9,6 +9,7 @@ use App\Filament\Resources\Facilities\Schemas\FacilityForm;
 use App\Filament\Resources\Facilities\Tables\FacilitiesTable;
 use App\Models\Facility;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class FacilityResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = Facility::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingLibrary;

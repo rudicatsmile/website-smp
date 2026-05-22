@@ -11,12 +11,15 @@ use App\Filament\Resources\StaffSchedules\Schemas\StaffScheduleForm;
 use App\Filament\Resources\StaffSchedules\Tables\StaffSchedulesTable;
 use App\Models\StaffSchedule;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 
 class StaffScheduleResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = StaffSchedule::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clock';

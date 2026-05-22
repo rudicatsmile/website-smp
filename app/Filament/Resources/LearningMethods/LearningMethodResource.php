@@ -14,6 +14,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
@@ -22,6 +23,8 @@ use Filament\Tables\Table;
 
 class LearningMethodResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = LearningMethod::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bars-3-bottom-left';

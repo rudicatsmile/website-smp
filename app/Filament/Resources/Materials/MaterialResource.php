@@ -11,12 +11,15 @@ use App\Filament\Resources\Materials\Schemas\MaterialForm;
 use App\Filament\Resources\Materials\Tables\MaterialsTable;
 use App\Models\Material;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 
 class MaterialResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = Material::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-book-open';

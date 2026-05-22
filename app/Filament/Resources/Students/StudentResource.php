@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Grid;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -40,6 +41,8 @@ use App\Services\Notifications\NotificationService;
 
 class StudentResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = Student::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-users';

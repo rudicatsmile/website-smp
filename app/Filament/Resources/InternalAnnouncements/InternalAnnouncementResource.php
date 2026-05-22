@@ -12,6 +12,7 @@ use App\Filament\Resources\InternalAnnouncements\Schemas\InternalAnnouncementFor
 use App\Filament\Resources\InternalAnnouncements\Tables\InternalAnnouncementsTable;
 use App\Models\InternalAnnouncement;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class InternalAnnouncementResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = InternalAnnouncement::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-megaphone';

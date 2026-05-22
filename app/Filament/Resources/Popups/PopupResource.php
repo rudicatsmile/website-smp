@@ -9,6 +9,7 @@ use App\Filament\Resources\Popups\Schemas\PopupForm;
 use App\Filament\Resources\Popups\Tables\PopupsTable;
 use App\Models\Popup;
 use BackedEnum;
+use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class PopupResource extends Resource
 {
+    use HidesFromEkskulRole;
+
     protected static ?string $model = Popup::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Megaphone;
