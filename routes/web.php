@@ -33,6 +33,21 @@ use App\Livewire\Pages\TracerStudyForm;
 use App\Http\Controllers\MaterialDownloadController;
 use Illuminate\Support\Facades\Route;
 
+// Report Rencana Pembelajaran (auth protected)
+Route::get('/print/curriculum-plans/{plan}', \App\Http\Controllers\Reports\CurriculumPlanPrintController::class)
+    ->middleware(['auth'])
+    ->name('print.curriculum-plans');
+
+// Report Sesi Mengajar (auth protected)
+Route::get('/print/lesson-sessions/{lessonSession}', \App\Http\Controllers\Reports\LessonSessionPrintController::class)
+    ->middleware(['auth'])
+    ->name('print.lesson-sessions');
+
+// Report Realisasi Pembelajaran (auth protected)
+Route::get('/print/curriculum-plans/{plan}/execution-summary', \App\Http\Controllers\Reports\CurriculumPlanExecutionSummaryController::class)
+    ->middleware(['auth'])
+    ->name('print.curriculum-plans.execution-summary');
+
 // Laporan Absensi PDF (auth protected)
 Route::get('/laporan-absensi/pdf', \App\Http\Controllers\AttendanceReportPdfController::class)
     ->middleware(['auth'])

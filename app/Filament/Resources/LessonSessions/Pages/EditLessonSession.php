@@ -21,6 +21,12 @@ class EditLessonSession extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('print')
+                ->label('Cetak Sesi')
+                ->icon('heroicon-o-printer')
+                ->color('info')
+                ->url(fn () => route('print.lesson-sessions', $this->record))
+                ->openUrlInNewTab(),
             Action::make('startTeaching')
                 ->label('Mulai Mengajar')
                 ->icon('heroicon-o-play')
