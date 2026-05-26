@@ -16,7 +16,7 @@ class CurriculumPlanTopic extends Model
 
     protected $fillable = [
         'curriculum_plan_id', 'week_number', 'order',
-        'topic', 'learning_objectives',
+        'topic', 'learning_objectives', 'learning_paths',
         'methods', 'media', 'assessment_plan',
         'default_duration_minutes', 'notes',
     ];
@@ -26,6 +26,7 @@ class CurriculumPlanTopic extends Model
         'order' => 'integer',
         'default_duration_minutes' => 'integer',
         'learning_objectives' => 'array',
+        'learning_paths' => 'array',
         'methods' => 'array',
         'media' => 'array',
     ];

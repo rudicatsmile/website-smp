@@ -279,6 +279,25 @@ button, input, select, textarea, .fi-ta-cell {
 }
 
 /* ============================================
+   REPEATER ITEM - INLINE LAYOUT (scoped to .repeater-inline)
+   ============================================ */
+.repeater-inline .fi-fo-repeater-item {
+    @apply flex flex-row items-end gap-2 divide-y-0;
+}
+
+.repeater-inline .fi-fo-repeater-item > .fi-fo-repeater-item-content {
+    @apply flex-1 border-t-0 p-2;
+}
+
+.repeater-inline .fi-fo-repeater-item > .fi-fo-repeater-item-header {
+    @apply order-last flex-none border-b-0 p-0 px-1 pb-3;
+}
+
+.repeater-inline .fi-fo-repeater-item > .fi-fo-repeater-item-header .fi-fo-repeater-item-header-label {
+    @apply hidden;
+}
+
+/* ============================================
    TABS
    ============================================ */
 .fi-tabs {

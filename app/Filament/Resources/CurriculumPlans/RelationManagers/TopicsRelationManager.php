@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\CurriculumPlans\RelationManagers;
 
 use App\Models\CurriculumPlanTopic;
+use App\Models\KkoLevel;
 use App\Models\LearningMedia;
 use App\Models\LearningMethod;
 use App\Models\LearningObjective;
@@ -15,6 +16,7 @@ use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Forms\Components\Textarea;
@@ -53,6 +55,30 @@ class TopicsRelationManager extends RelationManager
                 })
                 ->searchable()
                 ->preload()
+                ->columnSpanFull(),
+            Repeater::make('learning_paths')
+                ->label('Alur Tujuan Pembelajaran')
+                ->columns(17)
+                ->schema([
+                    TextInput::make('description')
+                        ->label('Deskripsi ATP')
+                        ->required()
+                        ->maxLength(500)
+                        ->columnSpan(10),
+                    Select::make('kko_level_id')
+                        ->label('Level KKO')
+                        ->options(fn () => KkoLevel::active()->ordered()->pluck('name', 'id'))
+                        ->searchable()
+                        ->preload()
+                        ->required()
+                        ->columnSpan(7),
+                ])
+                ->addActionLabel('Tambah ATP')
+                ->reorderable(false)
+                ->collapsible(false)
+                ->itemLabel(fn () => null)
+                ->defaultItems(0)
+                ->extraAttributes(['class' => 'repeater-inline'])
                 ->columnSpanFull(),
             Select::make('methods')
                 ->label('Metode')
@@ -95,10 +121,26 @@ class TopicsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('topic')
             ->columns([
-                TextColumn::make('week_number')->label('Pekan')->sortable()->badge(),
-                TextColumn::make('order')->label('#')->sortable(),
+                TextColumn::make('week_number')->label('Minggu Ke-')->sortable()->badge(),
+                TextColumn::make('order')->label('Pertemuan Ke-')->sortable(),
                 TextColumn::make('topic')->label('Topik')->searchable()->limit(50),
-                TextColumn::make('methods')->label('Metode')->limit(30)->toggleable(),
+                TextColumn::make('methods_display')
+                    ->label('Metode')
+                    ->getStateUsing(function ($record) {
+                        $ids = $record->methods;
+                        if (empty($ids)) {
+                            return '-';
+                        }
+                        if (is_string($ids)) {
+                            $ids = json_decode($ids, true);
+                        }
+                        if (! is_array($ids) || empty($ids)) {
+                            return '-';
+                        }
+                        return LearningMethod::whereIn('id', $ids)->ordered()->pluck('name')->implode(', ');
+                    })
+                    ->limit(40)
+                    ->toggleable(),
                 TextColumn::make('default_duration_minutes')->label('Durasi')->suffix(' mnt')->toggleable(),
             ])
             ->defaultSort('week_number')
