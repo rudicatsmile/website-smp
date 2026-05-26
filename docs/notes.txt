@@ -5,7 +5,7 @@ URL admin: http://127.0.0.1:8000/admin/login
 
 Access list :
     1. http://127.0.0.1:8000/admin
-        - admin@smpalwathoniyah9.sch.id / password
+        - admin@smpalwahoniyah9.sch.id / password
     2. http://127.0.0.1:8000/portal => Portal Siswa
         - siswa@smpalwathoniyah9.sch.id / password
     3. http://127.0.0.1:8000/portal/ortu/login => Portal Orang Tua

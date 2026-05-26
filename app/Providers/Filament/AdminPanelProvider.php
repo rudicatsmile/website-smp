@@ -30,23 +30,57 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('CMS SMP Al Wathoniyah 9')
+            ->brandLogo(asset('images/logo.svg'))
+            ->brandLogoHeight('2.5rem')
+            ->favicon(asset('images/favicon.png'))
             ->colors([
-                'primary' => Color::Emerald,
+                'primary' => Color::Blue,
+                'gray' => Color::Slate,
+                'success' => Color::Emerald,
+                'warning' => Color::Amber,
+                'danger' => Color::Rose,
+                'info' => Color::Sky,
             ])
-            ->databaseNotifications()
+            ->font('Plus Jakarta Sans')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->sidebarCollapsibleOnDesktop()
+            ->sidebarWidth('16rem')
             ->maxContentWidth(Width::Full)
+            ->topNavigation(false)
             ->navigationGroups([
-                NavigationGroup::make('Pengaturan Umum'),
-                NavigationGroup::make('Content'),
-                NavigationGroup::make('Akademik'),
-                NavigationGroup::make('Staff'),
-                NavigationGroup::make('Materi Pelajaran'),
-                NavigationGroup::make('Komunikasi'),
-                NavigationGroup::make('PPDB'),
-                NavigationGroup::make('Ekstrakurikuler'),
-                NavigationGroup::make('Event'),
-                NavigationGroup::make('Alumni'),
+                NavigationGroup::make('Master Data')
+                    ->icon('heroicon-o-circle-stack')
+                    ->collapsible(),
+                NavigationGroup::make('Content')
+                    ->icon('heroicon-o-document-text')
+                    ->collapsible(),
+                NavigationGroup::make('Akademik')
+                    ->icon('heroicon-o-academic-cap')
+                    ->collapsible(),
+                NavigationGroup::make('Staff')
+                    ->icon('heroicon-o-user-group')
+                    ->collapsible(),
+                NavigationGroup::make('Materi Pelajaran')
+                    ->icon('heroicon-o-book-open')
+                    ->collapsed(true),
+                NavigationGroup::make('Komunikasi')
+                    ->icon('heroicon-o-chat-bubble-left-right')
+                    ->collapsed(true),
+                NavigationGroup::make('PPDB')
+                    ->icon('heroicon-o-clipboard-document-check')
+                    ->collapsed(true),
+                NavigationGroup::make('Ekstrakurikuler')
+                    ->icon('heroicon-o-trophy')
+                    ->collapsed(true),
+                NavigationGroup::make('Event')
+                    ->icon('heroicon-o-calendar-days')
+                    ->collapsed(true),
+                NavigationGroup::make('Alumni')
+                    ->icon('heroicon-o-users')
+                    ->collapsed(true),
+                NavigationGroup::make('Pengaturan Umum')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->collapsible(),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
@@ -73,6 +107,33 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->plugins([
+                \Awcodes\Curator\CuratorPlugin::make()
+                    ->label('Media')
+                    ->pluralLabel('Media Library')
+                    ->navigationIcon('heroicon-o-photo')
+                    ->navigationGroup('Content')
+                    ->navigationSort(3)
+                    ->registerNavigation(false),
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+                    ->navigationGroup('Pengaturan Umum')
+                    ->navigationSort(2)
+                    ->gridColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'lg' => 3
+                    ])
+                    ->sectionColumnSpan(1)
+                    ->checkboxListColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'lg' => 3,
+                    ])
+                    ->resourceCheckboxListColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                    ]),
             ]);
     }
 }
