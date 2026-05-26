@@ -255,28 +255,27 @@ button, input, select, textarea, .fi-ta-cell {
 }
 
 /* ============================================
-   NOTIFICATIONS
+   NOTIFICATIONS - Style individual notifications, not the wrapper
    ============================================ */
-.fi-no {
+.fi-no-notification {
     @apply rounded-2xl;
     @apply shadow-xl;
-    @apply border-l-4;
 }
 
-.fi-no-success {
-    @apply border-green-500 bg-green-50 dark:bg-green-950/50;
+.fi-no-notification.fi-color-success {
+    @apply border-l-4 border-green-500;
 }
 
-.fi-no-danger {
-    @apply border-red-500 bg-red-50 dark:bg-red-950/50;
+.fi-no-notification.fi-color-danger {
+    @apply border-l-4 border-red-500;
 }
 
-.fi-no-warning {
-    @apply border-yellow-500 bg-yellow-50 dark:bg-yellow-950/50;
+.fi-no-notification.fi-color-warning {
+    @apply border-l-4 border-yellow-500;
 }
 
-.fi-no-info {
-    @apply border-blue-500 bg-blue-50 dark:bg-blue-950/50;
+.fi-no-notification.fi-color-info {
+    @apply border-l-4 border-blue-500;
 }
 
 /* ============================================
