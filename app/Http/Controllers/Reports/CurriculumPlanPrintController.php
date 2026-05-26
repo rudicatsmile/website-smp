@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Reports;
 
 use App\Http\Controllers\Controller;
 use App\Models\CurriculumPlan;
+use App\Models\KkoLevel;
 use App\Models\LearningMedia;
 use App\Models\LearningMethod;
 use App\Models\LearningModel;
@@ -44,7 +45,9 @@ class CurriculumPlanPrintController extends Controller
             $allMedia[] = $plan->default_media_other;
         }
 
-        $topicsData = $plan->topics->map(function ($topic) use ($objectives, $methods, $mediaItems) {
+        $kkoLevels = KkoLevel::active()->ordered()->pluck('name', 'id');
+
+        $topicsData = $plan->topics->map(function ($topic) use ($objectives, $methods, $mediaItems, $kkoLevels) {
             $topicObjectives = ! empty($topic->learning_objectives)
                 ? $objectives->whereIn('id', $topic->learning_objectives)->pluck('name')->toArray()
                 : $objectives->pluck('name')->toArray();
@@ -58,11 +61,19 @@ class CurriculumPlanPrintController extends Controller
                     ->ordered()->pluck('name')->toArray()
                 : $mediaItems->pluck('name')->toArray();
 
+            $learningPaths = collect($topic->learning_paths ?? [])->map(function ($path) use ($kkoLevels) {
+                return [
+                    'description' => $path['description'] ?? '',
+                    'kko_level'   => $kkoLevels[$path['kko_level_id'] ?? ''] ?? '-',
+                ];
+            })->toArray();
+
             return [
-                'topic'       => $topic,
-                'objectives'  => $topicObjectives,
-                'methods'     => $topicMethods,
-                'media'       => $topicMedia,
+                'topic'          => $topic,
+                'objectives'     => $topicObjectives,
+                'methods'        => $topicMethods,
+                'media'          => $topicMedia,
+                'learning_paths' => $learningPaths,
             ];
         });
 

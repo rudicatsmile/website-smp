@@ -430,11 +430,12 @@
                 <tr>
                     <th style="width:45px;">Minggu</th>
                     <th style="width:55px;">Pertemuan</th>
-                    <th style="width:22%;">Topik / Materi</th>
+                    <th style="width:18%;">Topik / Materi</th>
                     <th>Tujuan Pembelajaran</th>
-                    <th style="width:14%;">Metode</th>
-                    <th style="width:14%;">Media</th>
-                    <th style="width:16%;">Rencana Penilaian</th>
+                    <th style="width:18%;">Alur Tujuan Pembelajaran</th>
+                    <th style="width:12%;">Metode</th>
+                    <th style="width:12%;">Media</th>
+                    <th style="width:14%;">Rencana Penilaian</th>
                 </tr>
             </thead>
             <tbody>
@@ -454,6 +455,18 @@
                         @empty
                             <span style="color:#9ca3af;">—</span>
                         @endforelse
+                    </td>
+                    <td>
+                        @if(!empty($item['learning_paths']))
+                            @foreach($item['learning_paths'] as $path)
+                                <div style="margin-bottom:4px;">
+                                    <span style="font-size:9pt;">{{ $path['description'] }}</span>
+                                    <span class="badge green">{{ $path['kko_level'] }}</span>
+                                </div>
+                            @endforeach
+                        @else
+                            <span style="color:#9ca3af;">—</span>
+                        @endif
                     </td>
                     <td>
                         @forelse($item['methods'] as $m)
