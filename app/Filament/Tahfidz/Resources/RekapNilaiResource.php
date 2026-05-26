@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Filament\Tahfidz\Resources;
 
 use App\Filament\Tahfidz\Resources\RekapNilaiResource\Pages\ListRekapNilai;
+use App\Filament\Tahfidz\Resources\RekapNilaiResource\Pages\ViewRekapNilai;
+use App\Models\TahfidzClass;
 use App\Models\TahfidzParticipant;
-use App\Models\SchoolClass;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class RekapNilaiResource extends Resource
 {
@@ -39,13 +39,20 @@ class RekapNilaiResource extends Resource
         return $table
             ->query(
                 TahfidzParticipant::query()
-                    ->with(['student.schoolClass', 'grades'])
+                    ->with(['student.schoolClass', 'tahfidzClass', 'grades'])
                     ->active()
             )
             ->columns([
                 TextColumn::make('student.name')
                     ->label('Nama Siswa')
                     ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('tahfidzClass.name')
+                    ->label('Kelas Tahfidz')
+                    ->badge()
+                    ->color('success')
+                    ->placeholder('—')
                     ->sortable(),
 
                 TextColumn::make('student.schoolClass.name')
@@ -87,22 +94,21 @@ class RekapNilaiResource extends Resource
                     ->color('indigo'),
             ])
             ->filters([
-                SelectFilter::make('school_class')
-                    ->label('Kelas')
-                    ->options(fn () => SchoolClass::active()->ordered()->pluck('name', 'id'))
-                    ->query(fn (Builder $query, array $data) =>
-                        $data['value']
-                            ? $query->whereHas('student', fn ($q) => $q->where('school_class_id', $data['value']))
-                            : $query
-                    ),
+                SelectFilter::make('tahfidz_class_id')
+                    ->label('Kelas Tahfidz')
+                    ->options(fn () => TahfidzClass::active()->ordered()->pluck('name', 'id')),
             ])
-            ->defaultSort('student.name');
+            ->defaultSort('student.name')
+            ->recordActions([
+                \Filament\Actions\ViewAction::make(),
+            ]);
     }
 
     public static function getPages(): array
     {
         return [
             'index' => ListRekapNilai::route('/'),
+            'view'  => ViewRekapNilai::route('/{record}'),
         ];
     }
 

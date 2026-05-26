@@ -13,6 +13,7 @@ class TahfidzParticipant extends Model
 {
     protected $fillable = [
         'student_id',
+        'tahfidz_class_id',
         'surah_target',
         'is_active',
         'enrolled_at',
@@ -27,6 +28,11 @@ class TahfidzParticipant extends Model
     public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function tahfidzClass(): BelongsTo
+    {
+        return $this->belongsTo(TahfidzClass::class);
     }
 
     public function grades(): HasMany

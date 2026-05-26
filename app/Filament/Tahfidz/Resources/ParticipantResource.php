@@ -9,6 +9,7 @@ use App\Filament\Tahfidz\Resources\ParticipantResource\Pages\EditParticipant;
 use App\Filament\Tahfidz\Resources\ParticipantResource\Pages\ListParticipants;
 use App\Models\SchoolClass;
 use App\Models\Student;
+use App\Models\TahfidzClass;
 use App\Models\TahfidzParticipant;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Actions\DeleteAction;
@@ -65,6 +66,13 @@ class ParticipantResource extends Resource
                 ->searchable()
                 ->required(),
 
+            Select::make('tahfidz_class_id')
+                ->label('Kelas Tahfidz')
+                ->options(fn () => TahfidzClass::active()->ordered()->pluck('name', 'id'))
+                ->searchable()
+                ->preload()
+                ->placeholder('— Pilih Kelas Tahfidz —'),
+
             TextInput::make('surah_target')
                 ->label('Target Surah')
                 ->numeric()
@@ -98,6 +106,13 @@ class ParticipantResource extends Resource
                     ->badge()
                     ->sortable(),
 
+                TextColumn::make('tahfidzClass.name')
+                    ->label('Kelas Tahfidz')
+                    ->badge()
+                    ->color('success')
+                    ->placeholder('—')
+                    ->sortable(),
+
                 TextColumn::make('student.nis')
                     ->label('NIS')
                     ->searchable(),
@@ -116,6 +131,10 @@ class ParticipantResource extends Resource
                     ->boolean(),
             ])
             ->filters([
+                SelectFilter::make('tahfidz_class_id')
+                    ->label('Kelas Tahfidz')
+                    ->options(fn () => TahfidzClass::active()->ordered()->pluck('name', 'id')),
+
                 SelectFilter::make('school_class_id')
                     ->label('Kelas')
                     ->options(fn () => SchoolClass::active()->ordered()->pluck('name', 'id'))

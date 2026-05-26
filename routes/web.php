@@ -53,6 +53,11 @@ Route::get('/laporan-absensi/pdf', \App\Http\Controllers\AttendanceReportPdfCont
     ->middleware(['auth'])
     ->name('laporan-absensi.pdf');
 
+// Report Tahfidz per Siswa (auth protected)
+Route::get('/print/tahfidz/{participant}', \App\Http\Controllers\Reports\TahfidzReportController::class)
+    ->middleware(['auth'])
+    ->name('print.tahfidz-report');
+
 // Jurnal Mengajar PDF (auth protected)
 Route::get('/jurnal-mengajar/pdf', \App\Http\Controllers\JurnalMengajarPdfController::class)
     ->middleware(['auth'])

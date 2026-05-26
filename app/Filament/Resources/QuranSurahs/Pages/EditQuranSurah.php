@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Filament\Resources\QuranSurahs\Pages;
+
+use App\Filament\Resources\QuranSurahs\QuranSurahResource;
+use Filament\Actions\DeleteAction;
+use Filament\Resources\Pages\EditRecord;
+
+class EditQuranSurah extends EditRecord
+{
+    protected static string $resource = QuranSurahResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [DeleteAction::make()];
+    }
+}

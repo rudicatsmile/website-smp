@@ -11,7 +11,7 @@ Access list :
     3. http://127.0.0.1:8000/portal/ortu/login => Portal Orang Tua
         - ortu@smpalwathoniyah9.sch.id / password
     4. http://127.0.0.1:8000/tahfidz =>  Portal guru Sahabat Qur'an 
-        - guru_tahfidz@smpalwathoniyah9.sch.id / password
+        - guru_tahfidz@gmail.com / password
 
 
 

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Tahfidz\Pages;
 
-use App\Models\SchoolClass;
 use App\Models\StaffMember;
+use App\Models\TahfidzClass;
 use App\Models\TahfidzGrade;
 use App\Models\TahfidzParticipant;
+use App\Models\QuranSurah;
 use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
@@ -22,7 +23,7 @@ class InputNilai extends Page
 
     protected string $view = 'filament.tahfidz.pages.input-nilai';
 
-    public ?int $school_class_id = null;
+    public ?int $tahfidz_class_id = null;
     public ?int $teacher_id = null;
 
     /** @var array<int, array{student_id: int, name: string, nis: string, surah: string, score: int|null, description: string}> */
@@ -38,13 +39,13 @@ class InputNilai extends Page
 
     public function loadStudents(): void
     {
-        if (! $this->school_class_id) {
+        if (! $this->tahfidz_class_id) {
             $this->rows = [];
             return;
         }
 
         $participants = TahfidzParticipant::active()
-            ->whereHas('student', fn ($q) => $q->where('school_class_id', $this->school_class_id))
+            ->where('tahfidz_class_id', $this->tahfidz_class_id)
             ->with(['student', 'grades'])
             ->get();
 
@@ -106,11 +107,16 @@ class InputNilai extends Page
 
     public function getClasses(): Collection
     {
-        return SchoolClass::active()->ordered()->get();
+        return TahfidzClass::active()->ordered()->get();
     }
 
     public function getTeachers(): Collection
     {
         return StaffMember::active()->orderBy('name')->get();
+    }
+
+    public function getSurahs(): Collection
+    {
+        return QuranSurah::active()->ordered()->get();
     }
 }

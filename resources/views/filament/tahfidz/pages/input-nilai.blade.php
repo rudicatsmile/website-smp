@@ -18,10 +18,10 @@
     <div style="border-radius:14px;border:1px solid rgba(229,231,235,0.7);background:white;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,0.05);">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
-                <label style="display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:6px;">Kelas</label>
-                <select wire:model.live="school_class_id" wire:change="loadStudents"
+                <label style="display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:6px;">Kelas Tahfidz</label>
+                <select wire:model.live="tahfidz_class_id" wire:change="loadStudents"
                         style="width:100%;border:1.5px solid #d1d5db;border-radius:9px;padding:9px 12px;font-size:13px;color:#1f2937;background:white;outline:none;">
-                    <option value="">— Pilih Kelas —</option>
+                    <option value="">— Pilih Kelas Tahfidz —</option>
                     @foreach($this->getClasses() as $c)
                         <option value="{{ $c->id }}">{{ $c->name }}</option>
                     @endforeach
@@ -70,10 +70,14 @@
                                 <td style="padding:10px 16px;font-weight:600;color:#1f2937;">{{ $row['name'] }}</td>
                                 <td style="padding:10px 16px;font-family:ui-monospace,monospace;font-size:12px;color:#6b7280;">{{ $row['nis'] }}</td>
                                 <td style="padding:6px 16px;">
-                                    <input type="text" wire:model="rows.{{ $i }}.surah"
-                                           placeholder="Mis: Al-Fatihah"
-                                           style="width:140px;border:1.5px solid #e5e7eb;border-radius:7px;padding:6px 10px;font-size:12px;color:#1f2937;outline:none;"
-                                           onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#e5e7eb'">
+                                    <select wire:model="rows.{{ $i }}.surah"
+                                            style="width:160px;border:1.5px solid #e5e7eb;border-radius:7px;padding:6px 10px;font-size:12px;color:#1f2937;background:white;outline:none;"
+                                            onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#e5e7eb'">
+                                        <option value="">— Pilih Surat —</option>
+                                        @foreach($this->getSurahs() as $surah)
+                                            <option value="{{ $surah->name }}">{{ $surah->order }}. {{ $surah->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </td>
                                 <td style="padding:6px 16px;text-align:center;">
                                     <input type="number" wire:model="rows.{{ $i }}.score"
@@ -93,7 +97,7 @@
                 </table>
             </div>
         </div>
-    @elseif($school_class_id)
+    @elseif($tahfidz_class_id)
         <div style="border-radius:14px;border:2px dashed rgba(209,213,219,0.8);padding:48px 24px;text-align:center;color:#9ca3af;">
             <svg style="width:40px;height:40px;margin:0 auto 12px;opacity:0.4;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
             <div style="font-size:14px;font-weight:600;">Tidak ada peserta terdaftar di kelas ini.</div>
@@ -101,7 +105,7 @@
         </div>
     @else
         <div style="border-radius:14px;border:2px dashed rgba(209,213,219,0.8);padding:48px 24px;text-align:center;color:#9ca3af;">
-            <div style="font-size:14px;font-weight:600;">Pilih kelas untuk menampilkan daftar peserta.</div>
+            <div style="font-size:14px;font-weight:600;">Pilih kelas tahfidz untuk menampilkan daftar peserta.</div>
         </div>
     @endif
 </x-filament-panels::page>
