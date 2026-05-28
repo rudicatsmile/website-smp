@@ -7,9 +7,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class SessionAssessment extends Model
 {
+    use LogsActivity;
     public const TYPES = [
         'kuis'          => 'Kuis',
         'ulangan_harian'=> 'Ulangan Harian',
@@ -45,6 +48,24 @@ class SessionAssessment extends Model
     public function lessonSession(): BelongsTo
     {
         return $this->belongsTo(LessonSession::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'type', 'domain', 'max_score', 'notes'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->useLogName('lesson_session');
+    }
+
+    public function tapActivity(\Spatie\Activitylog\Models\Activity $activity, string $eventName): void
+    {
+        if ($this->lesson_session_id) {
+            $activity->subject_type = LessonSession::class;
+            $activity->subject_id = $this->lesson_session_id;
+        }
+        $activity->description = $eventName . ' assessment';
     }
 
     public function scores(): HasMany

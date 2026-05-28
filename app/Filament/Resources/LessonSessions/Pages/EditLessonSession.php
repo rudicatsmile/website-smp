@@ -6,6 +6,7 @@ namespace App\Filament\Resources\LessonSessions\Pages;
 
 use App\Filament\Resources\LessonSessions\LessonSessionResource;
 use App\Models\LessonSession;
+use App\Models\LearningMethod;
 use App\Services\LessonExecutionService;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
@@ -13,6 +14,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Spatie\Activitylog\Models\Activity;
 
 class EditLessonSession extends EditRecord
 {
@@ -27,6 +29,23 @@ class EditLessonSession extends EditRecord
                 ->color('info')
                 ->url(fn () => route('print.lesson-sessions', $this->record))
                 ->openUrlInNewTab(),
+            Action::make('activityLog')
+                ->label('Log Aktivitas')
+                ->icon('heroicon-o-clock')
+                ->color('gray')
+                ->modalHeading('📋 Log Aktivitas')
+                ->modalDescription('Riwayat perubahan pada sesi mengajar ini')
+                ->modalWidth('4xl')
+                ->modalContent(fn () => view('filament.components.activity-log-modal', [
+                    'activities' => Activity::where('subject_type', LessonSession::class)
+                        ->where('subject_id', $this->record->id)
+                        ->with('causer')
+                        ->orderBy('created_at', 'desc')
+                        ->limit(50)
+                        ->get(),
+                ]))
+                ->modalSubmitAction(false)
+                ->modalCancelActionLabel('Tutup'),
             Action::make('startTeaching')
                 ->label('Mulai Mengajar')
                 ->icon('heroicon-o-play')
