@@ -13,12 +13,14 @@ use App\Models\SchoolClass;
 use App\Models\SessionAssessmentScore;
 use App\Models\Student;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Filament\Pages\Page;
 use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanPenilaian extends Page
 {
+    use HasPageShield;
     protected string $view = 'filament.pages.laporan-penilaian';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-chart-bar';
@@ -38,20 +40,9 @@ class LaporanPenilaian extends Page
 
     public function mount(): void
     {
-        abort_unless(static::canAccess(), 403);
         $this->academic_year = now()->month >= 7
             ? now()->year . '/' . (now()->year + 1)
             : (now()->year - 1) . '/' . now()->year;
-    }
-
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher']) ?? false;
-    }
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return static::canAccess();
     }
 
     public function generate(): void

@@ -89,11 +89,6 @@ class StudentViolationResource extends Resource
             ]);
     }
 
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher', 'counselor']) ?? false;
-    }
-
     public static function getPages(): array
     {
         return [

@@ -49,7 +49,7 @@ class ViewInternalAnnouncement extends Page
                 });
         }
 
-        if ($user?->hasAnyRole(['super_admin', 'admin', 'editor'])) {
+        if ($user?->can('Update:InternalAnnouncement')) {
             $actions[] = EditAction::make()->record($this->record);
         }
 

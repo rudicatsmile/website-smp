@@ -17,7 +17,7 @@ class EditInternalAnnouncement extends EditRecord
     {
         return [
             ViewAction::make(),
-            DeleteAction::make()->visible(fn () => auth()->user()?->hasAnyRole(['super_admin', 'admin']) ?? false),
+            DeleteAction::make()->visible(fn () => auth()->user()?->can('Delete:InternalAnnouncement') ?? false),
         ];
     }
 }

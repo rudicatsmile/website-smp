@@ -14,7 +14,7 @@ class ListInternalAnnouncements extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        if (auth()->user()?->hasAnyRole(['super_admin', 'admin', 'editor'])) {
+        if (auth()->user()?->can('Create:InternalAnnouncement') ?? false) {
             return [CreateAction::make()];
         }
 

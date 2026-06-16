@@ -8,6 +8,7 @@ use App\Models\LessonSession;
 use App\Models\StaffMember;
 use App\Services\LessonExecutionService;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -17,6 +18,7 @@ use Illuminate\Support\Collection;
 
 class TeachingToday extends Page
 {
+    use HasPageShield;
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-presentation-chart-line';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Kurikulum';
@@ -120,10 +122,5 @@ class TeachingToday extends Page
     protected function getStaff(): ?StaffMember
     {
         return auth()->user()?->staffMember;
-    }
-
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher']) ?? false;
     }
 }

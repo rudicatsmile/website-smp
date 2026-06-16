@@ -9,12 +9,14 @@ use App\Models\LessonSessionCase;
 use App\Models\MaterialCategory;
 use App\Models\SchoolClass;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Pages\Page;
 use Maatwebsite\Excel\Excel as ExcelFormat;
 use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanKasusSiswa extends Page
 {
+    use HasPageShield;
     protected string $view = 'filament.pages.laporan-kasus-siswa';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-exclamation-triangle';
@@ -35,19 +37,8 @@ class LaporanKasusSiswa extends Page
 
     public function mount(): void
     {
-        abort_unless(static::canAccess(), 403);
         $this->date_from = now()->startOfMonth()->toDateString();
         $this->date_to   = now()->toDateString();
-    }
-
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher']) ?? false;
-    }
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return static::canAccess();
     }
 
     public function generate(): void

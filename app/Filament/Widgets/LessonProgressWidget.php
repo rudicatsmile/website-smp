@@ -6,11 +6,14 @@ namespace App\Filament\Widgets;
 
 use App\Models\LessonSession;
 use App\Models\SchoolClass;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Cache;
 
 class LessonProgressWidget extends ChartWidget
 {
+    use HasWidgetShield;
+
     protected ?string $heading = 'Penyelesaian Materi Bulan Ini';
 
     protected static ?int $sort = 5;
@@ -60,10 +63,5 @@ class LessonProgressWidget extends ChartWidget
     protected function getType(): string
     {
         return 'doughnut';
-    }
-
-    public static function canView(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher']) ?? false;
     }
 }

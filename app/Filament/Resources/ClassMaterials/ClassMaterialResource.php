@@ -107,11 +107,6 @@ class ClassMaterialResource extends Resource
             ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
     }
 
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'editor', 'teacher']) ?? false;
-    }
-
     public static function getPages(): array
     {
         return [

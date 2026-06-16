@@ -46,11 +46,6 @@ class ExamSessionResource extends Resource
 
     protected static ?int $navigationSort = 20;
 
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher']) ?? false;
-    }
-
     public static function form(Schema $schema): Schema
     {
         return $schema->components([

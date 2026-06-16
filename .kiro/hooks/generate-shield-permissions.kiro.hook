@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Generate Shield Permissions",
+  "description": "Generate Shield permissions and policies for all resources",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "php artisan shield:generate --all"
+  }
+}

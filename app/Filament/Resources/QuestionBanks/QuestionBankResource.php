@@ -106,11 +106,6 @@ class QuestionBankResource extends Resource
         return $query;
     }
 
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher']) ?? false;
-    }
-
     public static function getPages(): array
     {
         return [

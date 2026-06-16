@@ -12,6 +12,8 @@ Access list :
         - ortu@smpalwathoniyah9.sch.id / password
     4. http://127.0.0.1:8000/tahfidz =>  Portal guru Sahabat Qur'an 
         - guru_tahfidz@gmail.com / password
+    5. http://localhost:8000/evoting => E-Voting Osis
+       
 
 
 

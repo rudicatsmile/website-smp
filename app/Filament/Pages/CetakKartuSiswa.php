@@ -9,12 +9,14 @@ use App\Models\Student;
 use App\Settings\GeneralSettings;
 use BackedEnum;
 use Barryvdh\DomPDF\Facade\Pdf;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Pages\Page;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CetakKartuSiswa extends Page
 {
+    use HasPageShield;
     protected string $view = 'filament.pages.cetak-kartu-siswa';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-identification';
@@ -36,18 +38,7 @@ class CetakKartuSiswa extends Page
 
     public function mount(): void
     {
-        abort_unless(static::canAccess(), 403);
         $this->school_class_id = SchoolClass::where('is_active', true)->orderBy('grade')->orderBy('section')->value('id');
-    }
-
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin']) ?? false;
-    }
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return static::canAccess();
     }
 
     public function setClass(?int $id): void

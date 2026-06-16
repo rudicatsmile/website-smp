@@ -62,19 +62,21 @@ class InternalAnnouncementResource extends Resource
     {
         $user = auth()->user();
 
-        return $user && $user->hasAnyRole(['super_admin', 'admin', 'editor']);
+        return $user && $user->can('Create:InternalAnnouncement');
     }
 
     public static function canEdit($record): bool
     {
-        return self::canCreate();
+        $user = auth()->user();
+
+        return $user && $user->can('Update:InternalAnnouncement');
     }
 
     public static function canDelete($record): bool
     {
         $user = auth()->user();
 
-        return $user && $user->hasAnyRole(['super_admin', 'admin']);
+        return $user && $user->can('Delete:InternalAnnouncement');
     }
 
     public static function getNavigationBadge(): ?string

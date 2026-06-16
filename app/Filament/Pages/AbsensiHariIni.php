@@ -8,12 +8,14 @@ use App\Models\SchoolClass;
 use App\Models\Student;
 use App\Models\StudentAttendance;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
 class AbsensiHariIni extends Page
 {
+    use HasPageShield;
     protected string $view = 'filament.pages.absensi-hari-ini';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-finger-print';
@@ -37,8 +39,6 @@ class AbsensiHariIni extends Page
 
     public function mount(): void
     {
-        abort_unless(static::canAccess(), 403);
-
         $this->date = today()->toDateString();
 
         // default kelas: kalau guru, ambil kelas wali; selain itu kelas pertama
@@ -49,16 +49,6 @@ class AbsensiHariIni extends Page
             : null;
 
         $this->school_class_id = $homeroom?->id ?? SchoolClass::where('is_active', true)->orderBy('grade')->orderBy('section')->value('id');
-    }
-
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher', 'piket']) ?? false;
-    }
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return static::canAccess();
     }
 
     public function setTab(string $tab): void

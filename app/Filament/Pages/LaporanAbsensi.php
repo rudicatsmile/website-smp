@@ -8,6 +8,7 @@ use App\Models\SchoolClass;
 use App\Models\Student;
 use App\Models\StudentAttendance;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Filament\Pages\Page;
@@ -16,6 +17,7 @@ use App\Exports\AttendanceReportExport;
 
 class LaporanAbsensi extends Page
 {
+    use HasPageShield;
     protected string $view = 'filament.pages.laporan-absensi';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-table-cells';
@@ -35,20 +37,8 @@ class LaporanAbsensi extends Page
 
     public function mount(): void
     {
-        abort_unless(static::canAccess(), 403);
-
         $this->date_from = now()->startOfMonth()->toDateString();
         $this->date_to   = now()->toDateString();
-    }
-
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher']) ?? false;
-    }
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return static::canAccess();
     }
 
     public function generate(): void

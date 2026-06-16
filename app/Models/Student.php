@@ -142,6 +142,13 @@ class Student extends Model
         return $this->hasMany(ExtracurricularMember::class);
     }
 
+    public function elections(): BelongsToMany
+    {
+        return $this->belongsToMany(Election::class, 'election_voters')
+            ->withPivot(['token', 'has_voted', 'voted_at'])
+            ->withTimestamps();
+    }
+
     public function scopeActive(Builder $q): Builder
     {
         return $q->where('is_active', true);

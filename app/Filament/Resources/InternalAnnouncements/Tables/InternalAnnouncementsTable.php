@@ -81,12 +81,12 @@ class InternalAnnouncementsTable
                             ->success()
                             ->send();
                     }),
-                EditAction::make()->visible(fn () => auth()->user()?->hasAnyRole(['super_admin', 'admin', 'editor']) ?? false),
-                DeleteAction::make()->visible(fn () => auth()->user()?->hasAnyRole(['super_admin', 'admin']) ?? false),
+                EditAction::make()->visible(fn () => auth()->user()?->can('Update:InternalAnnouncement') ?? false),
+                DeleteAction::make()->visible(fn () => auth()->user()?->can('Delete:InternalAnnouncement') ?? false),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make()->visible(fn () => auth()->user()?->hasAnyRole(['super_admin', 'admin']) ?? false),
+                    DeleteBulkAction::make()->visible(fn () => auth()->user()?->can('DeleteAny:InternalAnnouncement') ?? false),
                 ]),
             ]);
     }

@@ -175,11 +175,6 @@ class CounselingTicketResource extends Resource
         return $query;
     }
 
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'counselor']) ?? false;
-    }
-
     public static function canCreate(): bool
     {
         return false; // tiket dibuat hanya dari publik/portal

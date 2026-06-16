@@ -9,12 +9,14 @@ use App\Models\ExamSession;
 use App\Models\Student;
 use App\Models\StudentAttendance;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Collection;
 
 class InputNilaiUjian extends Page
 {
+    use HasPageShield;
     protected string $view = 'filament.pages.input-nilai-ujian';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';
@@ -26,16 +28,9 @@ class InputNilaiUjian extends Page
 
     public function mount(): void
     {
-        abort_unless(static::canAccess(), 403);
-
         $this->examId = (int) request()->query('exam', 0);
         abort_if($this->examId === 0, 404);
         $this->loadScores();
-    }
-
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher']) ?? false;
     }
 
     public function getExamProperty(): ?ExamSession

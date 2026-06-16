@@ -11,12 +11,14 @@ use App\Models\MaterialCategory;
 use App\Models\SchoolClass;
 use App\Models\StudentAttendance;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Filament\Pages\Page;
 use Maatwebsite\Excel\Facades\Excel;
 
 class JurnalMengajar extends Page
 {
+    use HasPageShield;
     protected string $view = 'filament.pages.jurnal-mengajar';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-book-open';
@@ -38,20 +40,8 @@ class JurnalMengajar extends Page
 
     public function mount(): void
     {
-        abort_unless(static::canAccess(), 403);
-
         $this->date_from = now()->startOfMonth()->toDateString();
         $this->date_to   = now()->toDateString();
-    }
-
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasAnyRole(['super_admin', 'admin', 'teacher']) ?? false;
-    }
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return static::canAccess();
     }
 
     public function getClassesProperty()

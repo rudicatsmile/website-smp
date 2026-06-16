@@ -129,6 +129,13 @@ Route::get('/bk/status', \App\Livewire\Pages\CounselingStatus::class)->middlewar
 Route::get('/izin', \App\Livewire\Pages\PublicLeaveForm::class)->middleware('throttle:5,1')->name('izin.form');
 Route::get('/izin/status', \App\Livewire\Pages\PublicLeaveStatus::class)->middleware('throttle:30,1')->name('izin.status');
 
+// E-Voting OSIS
+Route::prefix('evoting')->name('evoting.')->group(function () {
+    Route::get('/', \App\Livewire\Evoting\EvotingLogin::class)->name('login');
+    Route::get('/vote', \App\Livewire\Evoting\EvotingVote::class)->name('vote');
+    Route::get('/success', \App\Livewire\Evoting\EvotingSuccess::class)->name('success');
+});
+
 // Portal Siswa
 Route::prefix('portal')->name('portal.')->group(function () {
     Route::get('/login', \App\Livewire\Portal\Login::class)->name('login');

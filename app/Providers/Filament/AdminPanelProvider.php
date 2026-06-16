@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Middleware\LogPermissionFailures;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -78,6 +79,9 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make('Alumni')
                     ->icon('heroicon-o-users')
                     ->collapsed(true),
+                NavigationGroup::make('Election')
+                    ->icon('heroicon-o-check-badge')
+                    ->collapsed(true),
                 NavigationGroup::make('Pengaturan Umum')
                     ->icon('heroicon-o-cog-6-tooth')
                     ->collapsible(),
@@ -104,6 +108,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                LogPermissionFailures::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
