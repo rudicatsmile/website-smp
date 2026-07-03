@@ -29,12 +29,49 @@ class LessonSessionsNotifier extends AsyncNotifier<List<LessonSessionModel>> {
   Future<void> updateSession(int id, Map<String, dynamic> updateData) async {
     try {
       await ApiClient.instance.put('/lesson-sessions/$id', data: updateData);
-      // Refresh state to fetch updated data
       ref.invalidateSelf();
-    } on DioException catch (e) {
-      throw Exception('Gagal menyimpan sesi: ${e.response?.data['message'] ?? e.message}');
     } catch (e) {
       throw Exception('Terjadi kesalahan saat menyimpan: $e');
     }
+  }
+
+  Future<void> attachMaterial(int sessionId, int materialId) async {
+    await ApiClient.instance.post('/lesson-sessions/$sessionId/materials', data: {'material_id': materialId});
+    ref.invalidateSelf();
+  }
+
+  Future<void> detachMaterial(int sessionId, int materialId) async {
+    await ApiClient.instance.delete('/lesson-sessions/$sessionId/materials/$materialId');
+    ref.invalidateSelf();
+  }
+
+  Future<void> attachAssignment(int sessionId, int assignmentId) async {
+    await ApiClient.instance.post('/lesson-sessions/$sessionId/assignments', data: {'assignment_id': assignmentId});
+    ref.invalidateSelf();
+  }
+
+  Future<void> detachAssignment(int sessionId, int assignmentId) async {
+    await ApiClient.instance.delete('/lesson-sessions/$sessionId/assignments/$assignmentId');
+    ref.invalidateSelf();
+  }
+
+  Future<void> storeAssessment(int sessionId, Map<String, dynamic> data) async {
+    await ApiClient.instance.post('/lesson-sessions/$sessionId/assessments', data: data);
+    ref.invalidateSelf();
+  }
+
+  Future<void> deleteAssessment(int sessionId, int assessmentId) async {
+    await ApiClient.instance.delete('/lesson-sessions/$sessionId/assessments/$assessmentId');
+    ref.invalidateSelf();
+  }
+
+  Future<void> storeCase(int sessionId, Map<String, dynamic> data) async {
+    await ApiClient.instance.post('/lesson-sessions/$sessionId/cases', data: data);
+    ref.invalidateSelf();
+  }
+
+  Future<void> deleteCase(int sessionId, int caseId) async {
+    await ApiClient.instance.delete('/lesson-sessions/$sessionId/cases/$caseId');
+    ref.invalidateSelf();
   }
 }

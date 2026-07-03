@@ -19,8 +19,16 @@ class LessonSessionModel {
   final String? executionNotes;
   final String? homeworkNotes;
   final String? issuesNotes;
+  final String? assessmentPlan;
+  final String? notes;
   final String? actualStartAt;
   final String? actualEndAt;
+
+  // Relasi
+  final List<Map<String, dynamic>> materials;
+  final List<Map<String, dynamic>> assignments;
+  final List<Map<String, dynamic>> assessments;
+  final List<Map<String, dynamic>> cases;
 
   LessonSessionModel({
     required this.id,
@@ -39,8 +47,14 @@ class LessonSessionModel {
     this.executionNotes,
     this.homeworkNotes,
     this.issuesNotes,
+    this.assessmentPlan,
+    this.notes,
     this.actualStartAt,
     this.actualEndAt,
+    this.materials = const [],
+    this.assignments = const [],
+    this.assessments = const [],
+    this.cases = const [],
   });
 
   factory LessonSessionModel.fromJson(Map<String, dynamic> json) {
@@ -61,8 +75,14 @@ class LessonSessionModel {
       executionNotes: json['execution_notes'] as String?,
       homeworkNotes: json['homework_notes'] as String?,
       issuesNotes: json['issues_notes'] as String?,
+      assessmentPlan: json['assessment_plan'] as String?,
+      notes: json['notes'] as String?,
       actualStartAt: json['actual_start_at'] as String?,
       actualEndAt: json['actual_end_at'] as String?,
+      materials: (json['materials'] as List?)?.map((e) => Map<String, dynamic>.from(e)).toList() ?? <Map<String, dynamic>>[],
+      assignments: (json['assignments'] as List?)?.map((e) => Map<String, dynamic>.from(e)).toList() ?? <Map<String, dynamic>>[],
+      assessments: (json['assessments'] as List?)?.map((e) => Map<String, dynamic>.from(e)).toList() ?? <Map<String, dynamic>>[],
+      cases: (json['cases'] as List?)?.map((e) => Map<String, dynamic>.from(e)).toList() ?? <Map<String, dynamic>>[],
     );
   }
 }

@@ -23,7 +23,10 @@ class LessonSessionController extends Controller
         }
 
         // Ambil sesi pelajaran yang ditugaskan ke guru tersebut
-        $sessions = LessonSession::with(['schoolClass', 'subject', 'teacher'])
+        $sessions = LessonSession::with([
+            'schoolClass', 'subject', 'teacher', 
+            'materials', 'assignments', 'assessments', 'cases.student'
+        ])
             ->where('staff_member_id', $staffMember->id)
             ->orderBy('session_date', 'desc')
             ->orderBy('start_time', 'asc')
@@ -58,6 +61,8 @@ class LessonSessionController extends Controller
             'execution_notes' => 'nullable|string',
             'homework_notes' => 'nullable|string',
             'issues_notes' => 'nullable|string',
+            'assessment_plan' => 'nullable|string',
+            'notes' => 'nullable|string',
             'actual_start_at' => 'nullable|date',
             'actual_end_at' => 'nullable|date',
         ]);

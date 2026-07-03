@@ -150,8 +150,15 @@
                             <span>Kelas {{ $session->schoolClass?->name }}</span>
                         </div>
 
-                        @if($session->learning_objectives)
-                            <p style="font-size:12px; color:#9ca3af; line-height:1.5; margin-bottom:4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">{{ $session->learning_objectives }}</p>
+                        @php
+                            $loIds = !empty($session->learning_objectives) ? $session->learning_objectives : ($session->plan?->learning_objective_ids ?? []);
+                            $loText = '';
+                            if (!empty($loIds) && is_array($loIds)) {
+                                $loText = \App\Models\LearningObjective::whereIn('id', $loIds)->pluck('name')->implode(' • ');
+                            }
+                        @endphp
+                        @if($loText)
+                            <p style="font-size:12px; color:#9ca3af; line-height:1.5; margin-bottom:4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">{{ $loText }}</p>
                         @endif
 
                         {{-- Completed summary --}}
