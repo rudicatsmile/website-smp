@@ -104,8 +104,8 @@ class QuizResource extends Resource
                 TextColumn::make('title')->label('Judul')->searchable()->limit(40),
                 TextColumn::make('subject.name')->label('Mapel')->badge()->toggleable(),
                 TextColumn::make('scope')->label('Akses')->badge()
-                    ->formatStateUsing(fn ($s) => $s === 'public' ? 'Publik' : 'Per Kelas')
-                    ->color(fn ($s) => $s === 'public' ? 'success' : 'info'),
+                    ->formatStateUsing(fn ($state) => $state === 'public' ? 'Publik' : 'Per Kelas')
+                    ->color(fn ($state) => $state === 'public' ? 'success' : 'info'),
                 TextColumn::make('schoolClass.name')->label('Kelas')->badge()->placeholder('—'),
                 TextColumn::make('questions_count')->label('Soal')->counts('questions')->badge(),
                 TextColumn::make('total_score')->label('Total Skor')->badge(),

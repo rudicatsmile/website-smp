@@ -29,6 +29,10 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Placeholder;
+use Illuminate\Support\HtmlString;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Notifications\Notification;
 use App\Filament\Concerns\HidesFromEkskulRole;
 use Filament\Resources\Resource;
@@ -76,85 +80,69 @@ class LessonSessionResource extends Resource
                 TextInput::make('end_time')->label('Jam Selesai')->type('time')->required(),
                 TextInput::make('period')->label('Periode')->maxLength(50)->placeholder('Jam ke-1'),
                 Select::make('status')->label('Status')
-                    ->options(LessonSession::STATUSES)->default('draft')->required(),
+                    ->options(collect(LessonSession::STATUSES)->except(['ongoing'])->toArray())
+                    ->default('draft')
+                    ->required()
+                    ->live()
+                    ->afterStateUpdated(function (Set $set, $state, $old) {
+                        if ($state === 'completed') {
+                            $set('achievement_percent', 100);
+                        } elseif ($old === 'completed') {
+                            $set('achievement_percent', null);
+                        }
+                    }),
             ]),
             Section::make('Konten Pembelajaran')->schema([
                 TextInput::make('topic')->label('Topik / Bab')->required()->maxLength(255)->columnSpanFull(),
-                TextInput::make('learning_objectives_display')
+                Placeholder::make('learning_objectives_display')
                     ->label('Tujuan Pembelajaran')
-                    ->disabled()
-                    ->dehydrated(false)
-                    ->afterStateHydrated(function ($component, $record) {
-                        if (! $record) {
-                            return;
-                        }
+                    ->content(function ($record) {
+                        if (! $record) return new HtmlString('—');
                         $ids = ! empty($record->learning_objectives)
                             ? $record->learning_objectives
                             : ($record->plan?->learning_objective_ids ?? []);
-                        if (empty($ids)) {
-                            $component->state('');
-                            return;
-                        }
+                        if (empty($ids)) return new HtmlString('—');
                         $names = LearningObjective::whereIn('id', $ids)
-                            ->active()
-                            ->ordered()
-                            ->pluck('name')
-                            ->toArray();
-                        $component->state(implode(' • ', $names));
+                            ->active()->ordered()->pluck('name')->toArray();
+                        $list = implode('', array_map(fn($name) => "<li>{$name}</li>", $names));
+                        return new HtmlString("<ol style=\"list-style-type: decimal; padding-left: 1.5rem; margin-top: 0.5rem;\" class=\"text-sm\">{$list}</ol>");
                     })
-                    ->columnSpanFull()
-                    ->hint('Data diambil dari Rencana Pembelajaran'),
-                TextInput::make('methods_display')
+                    ->columnSpanFull(),
+                Placeholder::make('methods_display')
                     ->label('Metode Pembelajaran')
-                    ->disabled()
-                    ->dehydrated(false)
-                    ->afterStateHydrated(function ($component, $record) {
-                        if (! $record) {
-                            return;
-                        }
+                    ->content(function ($record) {
+                        if (! $record) return new HtmlString('—');
                         $ids = ! empty($record->methods)
                             ? $record->methods
                             : ($record->plan?->default_methods ?? []);
-                        if (empty($ids)) {
-                            $component->state('');
-                            return;
-                        }
+                        if (empty($ids)) return new HtmlString('—');
                         $names = LearningMethod::whereIn('id', $ids)
-                            ->active()
-                            ->ordered()
-                            ->pluck('name')
-                            ->toArray();
-                        $component->state(implode(' • ', $names));
-                    })
-                    ->hint('Data diambil dari Rencana Pembelajaran'),
-                TextInput::make('media_display')
+                            ->active()->ordered()->pluck('name')->toArray();
+                        $list = implode('', array_map(fn($name) => "<li>{$name}</li>", $names));
+                        return new HtmlString("<ol style=\"list-style-type: decimal; padding-left: 1.5rem; margin-top: 0.5rem;\" class=\"text-sm\">{$list}</ol>");
+                    }),
+                Placeholder::make('media_display')
                     ->label('Media Pembelajaran')
-                    ->disabled()
-                    ->dehydrated(false)
-                    ->afterStateHydrated(function ($component, $record) {
-                        if (! $record) {
-                            return;
-                        }
+                    ->content(function ($record) {
+                        if (! $record) return new HtmlString('—');
                         $ids = ! empty($record->media)
                             ? $record->media
                             : ($record->plan?->default_media ?? []);
-                        if (empty($ids)) {
-                            $component->state('');
-                            return;
-                        }
+                        if (empty($ids)) return new HtmlString('—');
                         $names = LearningMedia::whereIn('id', $ids)
-                            ->active()
-                            ->ordered()
-                            ->pluck('name')
-                            ->toArray();
-                        $component->state(implode(' • ', $names));
-                    })
-                    ->hint('Data diambil dari Rencana Pembelajaran'),
+                            ->active()->ordered()->pluck('name')->toArray();
+                        $list = implode('', array_map(fn($name) => "<li>{$name}</li>", $names));
+                        return new HtmlString("<ol style=\"list-style-type: decimal; padding-left: 1.5rem; margin-top: 0.5rem;\" class=\"text-sm\">{$list}</ol>");
+                    }),
                 Textarea::make('assessment_plan')->label('Rencana Penilaian')->rows(2)->columnSpanFull(),
                 Textarea::make('notes')->label('Catatan Rencana')->rows(2)->columnSpanFull(),
             ]),
             Section::make('Realisasi (diisi guru setelah mengajar)')->schema([
-                TextInput::make('achievement_percent')->label('Pencapaian (%)')->numeric()->minValue(0)->maxValue(100),
+                TextInput::make('achievement_percent')->label('Pencapaian (%)')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->disabled(fn (Get $get) => !in_array($get('status'), ['incomplete', 'completed'])),
                 Textarea::make('execution_notes')->label('Catatan Kegiatan')->rows(3)->columnSpanFull(),
                 Textarea::make('homework_notes')->label('Tugas / PR')->rows(2)->columnSpanFull(),
                 Textarea::make('issues_notes')->label('Kendala')->rows(2)->columnSpanFull(),
@@ -175,7 +163,7 @@ class LessonSessionResource extends Resource
                 TextColumn::make('status_label')->label('Status')->badge()
                     ->color(fn ($record) => $record->status_color),
                 TextColumn::make('achievement_percent')->label('Pencapaian')
-                    ->formatStateUsing(fn ($s) => $s !== null ? "{$s}%" : '—')
+                    ->formatStateUsing(fn ($state) => $state !== null ? "{$state}%" : '—')
                     ->toggleable(),
             ])
             ->defaultSort('session_date', 'desc')

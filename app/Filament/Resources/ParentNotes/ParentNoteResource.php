@@ -119,8 +119,8 @@ class ParentNoteResource extends Resource
                 TextColumn::make('status_label')->label('Status')->badge()
                     ->color(fn ($record) => $record->status_color),
                 TextColumn::make('initiator_type')->label('Diinisiasi')->badge()
-                    ->formatStateUsing(fn ($s) => $s === 'teacher' ? 'Wali Kelas' : 'Orang Tua')
-                    ->color(fn ($s) => $s === 'teacher' ? 'success' : 'info')
+                    ->formatStateUsing(fn ($state) => $state === 'teacher' ? 'Wali Kelas' : 'Orang Tua')
+                    ->color(fn ($state) => $state === 'teacher' ? 'success' : 'info')
                     ->toggleable(),
                 TextColumn::make('messages_count')->label('Pesan')->counts('messages')->badge()->toggleable(),
                 TextColumn::make('last_activity_at')->label('Aktivitas')->since()->sortable(),

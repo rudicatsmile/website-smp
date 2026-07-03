@@ -75,16 +75,13 @@ class StaffMemberForm
 
                 Section::make('Akademik')
                     ->schema([
-                        Repeater::make('subjects')
+                        Select::make('teachingSubjects')
                             ->label('Mata Pelajaran')
-                            ->schema([
-                                TextInput::make('subject')
-                                    ->label('Mata Pelajaran')
-                                    ->required(),
-                            ])
-                            ->columns(1)
-                            ->itemLabel(fn (array $state): ?string => $state['subject'] ?? null)
-                            ->default([]),
+                            ->relationship('teachingSubjects', 'name')
+                            ->multiple()
+                            ->searchable()
+                            ->preload()
+                            ->columnSpanFull(),
                         Repeater::make('education')
                             ->label('Pendidikan')
                             ->schema([

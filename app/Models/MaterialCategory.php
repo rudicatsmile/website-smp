@@ -26,6 +26,11 @@ class MaterialCategory extends Model
         return $this->hasMany(Material::class);
     }
 
+    public function teachers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(StaffMember::class, 'material_category_staff_member', 'material_category_id', 'staff_member_id');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);

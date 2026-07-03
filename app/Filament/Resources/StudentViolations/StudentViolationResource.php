@@ -73,7 +73,7 @@ class StudentViolationResource extends Resource
                 TextColumn::make('category_label')->label('Kategori')->badge(),
                 TextColumn::make('description')->label('Pelanggaran')->limit(40)->searchable(),
                 TextColumn::make('points')->label('Poin')->badge()
-                    ->color(fn ($s) => $s >= 20 ? 'danger' : ($s >= 10 ? 'warning' : 'info')),
+                    ->color(fn ($state) => $state >= 20 ? 'danger' : ($state >= 10 ? 'warning' : 'info')),
                 TextColumn::make('action_taken')->label('Tindakan')->limit(30)->toggleable(),
                 TextColumn::make('recorder.name')->label('Pencatat')->toggleable()->placeholder('—'),
             ])

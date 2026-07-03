@@ -61,9 +61,17 @@ class CurriculumPlanResource extends Resource
                     ->searchable()->preload()->required(),
                 Select::make('material_category_id')->label('Mata Pelajaran')
                     ->options(fn () => MaterialCategory::orderBy('name')->pluck('name', 'id'))
-                    ->searchable()->preload()->required(),
+                    ->searchable()->preload()->required()
+                    ->live(),
                 Select::make('staff_member_id')->label('Guru Pengampu')
-                    ->options(fn () => StaffMember::active()->orderBy('name')->pluck('name', 'id'))
+                    ->options(function (Get $get) {
+                        $subjectId = $get('material_category_id');
+                        $query = StaffMember::active()->orderBy('name');
+                        if ($subjectId) {
+                            $query->whereHas('teachingSubjects', fn ($q) => $q->where('material_categories.id', $subjectId));
+                        }
+                        return $query->pluck('name', 'id');
+                    })
                     ->searchable()->preload(),
                 TextInput::make('academic_year')->label('Tahun Ajaran')->required()->maxLength(20)
                     ->placeholder('2025/2026'),
@@ -76,7 +84,13 @@ class CurriculumPlanResource extends Resource
                 Select::make('learning_objective_ids')
                     ->label('Tujuan Pembelajaran')
                     ->multiple()
-                    ->options(fn () => LearningObjective::active()->ordered()->pluck('name', 'id'))
+                    ->options(function (Get $get) {
+                        $subjectId = $get('material_category_id');
+                        if (! $subjectId) {
+                            return [];
+                        }
+                        return LearningObjective::active()->where('material_category_id', $subjectId)->ordered()->pluck('name', 'id');
+                    })
                     ->searchable()
                     ->preload()
                     ->columnSpanFull(),
@@ -122,7 +136,7 @@ class CurriculumPlanResource extends Resource
                 TextColumn::make('teacher.name')->label('Guru')->placeholder('—')->toggleable(),
                 TextColumn::make('academic_year')->label('Tahun')->toggleable(),
                 TextColumn::make('semester')->label('Semester')->badge()->toggleable()
-                    ->formatStateUsing(fn ($s) => $s === 'ganjil' ? 'Ganjil' : 'Genap'),
+                    ->formatStateUsing(fn ($state) => $state === 'ganjil' ? 'Ganjil' : 'Genap'),
                 TextColumn::make('topics_count')->label('Topik')->counts('topics')->badge(),
                 TextColumn::make('sessions_count')->label('Sesi')->counts('sessions')->badge()->color('warning'),
                 IconColumn::make('is_active')->label('Aktif')->boolean(),

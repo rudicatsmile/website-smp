@@ -78,6 +78,11 @@ class StaffMember extends Model
         return $this->hasMany(StaffSchedule::class)->orderBy('day_of_week')->orderBy('start_time');
     }
 
+    public function teachingSubjects(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(MaterialCategory::class, 'material_category_staff_member', 'staff_member_id', 'material_category_id');
+    }
+
     public function scopeActive(Builder $q): Builder
     {
         return $q->where('is_active', true);

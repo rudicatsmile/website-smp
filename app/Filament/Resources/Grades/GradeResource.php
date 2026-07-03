@@ -87,10 +87,10 @@ class GradeResource extends Resource
                 TextColumn::make('subject')->label('Mapel')->searchable(),
                 TextColumn::make('academic_year')->label('T.A.')->toggleable(),
                 TextColumn::make('semester')->label('Semester')->badge()
-                    ->color(fn ($s) => $s === 'ganjil' ? 'info' : 'warning'),
+                    ->color(fn ($state) => $state === 'ganjil' ? 'info' : 'warning'),
                 TextColumn::make('nilai_akhir')->label('Akhir')->numeric(2)->sortable(),
                 TextColumn::make('predikat')->label('Predikat')->badge()
-                    ->color(fn ($s) => match ($s) {
+                    ->color(fn ($state) => match ($state) {
                         'A' => 'success', 'B' => 'info', 'C' => 'warning', default => 'danger',
                     }),
                 TextColumn::make('teacher.name')->label('Guru')->toggleable()->placeholder('—'),

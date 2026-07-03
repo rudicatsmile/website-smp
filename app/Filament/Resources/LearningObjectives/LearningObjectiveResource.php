@@ -12,6 +12,7 @@ use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use App\Filament\Concerns\HidesFromEkskulRole;
@@ -19,6 +20,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class LearningObjectiveResource extends Resource
@@ -42,8 +44,15 @@ class LearningObjectiveResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->columns(2)->components([
+            Select::make('material_category_id')
+                ->label('Mata Pelajaran')
+                ->relationship('subject', 'name')
+                ->required()
+                ->searchable()
+                ->preload()
+                ->columnSpanFull(),
             TextInput::make('name')
-                ->label('Nama Tujuan Pembelajaran')
+                ->label('Tujuan Pembelajaran')
                 ->required()
                 ->maxLength(255)
                 ->columnSpanFull(),
@@ -66,6 +75,10 @@ class LearningObjectiveResource extends Resource
                     ->label('#')
                     ->sortable()
                     ->width(50),
+                TextColumn::make('subject.name')
+                    ->label('Mata Pelajaran')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('name')
                     ->label('Tujuan Pembelajaran')
                     ->searchable()
@@ -80,6 +93,14 @@ class LearningObjectiveResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('order')
+            ->filters([
+                SelectFilter::make('material_category_id')
+                    ->label('Mata Pelajaran')
+                    ->relationship('subject', 'name')
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
+            ])
             ->recordActions([EditAction::make()])
             ->toolbarActions([
                 BulkActionGroup::make([DeleteBulkAction::make()]),

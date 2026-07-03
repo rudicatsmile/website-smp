@@ -22,6 +22,8 @@ class LessonSession extends Model
         'draft' => 'Draft',
         'published' => 'Published',
         'ongoing' => 'Sedang Berlangsung',
+        'incomplete' => 'Belum tuntas',
+        'assessed' => 'Sudah Assesment',
         'completed' => 'Selesai',
         'cancelled' => 'Dibatalkan',
     ];
@@ -30,6 +32,8 @@ class LessonSession extends Model
         'draft' => 'slate',
         'published' => 'info',
         'ongoing' => 'warning',
+        'incomplete' => 'warning',
+        'assessed' => 'success',
         'completed' => 'success',
         'cancelled' => 'danger',
     ];

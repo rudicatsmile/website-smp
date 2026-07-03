@@ -68,10 +68,10 @@ class QuestionsRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('order')->label('No')->sortable(),
                 TextColumn::make('type')->label('Tipe')->badge()
-                    ->formatStateUsing(fn ($s) => match ($s) {
-                        'mcq' => 'PG', 'multi' => 'Multi', 'essay' => 'Essay', default => $s,
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'mcq' => 'PG', 'multi' => 'Multi', 'essay' => 'Essay', default => $state,
                     })
-                    ->color(fn ($s) => match ($s) {
+                    ->color(fn ($state) => match ($state) {
                         'mcq' => 'info', 'multi' => 'warning', 'essay' => 'gray', default => 'gray',
                     }),
                 TextColumn::make('body')->label('Pertanyaan')->html()->limit(80)->wrap(),

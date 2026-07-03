@@ -136,7 +136,7 @@ class ExamSessionResource extends Resource
                 TextColumn::make('semester')
                     ->label('Semester')
                     ->badge()
-                    ->color(fn ($s) => $s === 'ganjil' ? 'info' : 'warning'),
+                    ->color(fn ($state) => $state === 'ganjil' ? 'info' : 'warning'),
                 TextColumn::make('scores_count')
                     ->label('Sudah Dinilai')
                     ->suffix(' siswa'),

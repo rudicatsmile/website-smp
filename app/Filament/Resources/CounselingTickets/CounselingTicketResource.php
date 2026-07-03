@@ -117,8 +117,8 @@ class CounselingTicketResource extends Resource
                 TextColumn::make('status_label')->label('Status')->badge()
                     ->color(fn ($record) => $record->status_color),
                 TextColumn::make('channel')->label('Kanal')->badge()
-                    ->formatStateUsing(fn ($s) => $s === 'public' ? 'Publik' : 'Portal')
-                    ->color(fn ($s) => $s === 'public' ? 'warning' : 'info')
+                    ->formatStateUsing(fn ($state) => $state === 'public' ? 'Publik' : 'Portal')
+                    ->color(fn ($state) => $state === 'public' ? 'warning' : 'info')
                     ->toggleable(),
                 TextColumn::make('reporter_display')->label('Pelapor')
                     ->state(fn ($record) => $record->user?->name ?? $record->reporter_name ?? 'Anonim'),

@@ -9,9 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class LearningObjective extends Model
 {
-    protected $fillable = ['name', 'order', 'is_active'];
+    protected $fillable = ['material_category_id', 'name', 'order', 'is_active'];
 
     protected $casts = ['is_active' => 'boolean', 'order' => 'integer'];
+
+    public function subject(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(MaterialCategory::class, 'material_category_id');
+    }
 
     public function scopeActive(Builder $q): Builder
     {

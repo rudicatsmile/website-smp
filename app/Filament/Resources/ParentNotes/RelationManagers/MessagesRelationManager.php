@@ -42,13 +42,13 @@ class MessagesRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('created_at')->label('Waktu')->dateTime('d M Y H:i')->sortable(),
                 TextColumn::make('sender_type')->label('Pengirim')->badge()
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'parent' => 'Orang Tua',
                         'teacher' => 'Wali Kelas',
                         'system' => 'Sistem',
-                        default => $s,
+                        default => $state,
                     })
-                    ->color(fn ($s) => match ($s) {
+                    ->color(fn ($state) => match ($state) {
                         'teacher' => 'success',
                         'parent' => 'info',
                         'system' => 'gray',
