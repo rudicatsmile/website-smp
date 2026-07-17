@@ -16,10 +16,12 @@ use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class ManageGeneral extends Page implements HasForms
 {
     use InteractsWithForms;
+    use HasPageShield;
 
     protected string $view = 'filament.pages.manage-general';
 
