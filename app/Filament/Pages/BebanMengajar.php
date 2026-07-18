@@ -14,6 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 class BebanMengajar extends Page implements HasTable
 {
     use InteractsWithTable;
+    use \BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-academic-cap';
     protected string $view = 'filament.pages.beban-mengajar';

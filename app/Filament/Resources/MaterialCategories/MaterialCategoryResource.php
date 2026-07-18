@@ -24,15 +24,15 @@ class MaterialCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Content';
+    protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
 
-    protected static ?int $navigationSort = 12;
+    protected static ?int $navigationSort = 9;
 
-    protected static ?string $navigationLabel = 'Kategori Materi';
+    protected static ?string $navigationLabel = 'Mata Pelajaran';
 
-    protected static ?string $modelLabel = 'Kategori Materi';
+    protected static ?string $modelLabel = 'Mata Pelajaran';
 
-    protected static ?string $pluralModelLabel = 'Kategori Materi';
+    protected static ?string $pluralModelLabel = 'Mata Pelajaran';
 
     public static function form(Schema $schema): Schema
     {

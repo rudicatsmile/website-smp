@@ -73,6 +73,11 @@ Route::get('/laporan-kasus-siswa/pdf', \App\Http\Controllers\LaporanKasusSiswaPd
     ->middleware(['auth'])
     ->name('laporan-kasus-siswa.pdf');
 
+// Laporan Guru & Mata Pelajaran PDF
+Route::get('/admin/staff-members/pdf', \App\Http\Controllers\StaffMembersPdfController::class)
+    ->middleware(['auth'])
+    ->name('staff-members.pdf');
+
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profile::class)->name('profil');
 

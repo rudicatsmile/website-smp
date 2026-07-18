@@ -15,6 +15,12 @@ class ListStaffMembers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('cetak_pdf')
+                ->label('Cetak Laporan PDF')
+                ->icon('heroicon-o-printer')
+                ->color('info')
+                ->url(fn () => route('staff-members.pdf'))
+                ->openUrlInNewTab(),
             Actions\CreateAction::make(),
         ];
     }

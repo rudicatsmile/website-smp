@@ -20,6 +20,7 @@ use Filament\Support\Icons\Heroicon;
 class ManageProfile extends Page implements HasForms
 {
     use InteractsWithForms;
+    use \BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
     protected string $view = 'filament.pages.manage-profile';
 

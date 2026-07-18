@@ -95,3 +95,17 @@ Fitur-fitur di atas sangat bergantung pada data master pembelajaran berikut:
 
 ---
 
+Bila user super admin diganti menjadi admin@alwathoniyah9.org:
+--------------------------------------------------------------
+INSERT INTO model_has_roles (role_id, model_type, model_id)
+SELECT 
+    (SELECT id FROM roles WHERE NAME = 'super_admin' LIMIT 1), 
+    'App\\Models\\User', 
+    (SELECT id FROM users WHERE email = 'admin@alwathoniyah9.org' LIMIT 1)
+-- Gunakan klausa WHERE di bawah ini agar tidak terjadi duplikat jika role ternyata masih ada
+WHERE NOT EXISTS (
+    SELECT 1 FROM model_has_roles 
+    WHERE role_id = (SELECT id FROM roles WHERE NAME = 'super_admin' LIMIT 1) 
+    AND model_id = (SELECT id FROM users WHERE email = 'admin@alwathoniyah9.org' LIMIT 1)
+);
+

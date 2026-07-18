@@ -33,7 +33,8 @@ class StaffMembersTable
                 TextColumn::make('category.name')
                     ->label('Kategori')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->view('filament.tables.columns.staff-category'),
                 TextColumn::make('position')
                     ->label('Jabatan')
                     ->searchable()

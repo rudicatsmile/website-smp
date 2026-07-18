@@ -7,6 +7,7 @@ use Filament\Pages\Page;
 
 class ElectionLiveResults extends Page
 {
+    use \BezhanSalleh\FilamentShield\Traits\HasPageShield;
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-chart-pie';
     protected static string|\UnitEnum|null $navigationGroup = 'Election';
     protected static ?string $title = 'Live Hasil Suara';
