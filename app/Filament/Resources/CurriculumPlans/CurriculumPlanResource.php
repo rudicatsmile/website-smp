@@ -136,7 +136,7 @@ class CurriculumPlanResource extends Resource
                 TextColumn::make('teacher.name')->label('Guru')->placeholder('—')->toggleable(),
                 TextColumn::make('academic_year')->label('Tahun')->toggleable(),
                 TextColumn::make('semester')->label('Semester')->badge()->toggleable()
-                    ->formatStateUsing(fn ($state) => $state === 'ganjil' ? 'Ganjil' : 'Genap'),
+                    ->formatStateUsing(fn ($state) => strtolower((string)$state) === 'ganjil' ? 'Ganjil' : (strtolower((string)$state) === 'genap' ? 'Genap' : ucfirst((string)$state))),
                 TextColumn::make('topics_count')->label('Topik')->counts('topics')->badge(),
                 TextColumn::make('sessions_count')->label('Sesi')->counts('sessions')->badge()->color('warning'),
                 IconColumn::make('is_active')->label('Aktif')->boolean(),
