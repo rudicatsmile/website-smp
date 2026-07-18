@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LearningMedia extends Model
 {
-    protected $fillable = ['name', 'order', 'is_active'];
+    protected $fillable = ['material_category_id', 'name', 'order', 'is_active'];
 
     protected $casts = ['is_active' => 'boolean', 'order' => 'integer'];
 
@@ -21,5 +21,10 @@ class LearningMedia extends Model
     public function scopeOrdered(Builder $q): Builder
     {
         return $q->orderBy('order')->orderBy('name');
+    }
+
+    public function subject(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(MaterialCategory::class, 'material_category_id');
     }
 }

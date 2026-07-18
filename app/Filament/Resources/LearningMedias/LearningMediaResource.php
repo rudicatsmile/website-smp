@@ -12,6 +12,7 @@ use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use App\Filament\Concerns\HidesFromEkskulRole;
@@ -19,6 +20,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class LearningMediaResource extends Resource
@@ -42,6 +44,23 @@ class LearningMediaResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->columns(2)->components([
+            Select::make('material_category_id')
+                ->label('Mata Pelajaran')
+                ->relationship(
+                    name: 'subject', 
+                    titleAttribute: 'name', 
+                    modifyQueryUsing: function ($query) {
+                        $user = auth()->user();
+                        if ($user && $user->hasRole('teacher') && $user->staffMember) {
+                            $subjectIds = $user->staffMember->teachingSubjects()->pluck('material_categories.id')->toArray();
+                            $query->whereIn('id', $subjectIds);
+                        }
+                    }
+                )
+                ->required()
+                ->searchable()
+                ->preload()
+                ->columnSpanFull(),
             TextInput::make('name')
                 ->label('Nama Media Pembelajaran')
                 ->required()
@@ -66,6 +85,10 @@ class LearningMediaResource extends Resource
                     ->label('#')
                     ->sortable()
                     ->width(50),
+                TextColumn::make('subject.name')
+                    ->label('Mata Pelajaran')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('name')
                     ->label('Media Pembelajaran')
                     ->searchable()
@@ -80,10 +103,41 @@ class LearningMediaResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('order')
+            ->filters([
+                SelectFilter::make('material_category_id')
+                    ->label('Mata Pelajaran')
+                    ->relationship(
+                        name: 'subject', 
+                        titleAttribute: 'name', 
+                        modifyQueryUsing: function ($query) {
+                            $user = auth()->user();
+                            if ($user && $user->hasRole('teacher') && $user->staffMember) {
+                                $subjectIds = $user->staffMember->teachingSubjects()->pluck('material_categories.id')->toArray();
+                                $query->whereIn('id', $subjectIds);
+                            }
+                        }
+                    )
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
+            ])
             ->recordActions([EditAction::make()])
             ->toolbarActions([
                 BulkActionGroup::make([DeleteBulkAction::make()]),
             ]);
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = auth()->user();
+        
+        if ($user && $user->hasRole('teacher') && $user->staffMember) {
+            $subjectIds = $user->staffMember->teachingSubjects()->pluck('material_categories.id')->toArray();
+            $query->whereIn('material_category_id', $subjectIds);
+        }
+        
+        return $query;
     }
 
     public static function getPages(): array
