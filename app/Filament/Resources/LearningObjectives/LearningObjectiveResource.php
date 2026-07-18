@@ -46,7 +46,17 @@ class LearningObjectiveResource extends Resource
         return $schema->columns(2)->components([
             Select::make('material_category_id')
                 ->label('Mata Pelajaran')
-                ->relationship('subject', 'name')
+                ->relationship(
+                    name: 'subject', 
+                    titleAttribute: 'name', 
+                    modifyQueryUsing: function ($query) {
+                        $user = auth()->user();
+                        if ($user && $user->hasRole('teacher') && $user->staffMember) {
+                            $subjectIds = $user->staffMember->teachingSubjects()->pluck('material_categories.id')->toArray();
+                            $query->whereIn('id', $subjectIds);
+                        }
+                    }
+                )
                 ->required()
                 ->searchable()
                 ->preload()
@@ -96,7 +106,17 @@ class LearningObjectiveResource extends Resource
             ->filters([
                 SelectFilter::make('material_category_id')
                     ->label('Mata Pelajaran')
-                    ->relationship('subject', 'name')
+                    ->relationship(
+                        name: 'subject', 
+                        titleAttribute: 'name', 
+                        modifyQueryUsing: function ($query) {
+                            $user = auth()->user();
+                            if ($user && $user->hasRole('teacher') && $user->staffMember) {
+                                $subjectIds = $user->staffMember->teachingSubjects()->pluck('material_categories.id')->toArray();
+                                $query->whereIn('id', $subjectIds);
+                            }
+                        }
+                    )
                     ->multiple()
                     ->searchable()
                     ->preload(),
@@ -105,6 +125,19 @@ class LearningObjectiveResource extends Resource
             ->toolbarActions([
                 BulkActionGroup::make([DeleteBulkAction::make()]),
             ]);
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = auth()->user();
+        
+        if ($user && $user->hasRole('teacher') && $user->staffMember) {
+            $subjectIds = $user->staffMember->teachingSubjects()->pluck('material_categories.id')->toArray();
+            $query->whereIn('material_category_id', $subjectIds);
+        }
+        
+        return $query;
     }
 
     public static function getPages(): array
