@@ -121,6 +121,7 @@ class TopicsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('topic')
             ->columns([
+                TextColumn::make('index')->rowIndex()->label('No'),
                 TextColumn::make('week_number')->label('Minggu Ke-')->sortable()->badge(),
                 TextColumn::make('order')->label('Pertemuan Ke-')->sortable(),
                 TextColumn::make('topic')->label('Topik')->searchable()->limit(50),
@@ -144,9 +145,21 @@ class TopicsRelationManager extends RelationManager
                 TextColumn::make('default_duration_minutes')->label('Durasi')->suffix(' mnt')->toggleable(),
             ])
             ->defaultSort('week_number')
+            ->bulkActions([
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                ]),
+            ])
             ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\ReplicateAction::make()
+                    ->label('Duplikasi')
+                    ->color('info')
+                    ->beforeReplicaSaved(function (\Illuminate\Database\Eloquent\Model $replica): void {
+                        $replica->topic = $replica->topic . ' (Salinan)';
+                    })
+                    ->successNotificationTitle('Topik berhasil diduplikasi'),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->headerActions([
                 CreateAction::make()
@@ -159,16 +172,22 @@ class TopicsRelationManager extends RelationManager
                     ->schema([
                         DatePicker::make('start_date')->label('Tanggal Mulai')->required()->native(false),
                         DatePicker::make('end_date')->label('Tanggal Selesai')->required()->native(false),
-                        Select::make('weekdays')->label('Hari Aktif')->multiple()->required()
-                            ->options([
-                                1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu',
-                                4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu',
+                        \Filament\Forms\Components\Repeater::make('schedules')
+                            ->label('Jadwal Mengajar')
+                            ->schema([
+                                Select::make('weekday')->label('Hari Aktif')->required()
+                                    ->options([
+                                        1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu',
+                                        4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu',
+                                    ]),
+                                TextInput::make('start_time')->label('Jam Mulai')->required()->type('time')
+                                    ->default('07:30'),
+                                TextInput::make('end_time')->label('Jam Selesai')->required()->type('time')
+                                    ->default('09:00'),
                             ])
-                            ->default([1, 2, 3, 4, 5]),
-                        TextInput::make('start_time')->label('Jam Mulai')->required()->type('time')
-                            ->default('07:30'),
-                        TextInput::make('end_time')->label('Jam Selesai')->required()->type('time')
-                            ->default('09:00'),
+                            ->columns(3)
+                            ->defaultItems(1)
+                            ->required(),
                         TextInput::make('period')->label('Periode (opsional)')->maxLength(50)
                             ->placeholder('Jam ke-1'),
                         Toggle::make('skip_holidays')->label('Lewati hari libur')->default(true),
@@ -180,9 +199,7 @@ class TopicsRelationManager extends RelationManager
                             plan: $plan,
                             startDate: Carbon::parse($data['start_date']),
                             endDate: Carbon::parse($data['end_date']),
-                            weekdays: array_map('intval', $data['weekdays']),
-                            startTime: $data['start_time'],
-                            endTime: $data['end_time'],
+                            schedules: $data['schedules'],
                             period: $data['period'] ?? null,
                             skipHolidays: (bool) ($data['skip_holidays'] ?? true),
                             publishImmediately: (bool) ($data['publish_immediately'] ?? false),

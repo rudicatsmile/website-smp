@@ -25,9 +25,7 @@ class CurriculumPlanService
         CurriculumPlan $plan,
         Carbon $startDate,
         Carbon $endDate,
-        array $weekdays,
-        string $startTime,
-        string $endTime,
+        array $schedules,
         ?string $period = null,
         bool $skipHolidays = true,
         bool $publishImmediately = false,
@@ -42,58 +40,67 @@ class CurriculumPlanService
         $created = 0;
         $skipped = 0;
 
-        // Group dates by ISO week number, then map topics sequentially
-        $datesByWeek = [];
+        // Create a lookup for schedule by weekday
+        $scheduleMap = [];
+        foreach ($schedules as $s) {
+            $scheduleMap[(int) $s['weekday']] = $s;
+        }
+
+        // Collect all valid dates in sequence
+        $activeDates = [];
         foreach ($period as $date) {
-            if (! in_array((int) $date->dayOfWeek ?: 7, $weekdays, true)) {
+            $dayOfWeek = (int) $date->dayOfWeek ?: 7;
+            if (! isset($scheduleMap[$dayOfWeek])) {
                 continue;
             }
             if ($skipHolidays && $this->isHoliday($date)) {
                 $skipped++;
                 continue;
             }
-            $weekNum = (int) $date->weekOfYear;
-            $datesByWeek[$weekNum][] = $date;
+            $activeDates[] = [
+                'date' => $date,
+                'start_time' => $scheduleMap[$dayOfWeek]['start_time'],
+                'end_time' => $scheduleMap[$dayOfWeek]['end_time'],
+            ];
         }
 
-        if (empty($datesByWeek)) {
+        if (empty($activeDates)) {
             return ['created' => 0, 'skipped' => $skipped, 'sessions' => collect()];
         }
 
-        // Sort weeks and assign topics round-robin
-        ksort($datesByWeek);
-        $weekIndex = 0;
         $rows = [];
+        $sessionIndex = 0;
 
-        foreach ($datesByWeek as $weekNum => $dates) {
-            // Determine which topic(s) apply this week
-            // Use modulo to cycle through topics if more weeks than topics
-            $topicIndex = $weekIndex % $topics->count();
+        foreach ($activeDates as $item) {
+            $date = $item['date'];
+            $startTime = $item['start_time'];
+            $endTime = $item['end_time'];
+
+            // Sequential 1-to-1 mapping based on session count
+            $topicIndex = $sessionIndex % $topics->count();
             $topic = $topics[$topicIndex];
 
-            foreach ($dates as $date) {
-                $rows[] = [
-                    'school_class_id' => $plan->school_class_id,
-                    'material_category_id' => $plan->material_category_id,
-                    'staff_member_id' => $plan->staff_member_id,
-                    'curriculum_plan_id' => $plan->id,
-                    'curriculum_plan_topic_id' => $topic->id,
-                    'session_date' => $date->format('Y-m-d'),
-                    'start_time' => $startTime,
-                    'end_time' => $endTime,
-                    'period' => $period,
-                    'topic' => $topic->topic,
-                    'learning_objectives' => json_encode($topic->learning_objectives ?? []),
-                    'methods' => json_encode($topic->methods ?? $plan->default_methods ?? []),
-                    'media' => json_encode($topic->media ?? $plan->default_media ?? []),
-                    'assessment_plan' => $topic->assessment_plan,
-                    'status' => $publishImmediately ? 'published' : 'draft',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-                $created++;
-            }
-            $weekIndex++;
+            $rows[] = [
+                'school_class_id' => $plan->school_class_id,
+                'material_category_id' => $plan->material_category_id,
+                'staff_member_id' => $plan->staff_member_id,
+                'curriculum_plan_id' => $plan->id,
+                'curriculum_plan_topic_id' => $topic->id,
+                'session_date' => $date->format('Y-m-d'),
+                'start_time' => $startTime,
+                'end_time' => $endTime,
+                'period' => $period,
+                'topic' => $topic->topic,
+                'learning_objectives' => json_encode($topic->learning_objectives ?? []),
+                'methods' => json_encode($topic->methods ?? $plan->default_methods ?? []),
+                'media' => json_encode($topic->media ?? $plan->default_media ?? []),
+                'assessment_plan' => $topic->assessment_plan,
+                'status' => $publishImmediately ? 'published' : 'draft',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+            $created++;
+            $sessionIndex++;
         }
 
         if (! empty($rows)) {

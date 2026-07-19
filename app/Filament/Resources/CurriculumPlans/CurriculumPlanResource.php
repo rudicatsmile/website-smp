@@ -60,7 +60,13 @@ class CurriculumPlanResource extends Resource
                     ->options(fn () => SchoolClass::active()->ordered()->pluck('name', 'id'))
                     ->searchable()->preload()->required(),
                 Select::make('material_category_id')->label('Mata Pelajaran')
-                    ->options(fn () => MaterialCategory::orderBy('name')->pluck('name', 'id'))
+                    ->options(function () {
+                        $user = \Illuminate\Support\Facades\Auth::user();
+                        if ($user && $user->hasRole('teacher') && $user->staffMember) {
+                            return $user->staffMember->teachingSubjects()->pluck('name', 'material_categories.id');
+                        }
+                        return MaterialCategory::orderBy('name')->pluck('name', 'id');
+                    })
                     ->searchable()->preload()->required()
                     ->live(),
                 Select::make('staff_member_id')->label('Guru Pengampu')
@@ -97,21 +103,39 @@ class CurriculumPlanResource extends Resource
                 Select::make('learning_model_ids')
                     ->label('Model Pembelajaran')
                     ->multiple()
-                    ->options(fn () => LearningModel::active()->ordered()->pluck('name', 'id'))
+                    ->options(function (Get $get) {
+                        $subjectId = $get('material_category_id');
+                        if (! $subjectId) {
+                            return [];
+                        }
+                        return LearningModel::active()->where('material_category_id', $subjectId)->ordered()->pluck('name', 'id');
+                    })
                     ->searchable()
                     ->preload()
                     ->columnSpanFull(),
                 Select::make('default_methods')
                     ->label('Metode Pembelajaran')
                     ->multiple()
-                    ->options(fn () => LearningMethod::active()->ordered()->pluck('name', 'id'))
+                    ->options(function (Get $get) {
+                        $subjectId = $get('material_category_id');
+                        if (! $subjectId) {
+                            return [];
+                        }
+                        return LearningMethod::active()->where('material_category_id', $subjectId)->ordered()->pluck('name', 'id');
+                    })
                     ->searchable()
                     ->preload()
                     ->columnSpanFull(),
                 Select::make('default_media')
                     ->label('Media Pembelajaran')
                     ->multiple()
-                    ->options(fn () => LearningMedia::active()->ordered()->pluck('name', 'id')->put('lainnya', '— Lainnya'))
+                    ->options(function (Get $get) {
+                        $subjectId = $get('material_category_id');
+                        if (! $subjectId) {
+                            return ['lainnya' => '— Lainnya'];
+                        }
+                        return LearningMedia::active()->where('material_category_id', $subjectId)->ordered()->pluck('name', 'id')->put('lainnya', '— Lainnya');
+                    })
                     ->searchable()
                     ->preload()
                     ->live()
@@ -146,13 +170,61 @@ class CurriculumPlanResource extends Resource
                 SelectFilter::make('school_class_id')->label('Kelas')
                     ->options(fn () => SchoolClass::ordered()->pluck('name', 'id')),
                 SelectFilter::make('material_category_id')->label('Mapel')
-                    ->options(fn () => MaterialCategory::orderBy('name')->pluck('name', 'id')),
+                    ->options(function () {
+                        $user = \Illuminate\Support\Facades\Auth::user();
+                        if ($user && $user->hasRole('teacher') && $user->staffMember) {
+                            return $user->staffMember->teachingSubjects()->pluck('name', 'material_categories.id');
+                        }
+                        return MaterialCategory::orderBy('name')->pluck('name', 'id');
+                    }),
                 SelectFilter::make('academic_year')->label('Tahun Ajaran')
                     ->options(fn () => CurriculumPlan::distinct()->pluck('academic_year', 'academic_year')->filter()),
                 SelectFilter::make('semester')->label('Semester')
                     ->options(['ganjil' => 'Ganjil', 'genap' => 'Genap']),
             ])
-            ->recordActions([EditAction::make()])
+            ->recordActions([
+                EditAction::make(),
+                \Filament\Actions\ReplicateAction::make()
+                    ->label('Duplikasi')
+                    ->color('info')
+                    ->excludeAttributes(['topics_count', 'sessions_count'])
+                    ->form([
+                        Select::make('school_class_id')->label('Kelas (Tujuan Duplikasi)')
+                            ->options(fn () => SchoolClass::active()->ordered()->pluck('name', 'id'))
+                            ->required(),
+                        Select::make('material_category_id')->label('Mata Pelajaran')
+                            ->options(function () {
+                                $user = \Illuminate\Support\Facades\Auth::user();
+                                if ($user && $user->hasRole('teacher') && $user->staffMember) {
+                                    return $user->staffMember->teachingSubjects()->pluck('name', 'material_categories.id');
+                                }
+                                return MaterialCategory::orderBy('name')->pluck('name', 'id');
+                            })
+                            ->required(),
+                        TextInput::make('academic_year')->label('Tahun Ajaran')->required()->maxLength(20),
+                        Select::make('semester')->label('Semester')->required()
+                            ->options(['ganjil' => 'Ganjil', 'genap' => 'Genap']),
+                    ])
+                    ->modalDescription('PERHATIAN: Anda tidak bisa memiliki 2 Rencana Pembelajaran dengan Kelas, Mapel, Tahun, dan Semester yang sama persis. Ubahlah salah satu agar berhasil diduplikasi (misal: ganti Kelasnya).')
+                    ->beforeReplicaSaved(function (\Illuminate\Database\Eloquent\Model $replica, array $data): void {
+                        $replica->school_class_id = $data['school_class_id'];
+                        $replica->material_category_id = $data['material_category_id'];
+                        $replica->academic_year = $data['academic_year'];
+                        $replica->semester = $data['semester'];
+                        $replica->title = $replica->title . ' (Salinan)';
+                        $replica->is_active = false; // Set to inactive by default for safety
+                        unset($replica->topics_count, $replica->sessions_count);
+                    })
+                    ->afterReplicaSaved(function (\Illuminate\Database\Eloquent\Model $replica, \Illuminate\Database\Eloquent\Model $record): void {
+                        // Replicate all topics as well
+                        foreach ($record->topics as $topic) {
+                            $newTopic = $topic->replicate();
+                            $newTopic->curriculum_plan_id = $replica->id;
+                            $newTopic->save();
+                        }
+                    })
+                    ->successNotificationTitle('Rencana Pembelajaran beserta seluruh topiknya berhasil diduplikasi'),
+            ])
             ->toolbarActions([
                 BulkActionGroup::make([DeleteBulkAction::make()]),
             ]);
