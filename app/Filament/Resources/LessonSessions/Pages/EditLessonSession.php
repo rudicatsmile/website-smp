@@ -80,7 +80,7 @@ class EditLessonSession extends EditRecord
                     try {
                         app(LessonExecutionService::class)->complete($record, $data);
                         Notification::make()->title('Sesi selesai dicatat')->success()->send();
-                        $this->refreshFormData(['status', 'achievement_percent', 'execution_notes']);
+                        $this->refreshFormData(['status', 'achievement_percent', 'execution_notes', 'homework_notes', 'issues_notes']);
                     } catch (\RuntimeException $e) {
                         Notification::make()->title($e->getMessage())->danger()->send();
                     }
