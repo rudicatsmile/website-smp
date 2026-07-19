@@ -15,7 +15,7 @@ class CurriculumPlanTopic extends Model
     use LogsActivity;
 
     protected $fillable = [
-        'curriculum_plan_id', 'week_number', 'order',
+        'curriculum_plan_id', 'week_number', 'order', 'theme',
         'topic', 'learning_objectives', 'learning_paths',
         'methods', 'media', 'assessment_plan',
         'default_duration_minutes', 'notes',

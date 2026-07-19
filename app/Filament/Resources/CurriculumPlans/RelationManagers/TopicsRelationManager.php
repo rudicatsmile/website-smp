@@ -39,6 +39,7 @@ class TopicsRelationManager extends RelationManager
         return $schema->components([
             TextInput::make('week_number')->label('Minggu ke-')->numeric()->required()->minValue(1),
             TextInput::make('order')->label('Pertemuan ke-')->numeric()->default(0),
+            TextInput::make('theme')->label('Wacana / Tema')->maxLength(150)->placeholder('Opsional (misal: Sistem Respirasi)')->columnSpanFull(),
             TextInput::make('topic')->label('Topik / Bab')->required()->maxLength(255)->columnSpanFull(),
             Select::make('learning_objectives')
                 ->label('Tujuan Pembelajaran')
@@ -144,6 +145,12 @@ class TopicsRelationManager extends RelationManager
                     ->toggleable(),
                 TextColumn::make('default_duration_minutes')->label('Durasi')->suffix(' mnt')->toggleable(),
             ])
+            ->groups([
+                \Filament\Tables\Grouping\Group::make('theme')
+                    ->label('Wacana / Tema')
+                    ->collapsible(),
+            ])
+            ->defaultGroup('theme')
             ->defaultSort('week_number')
             ->bulkActions([
                 \Filament\Actions\BulkActionGroup::make([
