@@ -196,3 +196,15 @@ Route::prefix('portal/ortu')->name('portal.parent.')->group(function () {
         Route::get('/buku-penghubung/topik/{note}', \App\Livewire\Portal\ParentPortal\ParentNotesShow::class)->name('notes.show');
     });
 });
+
+// Mobile PWA (Teacher)
+Route::prefix('mobile')->group(function () {
+    Route::get('/login', \App\Livewire\Mobile\Auth\Login::class)->name('mobile.login');
+    
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/dashboard', \App\Livewire\Mobile\Dashboard::class)->name('mobile.dashboard');
+        Route::get('/sesi-mengajar', \App\Livewire\Mobile\TeachingSessions\Index::class)->name('mobile.sessions');
+        Route::get('/rencana-pembelajaran', \App\Livewire\Mobile\LessonPlans\Index::class)->name('mobile.plans');
+        Route::get('/rencana-pembelajaran/{plan}', \App\Livewire\Mobile\LessonPlans\Show::class)->name('mobile.plans.show');
+    });
+});
