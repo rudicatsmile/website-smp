@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             CounselingSeeder::class,
             ParentPortalSeeder::class,
             DemoContentSeeder::class,
+            MatematikaMasterDataSeeder::class,
         ]);
     }
 }
