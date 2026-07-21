@@ -11,7 +11,7 @@ class LessonExecutionService
 {
     public function start(LessonSession $session, StaffMember $teacher): void
     {
-        if ($session->staff_member_id !== $teacher->id) {
+        if ((int) $session->staff_member_id !== (int) $teacher->id) {
             throw new \RuntimeException('Guru tidak sesuai dengan jadwal sesi ini.');
         }
         if (! in_array($session->status, ['published', 'ongoing'], true)) {

@@ -61,6 +61,7 @@ class ManageGeneral extends Page implements HasForms
             'footer_text' => $s->footer_text,
             'copyright' => $s->copyright,
             'active_skin' => $s->active_skin ?: 'education',
+            'admin_theme' => $s->admin_theme ?: 'default',
         ]);
     }
 
@@ -68,11 +69,19 @@ class ManageGeneral extends Page implements HasForms
     {
         return $schema
             ->components([
-                Section::make('Skin / Tema Frontend')
-                    ->description('Pilih tampilan visual yang digunakan di seluruh halaman frontend. Perubahan langsung berlaku setelah disimpan.')
+                Section::make('Tema & Tampilan')
+                    ->description('Pilih tampilan visual untuk admin panel dan halaman frontend.')
                     ->schema([
+                        Select::make('admin_theme')
+                            ->label('Tema Admin Panel')
+                            ->options([
+                                'default' => '⚙️ Bawaan (Default)',
+                                'modern' => '✨ Modern Elegan (Desain Baru)',
+                            ])
+                            ->required()
+                            ->native(false),
                         Select::make('active_skin')
-                            ->label('Skin Aktif')
+                            ->label('Tema Frontend')
                             ->options([
                                 'education' => '🎓 Education Profesional — Elegan, formal, hijau emerald',
                                 'milleneal' => '✨ Milleneal — Modern, vibrant, gradient pink-purple',

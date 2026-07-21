@@ -27,6 +27,7 @@ class GeneralSettings extends Settings
     public ?string $footer_text = null;
     public ?string $copyright = null;
     public ?string $active_skin = 'education';
+    public string $admin_theme = 'default';
 
     public static function group(): string
     {

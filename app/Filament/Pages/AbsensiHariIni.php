@@ -155,7 +155,7 @@ class AbsensiHariIni extends Page
         if (! $student) return;
 
         // restrict: kelas terpilih harus = kelas siswa (bila tab manual)
-        if ($this->school_class_id && $student->school_class_id !== $this->school_class_id) {
+        if ($this->school_class_id && (int) $student->school_class_id !== (int) $this->school_class_id) {
             return;
         }
 
@@ -178,7 +178,11 @@ class AbsensiHariIni extends Page
     {
         if (! in_array($status, ['hadir', 'alpa'], true)) return;
 
-        $missing = $this->students->reject(fn ($s) => $this->attendanceMap->has($s->id));
+        $existingIds = StudentAttendance::whereDate('date', $this->date)
+            ->whereIn('student_id', $this->students->pluck('id'))
+            ->pluck('student_id');
+
+        $missing = $this->students->reject(fn ($s) => $existingIds->contains($s->id));
         $now = now();
         $staffId = auth()->user()->staffMember?->id;
 

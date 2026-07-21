@@ -139,6 +139,20 @@ class AdminPanelProvider extends PanelProvider
                         'default' => 1,
                         'sm' => 2,
                     ]),
-            ]);
+            ])
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::BODY_START,
+                function () {
+                    try {
+                        $settings = app(\App\Settings\GeneralSettings::class);
+                        if ($settings->admin_theme === 'modern') {
+                            return new \Illuminate\Support\HtmlString(
+                                '<script>document.body.classList.add("admin-theme-modern");</script>'
+                            );
+                        }
+                    } catch (\Throwable $e) {}
+                    return '';
+                }
+            );
     }
 }
