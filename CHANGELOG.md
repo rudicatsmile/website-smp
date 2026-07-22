@@ -5,12 +5,18 @@ Format berdasarkan [Keep a Changelog](https://keepachangelog.com/id-ID/1.0.0/), 
 
 ## [Unreleased]
 ### Added
+- Fitur **Ganti Password Global** yang dapat diakses oleh semua jenis pengguna (Siswa, Orang Tua, dan Guru).
+- Komponen antarmuka (UI) kustom untuk Ganti Password dengan desain modern yang bersih dan *student-centric*.
+- Halaman **Profil** baru pada Portal Orang Tua.
+- Halaman **Profil** baru pada Mobile PWA (Portal Guru).
+- Mengaktifkan fitur **Profil Bawaan (Built-in Profile)** pada admin panel Filament agar pengguna dengan role *teacher* (dan role lain) dapat mengganti password mereka langsung dari dalam CMS.
 - Fitur **Cetak Jurnal Bulanan (PDF)** pada daftar Sesi Mengajar untuk merangkum seluruh kegiatan guru, pencapaian, tugas, dan kendala selama satu bulan.
 - Kolom **Wacana / Tema** pada pengisian Daftar Topik Pembelajaran yang dilengkapi dengan fitur *Table Grouping* secara otomatis.
 - Fitur **Duplikasi (Replicate)** pada Rencana Pembelajaran dengan *pop-up form* konfirmasi untuk mengubah data Kelas/Mapel tujuan duplikasi.
 - Menambahkan **Penomoran (No)** dan fitur **Hapus Massal (Bulk Delete)** pada Daftar Topik Rencana Pembelajaran.
 
 ### Changed
+- Memindahkan logika "Ganti Password" di Portal Siswa menjadi komponen global terpusat agar dapat digunakan di seluruh portal yang ada.
 - Mengubah hak akses fitur **Duplikasi (Replicate)** pada Rencana Pembelajaran agar dapat digunakan oleh role `teacher` (sebelumnya hanya `super_admin`).
 - Form konfigurasi **Apply ke Tanggal** diubah menjadi menggunakan komponen `Repeater` agar guru dapat mengatur "Jam Mulai" dan "Jam Selesai" secara dinamis dan spesifik untuk setiap hari yang berbeda.
 - Mengubah logika distribusi Sesi Mengajar di `CurriculumPlanService` menjadi **1-to-1 Mapping** berurutan tanpa bergantung pada minggu kalender.

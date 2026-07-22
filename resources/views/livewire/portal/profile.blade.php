@@ -30,24 +30,5 @@
         @endif
     </div>
 
-    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-        <h2 class="font-bold text-slate-800 mb-4">Ganti Password</h2>
-        <form wire:submit="updatePassword" class="space-y-4 max-w-md">
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Password Saat Ini</label>
-                <input type="password" wire:model="current_password" class="w-full px-3 py-2 rounded-lg border border-slate-200">
-                @error('current_password') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Password Baru</label>
-                <input type="password" wire:model="password" class="w-full px-3 py-2 rounded-lg border border-slate-200">
-                @error('password') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Konfirmasi Password</label>
-                <input type="password" wire:model="password_confirmation" class="w-full px-3 py-2 rounded-lg border border-slate-200">
-            </div>
-            <button type="submit" class="px-5 py-2.5 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition">Simpan</button>
-        </form>
-    </div>
+    <livewire:shared.change-password />
 </div>

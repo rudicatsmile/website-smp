@@ -83,7 +83,7 @@
                         </div>
                     </nav>
                     <div class="flex items-center gap-3">
-                        <a href="{{ $isParent ? route('portal.parent.dashboard') : route('portal.profile') }}" class="flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-white px-2.5 py-1.5 shadow-sm transition {{ $isParent ? 'hover:border-indigo-200 hover:bg-indigo-50/40' : 'hover:border-emerald-200 hover:bg-emerald-50/40' }}">
+                        <a href="{{ $isParent ? route('portal.parent.profile') : route('portal.profile') }}" class="flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-white px-2.5 py-1.5 shadow-sm transition {{ $isParent ? 'hover:border-indigo-200 hover:bg-indigo-50/40' : 'hover:border-emerald-200 hover:bg-emerald-50/40' }}">
                             @if($student?->photo_url)
                                 <img src="{{ $student->photo_url }}" class="w-9 h-9 rounded-full object-cover ring-2 ring-white shadow-sm" alt="">
                             @else

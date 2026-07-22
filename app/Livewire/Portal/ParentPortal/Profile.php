@@ -1,22 +1,18 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Livewire\Portal\ParentPortal;
 
-namespace App\Livewire\Portal;
-
-use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Layout('layouts.portal')]
-#[Title('Profil Saya')]
+#[Title('Profil Orang Tua')]
 class Profile extends Component
 {
     public function render()
     {
         $user = auth()->user();
-        $student = $user->student;
-        return view('livewire.portal.profile', compact('user', 'student'));
+        return view('livewire.portal.parent-portal.profile', compact('user'));
     }
 }

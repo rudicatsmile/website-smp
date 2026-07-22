@@ -185,6 +185,7 @@ Route::prefix('portal/ortu')->name('portal.parent.')->group(function () {
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/', \App\Livewire\Portal\ParentPortal\Dashboard::class)->name('dashboard');
+        Route::get('/profil', \App\Livewire\Portal\ParentPortal\Profile::class)->name('profile');
         Route::get('/nilai/{student}', \App\Livewire\Portal\ParentPortal\Grades::class)->name('grades');
         Route::get('/absensi/{student}', \App\Livewire\Portal\ParentPortal\Attendance::class)->name('attendance');
         Route::get('/pelanggaran/{student}', \App\Livewire\Portal\ParentPortal\Violations::class)->name('violations');
@@ -203,6 +204,7 @@ Route::prefix('mobile')->group(function () {
     
     Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', \App\Livewire\Mobile\Dashboard::class)->name('mobile.dashboard');
+        Route::get('/profil', \App\Livewire\Mobile\Profile::class)->name('mobile.profile');
         Route::get('/sesi-mengajar', \App\Livewire\Mobile\TeachingSessions\Index::class)->name('mobile.sessions');
         Route::get('/rencana-pembelajaran', \App\Livewire\Mobile\LessonPlans\Index::class)->name('mobile.plans');
         Route::get('/rencana-pembelajaran/{plan}', \App\Livewire\Mobile\LessonPlans\Show::class)->name('mobile.plans.show');

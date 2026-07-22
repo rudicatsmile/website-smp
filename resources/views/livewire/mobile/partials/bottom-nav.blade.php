@@ -24,5 +24,13 @@
             </svg>
             <span class="text-[10px] tracking-wide uppercase">Sesi</span>
         </a>
+
+        <!-- Profil -->
+        <a href="{{ route('mobile.profile') }}" wire:navigate class="flex flex-col items-center justify-center w-full h-full transition-colors {{ request()->routeIs('mobile.profile') ? 'text-primary-600 font-bold' : 'text-gray-400 hover:text-gray-600' }}">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+            <span class="text-[10px] tracking-wide uppercase">Profil</span>
+        </a>
     </div>
 </div>
